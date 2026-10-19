@@ -1,0 +1,194 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Icon from '../../components/Icon.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Faq from '../../components/Faq.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { faqSchema, serviceSchema } from '../../lib/schema';
+import { formatPrice } from '../../lib/labels';
+import { cities } from '../../data/cities';
+import { phoneHref, site } from '../../config/site';
+
+export const getStaticPaths = (async () => {
+  const services = await getCollection('uslugi');
+  return services.map((service) => ({ params: { slug: service.id }, props: { service } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  service: CollectionEntry<'uslugi'>;
+}
+const { service } = Astro.props;
+const { data } = service;
+const { Content } = await render(service);
+
+const projects = (await getCollection('realizacje', (p) => p.data.service === service.id)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const articles = await getCollection('poradnik', (a) => a.data.relatedService === service.id);
+const others = (await getCollection('uslugi', (s) => s.id !== service.id)).sort((a, b) => a.data.order - b.data.order);
+
+const path = `/uslugi/${service.id}/`;
+const crumbs = [
+  { name: 'Usługi', href: '/uslugi/' },
+  { name: data.name, href: path },
+];
+const schema = [
+  serviceSchema({ name: data.title, description: data.description, path, image: data.cover.src, priceFrom: data.priceFrom }),
+  ...(data.faq.length ? [faqSchema(data.faq)] : []),
+];
+const formLabel: Record<string, string> = {
+  'altany-ogrodowe': 'Altana ogrodowa',
+  'wiaty-samochodowe': 'Wiata samochodowa',
+  'zadaszenia-tarasow': 'Zadaszenie tarasu',
+  pergole: 'Pergola',
+  'wiaty-smietnikowe-drewutnie': 'Wiata śmietnikowa / drewutnia',
+};
+---
+
+<BaseLayout title={data.seoTitle} description={data.description} image={data.cover} imageAlt={data.coverAlt} crumbs={crumbs} schema={schema}>
+  <PageHeader title={data.title} lead={data.lead} crumbs={crumbs}>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <a href="#wycena" class="btn-primary px-8 py-4 text-base">Bezpłatna wycena</a>
+      <a href={phoneHref} class="btn-secondary px-8 py-4 text-base"><Icon name="phone" class="size-4" />{site.phone}</a>
+      <p class="text-sm text-muted sm:ml-4">Cena od <strong class="text-lg text-forest-900">{formatPrice(data.priceFrom)}</strong> {data.priceUnit} z montażem</p>
+    </div>
+  </PageHeader>
+
+  <section class="section pb-0">
+    <div class="container-x">
+      <Image
+        src={data.cover}
+        alt={data.coverAlt}
+        widths={[640, 1024, 1440]}
+        sizes="(min-width: 1280px) 1216px, 100vw"
+        loading="eager"
+        fetchpriority="high"
+        class="aspect-[21/9] w-full rounded-3xl object-cover"
+      />
+      <ul class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          data.features.map((f) => (
+            <li>
+              <Icon name="check" class="size-6 text-wood-600" />
+              <h2 class="mt-3 font-sans text-base font-semibold">{f.title}</h2>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{f.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  {
+    data.variants.length > 0 && (
+      <section class="section" aria-labelledby="warianty">
+        <div class="container-x">
+          <h2 id="warianty" class="text-3xl sm:text-4xl">Warianty i ceny</h2>
+          <ul class="mt-8 grid gap-6 md:grid-cols-3">
+            {data.variants.map((v) => (
+              <li class="flex flex-col rounded-2xl bg-white p-6 ring-1 ring-black/5">
+                <h3 class="text-xl">{v.name}</h3>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-muted">{v.text}</p>
+                {v.priceFrom && (
+                  <p class="mt-4 text-sm text-muted">
+                    od <strong class="text-xl text-forest-900">{formatPrice(v.priceFrom)}</strong>
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+          <p class="mt-4 text-sm text-muted">
+            Ceny brutto z fundamentem, transportem i montażem. Pełny <a href="/cennik/" class="underline">cennik</a>.
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section bg-white">
+    <div class="container-x grid gap-12 lg:grid-cols-[1fr_380px]">
+      <article class="prose-garden">
+        <Content />
+      </article>
+      <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
+        {
+          articles.length > 0 && (
+            <div class="rounded-2xl bg-cream p-6">
+              <p class="font-display text-lg text-forest-900">Przydatne artykuły</p>
+              <ul class="mt-3 space-y-3 text-sm">
+                {articles.map((a) => (
+                  <li>
+                    <a href={`/poradnik/${a.id}/`} class="font-medium text-wood-600 hover:underline">
+                      {a.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+        <div class="rounded-2xl bg-cream p-6">
+          <p class="font-display text-lg text-forest-900">{data.name} – gdzie budujemy</p>
+          <ul class="mt-3 flex flex-wrap gap-2 text-sm">
+            {
+              cities.map((c) => (
+                <li>
+                  <a href={`/obszar-dzialania/${c.slug}/`} class="inline-block rounded-full bg-white px-3 py-1 hover:bg-sand">
+                    {c.name}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {
+    projects.length > 0 && (
+      <section class="section" aria-labelledby="realizacje-uslugi">
+        <div class="container-x">
+          <h2 id="realizacje-uslugi" class="text-3xl sm:text-4xl">
+            Nasze realizacje – {data.name.toLowerCase()}
+          </h2>
+          <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.slice(0, 3).map((p) => <ProjectCard project={p} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <Faq items={data.faq} title={`${data.name} – najczęstsze pytania`} />
+
+  <section class="section bg-sand/60">
+    <div class="container-x grid items-start gap-12 lg:grid-cols-2">
+      <div>
+        <p class="eyebrow">Wycena</p>
+        <h2 class="mt-2 text-3xl sm:text-4xl">Zamów bezpłatną wycenę – {data.name.toLowerCase()}</h2>
+        <p class="mt-4 leading-relaxed text-muted">
+          Opisz, czego potrzebujesz, i podaj przybliżone wymiary. Oddzwonimy, umówimy bezpłatny pomiar i przygotujemy wizualizację 3D.
+        </p>
+        <p class="mt-8 font-display text-lg text-forest-900">Zobacz też</p>
+        <ul class="mt-3 space-y-2">
+          {
+            others.map((o) => (
+              <li>
+                <a href={`/uslugi/${o.id}/`} class="inline-flex items-center gap-2 font-medium text-wood-600 hover:underline">
+                  <Icon name="arrow" class="size-4" />
+                  {o.data.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <ContactForm service={formLabel[service.id]} />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,231 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Process from '../components/Process.astro';
+import Reviews from '../components/Reviews.astro';
+import Faq from '../components/Faq.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { site } from '../config/site';
+import { cities, extraArea } from '../data/cities';
+import { faqSchema } from '../lib/schema';
+import { formatDate } from '../lib/labels';
+import hero from '../assets/images/hero.jpg';
+
+const services = (await getCollection('uslugi')).sort((a, b) => a.data.order - b.data.order);
+const projects = (await getCollection('realizacje', (p) => p.data.featured))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+const articles = (await getCollection('poradnik')).sort((a, b) => b.data.published.getTime() - a.data.published.getTime()).slice(0, 3);
+
+const usp = [
+  { icon: 'ruler', title: 'Na wymiar, nie z katalogu', text: 'Każdą konstrukcję projektujemy pod Twoją działkę, dom i sposób używania ogrodu.' },
+  { icon: 'tree', title: 'Drewno KVH i BSH', text: 'Suszone komorowo drewno konstrukcyjne – nie pęka, nie skręca się, zachowuje wymiary.' },
+  { icon: 'truck', title: 'Montaż w 1–3 dni', text: 'Elementy przygotowujemy w stolarni, na działce tylko je składamy. Sprzątamy po sobie.' },
+  { icon: 'shield', title: '5 lat gwarancji', text: 'Na konstrukcję i pokrycie dachowe. Po roku przyjeżdżamy na bezpłatny przegląd.' },
+] as const;
+
+const faq = [
+  {
+    q: 'Na jakim terenie działacie?',
+    a: `Budujemy altany, wiaty i zadaszenia ${cities[0].locative} i w promieniu ok. 60 km, m.in. ${cities
+      .slice(1)
+      .map((c) => c.locative)
+      .join(', ')}. Większe realizacje wykonujemy także w dalszych lokalizacjach.`,
+  },
+  { q: 'Ile kosztuje wycena?', a: 'Wycena i pomiar na działce są bezpłatne i do niczego nie zobowiązują. Wstępną wycenę na podstawie zdjęć i wymiarów przygotowujemy w 24 godziny.' },
+  { q: 'Jak długo czeka się na realizację?', a: 'Od podpisania umowy do montażu mijają zwykle 3–6 tygodni. W sezonie (kwiecień–czerwiec) warto zamawiać z wyprzedzeniem – najlepiej zimą.' },
+  { q: 'Czy pomagacie w formalnościach?', a: 'Tak. Sprawdzamy, czy konstrukcja wymaga zgłoszenia, i przygotowujemy rysunki oraz opis techniczny potrzebny do urzędu.' },
+  { q: 'Czy wykonujecie fundamenty?', a: 'Tak, fundament jest zawsze w cenie. Stosujemy stopy betonowe lub wkręty fundamentowe – dobieramy je do gruntu i ukształtowania terenu.' },
+];
+---
+
+<BaseLayout
+  title={`Altany ogrodowe, wiaty i zadaszenia na wymiar – ${site.address.city}`}
+  description={`Drewniane altany ogrodowe, wiaty samochodowe, pergole i zadaszenia tarasów na wymiar ${cities[0].locative} i okolicach. Wycena w 24 h, montaż w 1–3 dni, 5 lat gwarancji.`}
+  image={hero}
+  schema={[faqSchema(faq)]}
+>
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="container-x grid items-center gap-10 py-12 lg:grid-cols-2 lg:py-20">
+      <div>
+        <p class="eyebrow">Własna stolarnia · {site.address.city} i okolice</p>
+        <h1 class="mt-4 text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">
+          Altany ogrodowe, wiaty i zadaszenia z drewna <span class="text-wood-600">na wymiar</span>
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+          Projektujemy, produkujemy i montujemy drewniane konstrukcje ogrodowe, które pasują do Twojego domu i przetrwają
+          dziesiątki sezonów. Od pomysłu do gotowej altany – z jednym zespołem.
+        </p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href="/kontakt/#wycena" class="btn-primary px-8 py-4 text-base">Bezpłatna wycena w 24 h</a>
+          <a href="/realizacje/" class="btn-secondary px-8 py-4 text-base">Zobacz realizacje</a>
+        </div>
+        <div class="mt-8 flex items-center gap-3 text-sm">
+          <span class="flex text-wood-500">{Array.from({ length: 5 }, () => <Icon name="star" class="size-4" />)}</span>
+          <span><strong>{site.rating.value.toLocaleString('pl-PL')}/5</strong> na podstawie {site.rating.count} opinii w Google</span>
+        </div>
+      </div>
+      <div class="relative">
+        <Image
+          src={hero}
+          alt="Drewniana altana ogrodowa wykonana na wymiar w ogrodzie przy domu"
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          class="aspect-[4/3] w-full rounded-3xl object-cover shadow-xl"
+        />
+        <div class="absolute -bottom-6 left-6 hidden rounded-2xl bg-white p-5 shadow-lg ring-1 ring-black/5 sm:block">
+          <p class="font-display text-3xl font-semibold text-forest-900">650+</p>
+          <p class="text-sm text-muted">konstrukcji od {site.foundingYear} r.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATYSTYKI -->
+  <section aria-label="Liczby" class="border-y border-black/5 bg-white">
+    <dl class="container-x grid grid-cols-2 gap-6 py-8 text-center lg:grid-cols-4">
+      {
+        site.stats.map((s) => (
+          <div class="flex flex-col">
+            <dt class="text-sm text-muted">{s.label}</dt>
+            <dd class="order-first font-display text-3xl font-semibold text-forest-900">{s.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <!-- USŁUGI -->
+  <section class="section" aria-labelledby="uslugi-heading">
+    <div class="container-x">
+      <div class="max-w-2xl">
+        <p class="eyebrow">Co budujemy</p>
+        <h2 id="uslugi-heading" class="mt-2 text-3xl sm:text-4xl">Drewniane konstrukcje ogrodowe na każdą potrzebę</h2>
+        <p class="mt-4 text-muted">
+          Wszystko wykonujemy we własnej stolarni z certyfikowanego drewna konstrukcyjnego. Fundament, transport i montaż są
+          zawsze w cenie.
+        </p>
+      </div>
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((s) => <ServiceCard service={s} />)}
+        <a href="/cennik/" class="card flex flex-col justify-center gap-3 bg-forest-700 p-8 text-cream ring-0">
+          <span class="font-display text-2xl text-cream">Sprawdź cennik</span>
+          <span class="text-sm text-cream/80">Orientacyjne ceny altan, wiat i zadaszeń z montażem – bez ukrytych kosztów.</span>
+          <span class="mt-2 flex items-center gap-2 text-sm font-semibold">Przejdź do cennika <Icon name="arrow" class="size-4" /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DLACZEGO MY -->
+  <section class="section bg-white" aria-labelledby="usp-heading">
+    <div class="container-x">
+      <div class="max-w-2xl">
+        <p class="eyebrow">Dlaczego my</p>
+        <h2 id="usp-heading" class="mt-2 text-3xl sm:text-4xl">Rzemiosło stolarskie i nowoczesne projektowanie</h2>
+      </div>
+      <ul class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          usp.map((u) => (
+            <li>
+              <span class="flex size-12 items-center justify-center rounded-2xl bg-sand text-wood-700">
+                <Icon name={u.icon} class="size-6" />
+              </span>
+              <h3 class="mt-4 font-sans text-base font-semibold">{u.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{u.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- REALIZACJE -->
+  <section class="section" aria-labelledby="realizacje-heading">
+    <div class="container-x">
+      <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div>
+          <p class="eyebrow">Portfolio</p>
+          <h2 id="realizacje-heading" class="mt-2 text-3xl sm:text-4xl">Ostatnie realizacje</h2>
+        </div>
+        <a href="/realizacje/" class="flex items-center gap-2 font-semibold text-wood-600">
+          Wszystkie realizacje <Icon name="arrow" class="size-4" />
+        </a>
+      </div>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <Process />
+  <Reviews />
+
+  <!-- OBSZAR DZIAŁANIA -->
+  <section class="section bg-white" aria-labelledby="obszar-heading">
+    <div class="container-x grid gap-10 lg:grid-cols-2">
+      <div>
+        <p class="eyebrow">Obszar działania</p>
+        <h2 id="obszar-heading" class="mt-2 text-3xl sm:text-4xl">Altany i wiaty {cities[0].locative} i {site.address.regionLocative}</h2>
+        <p class="mt-4 leading-relaxed text-muted">
+          Nasza stolarnia mieści się {cities[0].locative}. Dojeżdżamy z kompletem elementów w promieniu ok. 60 km – pomiar
+          i wycena są bezpłatne w całym obszarze.
+        </p>
+        <a href="/obszar-dzialania/" class="mt-6 inline-flex items-center gap-2 font-semibold text-wood-600">
+          Zobacz obszar działania <Icon name="arrow" class="size-4" />
+        </a>
+      </div>
+      <div>
+        <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {
+            cities.map((c) => (
+              <li>
+                <a href={`/obszar-dzialania/${c.slug}/`} class="flex items-center gap-2 rounded-xl bg-cream px-4 py-3 text-sm font-medium hover:bg-sand">
+                  <Icon name="pin" class="size-4 text-wood-600" />
+                  {c.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-4 text-sm text-muted">Także: {extraArea.join(', ')}.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORADNIK -->
+  <section class="section" aria-labelledby="poradnik-heading">
+    <div class="container-x">
+      <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div>
+          <p class="eyebrow">Poradnik</p>
+          <h2 id="poradnik-heading" class="mt-2 text-3xl sm:text-4xl">Zanim zaczniesz budowę</h2>
+        </div>
+        <a href="/poradnik/" class="flex items-center gap-2 font-semibold text-wood-600">Wszystkie artykuły <Icon name="arrow" class="size-4" /></a>
+      </div>
+      <ul class="mt-10 grid gap-6 md:grid-cols-3">
+        {
+          articles.map((a) => (
+            <li>
+              <a href={`/poradnik/${a.id}/`} class="group block">
+                <Image src={a.data.cover} alt={a.data.coverAlt} widths={[400, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="aspect-[16/10] w-full rounded-2xl object-cover" />
+                <p class="mt-4 text-xs text-muted">{formatDate(a.data.published)}</p>
+                <h3 class="mt-1 text-lg leading-snug group-hover:text-wood-600">{a.data.title}</h3>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <Faq items={faq} />
+  <CtaBanner />
+</BaseLayout>

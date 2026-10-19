@@ -1,0 +1,18 @@
+---
+import { site } from '../config/site';
+interface Props {
+  light?: boolean;
+}
+const { light = false } = Astro.props;
+---
+
+<a href="/" class="flex items-center gap-2.5" aria-label={`${site.name} – strona główna`}>
+  <svg viewBox="0 0 40 40" class="size-9 shrink-0" aria-hidden="true">
+    <rect width="40" height="40" rx="10" fill={light ? '#f8f4ec' : '#2f4f30'}></rect>
+    <path d="M8 19 20 9l12 10" fill="none" stroke="#d6b48c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M12 19v12M28 19v12M12 25h16" fill="none" stroke={light ? '#2f4f30' : '#f8f4ec'} stroke-width="3" stroke-linecap="round"></path>
+  </svg>
+  <span class:list={['font-display text-lg leading-none font-semibold', light ? 'text-cream' : 'text-forest-900']}>
+    {site.name}
+  </span>
+</a>

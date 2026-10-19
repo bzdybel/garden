@@ -1,0 +1,29 @@
+---
+const steps = [
+  { title: 'Zapytanie i rozmowa', text: 'Opowiedz nam o swoim pomyśle – telefonicznie lub przez formularz. Wstępną wycenę dostaniesz w 24 h.' },
+  { title: 'Pomiar i projekt 3D', text: 'Przyjeżdżamy bezpłatnie na pomiar, sprawdzamy grunt i przygotowujemy wizualizację dopasowaną do domu.' },
+  { title: 'Formalności', text: 'Podpowiemy, czy konstrukcja wymaga zgłoszenia, i przygotujemy rysunki potrzebne do urzędu.' },
+  { title: 'Produkcja w stolarni', text: 'Elementy przycinamy i impregnujemy we własnym warsztacie – na działce tylko je składamy.' },
+  { title: 'Montaż w 1–3 dni', text: 'Ekipa przyjeżdża z kompletem elementów. Po montażu sprzątamy teren i przekazujemy gwarancję.' },
+];
+---
+
+<section class="section bg-sand/60" aria-labelledby="process-heading">
+  <div class="container-x">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Jak pracujemy</p>
+      <h2 id="process-heading" class="mt-2 text-3xl sm:text-4xl">Od pomysłu do gotowej altany w 5 krokach</h2>
+    </div>
+    <ol class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+      {
+        steps.map((s, i) => (
+          <li class="relative rounded-2xl bg-white p-6 ring-1 ring-black/5">
+            <span class="font-display text-4xl font-semibold text-wood-300">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mt-3 font-sans text-base font-semibold">{s.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

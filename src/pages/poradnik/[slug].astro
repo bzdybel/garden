@@ -1,0 +1,123 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { articleSchema, faqSchema } from '../../lib/schema';
+import { formatDate } from '../../lib/labels';
+
+export const getStaticPaths = (async () => {
+  const articles = await getCollection('poradnik');
+  return articles.map((article) => ({ params: { slug: article.id }, props: { article } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  article: CollectionEntry<'poradnik'>;
+}
+const { article } = Astro.props;
+const { data } = article;
+const { Content, headings } = await render(article);
+const service = data.relatedService ? await getEntry('uslugi', data.relatedService) : undefined;
+const toc = headings.filter((h) => h.depth === 2);
+
+const path = `/poradnik/${article.id}/`;
+const crumbs = [
+  { name: 'Poradnik', href: '/poradnik/' },
+  { name: data.title, href: path },
+];
+const schema = [
+  articleSchema({
+    title: data.title,
+    description: data.description,
+    path,
+    image: data.cover.src,
+    published: data.published,
+    updated: data.updated,
+    author: data.author,
+  }),
+  ...(data.faq.length ? [faqSchema(data.faq)] : []),
+];
+---
+
+<BaseLayout
+  title={data.seoTitle ?? data.title}
+  description={data.description}
+  image={data.cover}
+  imageAlt={data.coverAlt}
+  type="article"
+  publishedTime={data.published}
+  modifiedTime={data.updated}
+  crumbs={crumbs}
+  schema={schema}
+>
+  <article>
+    <header class="container-x max-w-4xl pt-10 sm:pt-14">
+      <Breadcrumbs crumbs={[{ name: 'Strona główna', href: '/' }, ...crumbs]} />
+      <h1 class="mt-8 text-4xl leading-tight sm:text-5xl">{data.title}</h1>
+      <p class="mt-5 text-sm text-muted">
+        {data.author} · <time datetime={data.published.toISOString()}>{formatDate(data.published)}</time>
+        {
+          data.updated && (
+            <>
+              {' '}
+              · aktualizacja: <time datetime={data.updated.toISOString()}>{formatDate(data.updated)}</time>
+            </>
+          )
+        }
+      </p>
+      <Image
+        src={data.cover}
+        alt={data.coverAlt}
+        widths={[640, 1024, 1400]}
+        sizes="(min-width: 896px) 896px, 100vw"
+        loading="eager"
+        fetchpriority="high"
+        class="mt-8 aspect-[16/9] w-full rounded-3xl object-cover"
+      />
+    </header>
+
+    <div class="container-x max-w-4xl py-12">
+      {
+        toc.length > 2 && (
+          <nav aria-label="Spis treści" class="mb-10 rounded-2xl bg-white p-6 ring-1 ring-black/5">
+            <p class="font-display text-lg text-forest-900">Spis treści</p>
+            <ol class="mt-3 list-decimal space-y-1.5 pl-5 text-sm">
+              {toc.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`} class="text-wood-600 hover:underline">
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )
+      }
+      <div class="prose-garden">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <Faq items={data.faq} />
+
+  {
+    service && (
+      <section class="section bg-white">
+        <div class="container-x grid items-center gap-10 lg:grid-cols-2">
+          <div>
+            <p class="eyebrow">Nasza oferta</p>
+            <h2 class="mt-2 text-3xl">Szukasz wykonawcy? Zobacz, jak to robimy</h2>
+            <p class="mt-4 text-muted">{service.data.lead}</p>
+          </div>
+          <ServiceCard service={service} />
+        </div>
+      </section>
+    )
+  }
+  <CtaBanner />
+</BaseLayout>

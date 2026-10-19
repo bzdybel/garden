@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import Process from '../../components/Process.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { absoluteUrl } from '../../lib/schema';
+
+const services = (await getCollection('uslugi')).sort((a, b) => a.data.order - b.data.order);
+const crumbs = [{ name: 'Usługi', href: '/uslugi/' }];
+const itemList = {
+  '@type': 'ItemList',
+  itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, url: absoluteUrl(`/uslugi/${s.id}/`), name: s.data.name })),
+};
+---
+
+<BaseLayout
+  title="Usługi – altany, wiaty, pergole i zadaszenia tarasów"
+  description="Drewniane altany ogrodowe, wiaty samochodowe i śmietnikowe, pergole oraz zadaszenia tarasów na wymiar. Projekt, produkcja we własnej stolarni i montaż."
+  crumbs={crumbs}
+  schema={[itemList]}
+>
+  <PageHeader
+    title="Drewniane konstrukcje ogrodowe na wymiar"
+    lead="Od projektu, przez produkcję we własnej stolarni, po montaż na Twojej działce. Wybierz, czego potrzebujesz – resztą zajmiemy się my."
+    crumbs={crumbs}
+  />
+  <section class="section">
+    <div class="container-x grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {services.map((s) => <ServiceCard service={s} />)}
+    </div>
+  </section>
+  <Process />
+  <CtaBanner />
+</BaseLayout>

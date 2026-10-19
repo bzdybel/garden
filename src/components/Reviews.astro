@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+import { site } from '../config/site';
+
+interface Props {
+  limit?: number;
+}
+const { limit = 3 } = Astro.props;
+const reviews = (await getCollection('opinie')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, limit);
+---
+
+<section class="section" aria-labelledby="reviews-heading">
+  <div class="container-x">
+    <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+      <div>
+        <p class="eyebrow">Opinie klientów</p>
+        <h2 id="reviews-heading" class="mt-2 text-3xl sm:text-4xl">Polecają nas sąsiedzi</h2>
+      </div>
+      <a href={site.social.google} rel="noopener" class="flex items-center gap-2 text-sm font-medium">
+        <span class="flex text-wood-500">{Array.from({ length: 5 }, () => <Icon name="star" class="size-4" />)}</span>
+        {site.rating.value.toLocaleString('pl-PL')}/5 · {site.rating.count} opinii w Google
+      </a>
+    </div>
+    <ul class="mt-10 grid gap-6 md:grid-cols-3">
+      {
+        reviews.map((r) => (
+          <li>
+            <figure class="flex h-full flex-col rounded-2xl bg-white p-6 ring-1 ring-black/5">
+              <div class="flex text-wood-500" aria-label={`Ocena ${r.data.rating} na 5`}>
+                {Array.from({ length: r.data.rating }, () => <Icon name="star" class="size-4" />)}
+              </div>
+              <blockquote class="mt-4 flex-1 leading-relaxed text-ink/85">„{r.data.text}”</blockquote>
+              <figcaption class="mt-5 text-sm">
+                <strong class="text-forest-900">{r.data.author}</strong>
+                <span class="text-muted"> · {r.data.city}</span>
+              </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

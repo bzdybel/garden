@@ -1,0 +1,85 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/fraunces';
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+
+  /* Paleta: drewno + zieleń ogrodu + ciepła biel */
+  --color-cream: #f8f4ec;
+  --color-sand: #ece3d3;
+  --color-wood-300: #d6b48c;
+  --color-wood-500: #a8703f;
+  --color-wood-600: #8c5a30;
+  --color-wood-700: #6e4524;
+  --color-forest-500: #4f7a4a;
+  --color-forest-700: #2f4f30;
+  --color-forest-900: #1b2e1d;
+  --color-ink: #1f2420;
+  --color-muted: #5d655e;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight text-forest-900;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-wood-500;
+  }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors;
+}
+@utility btn-primary {
+  @apply btn bg-wood-600 text-white hover:bg-wood-700;
+}
+@utility btn-secondary {
+  @apply btn border border-forest-900/20 bg-white/70 text-forest-900 hover:bg-white;
+}
+@utility btn-light {
+  @apply btn bg-white text-forest-900 hover:bg-sand;
+}
+@utility eyebrow {
+  @apply text-xs font-semibold tracking-[0.18em] text-wood-600 uppercase;
+}
+@utility section {
+  @apply py-16 sm:py-24;
+}
+@utility card {
+  @apply overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5;
+}
+
+/* Treści z Markdown */
+@utility prose-garden {
+  @apply max-w-none text-[1.05rem] leading-relaxed text-ink/90;
+  & h2 { @apply mt-12 mb-4 text-2xl sm:text-3xl; }
+  & h3 { @apply mt-8 mb-3 text-xl; }
+  & h2:first-child { @apply mt-0; }
+  & p, & ul, & ol, & table { @apply mb-5; }
+  & ul { @apply list-disc space-y-2 pl-6; }
+  & ol { @apply list-decimal space-y-2 pl-6; }
+  & a { @apply font-medium text-wood-600 underline underline-offset-2 hover:text-wood-700; }
+  & strong { @apply font-semibold text-forest-900; }
+  & table { @apply block w-full overflow-x-auto text-sm sm:table; }
+  & th { @apply border-b-2 border-sand px-3 py-2 text-left font-semibold text-forest-900; }
+  & td { @apply border-b border-sand px-3 py-2; }
+  & blockquote { @apply my-6 rounded-r-xl border-l-4 border-wood-500 bg-white px-5 py-4 text-ink/80; }
+}

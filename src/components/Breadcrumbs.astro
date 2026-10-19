@@ -1,0 +1,26 @@
+---
+import type { Crumb } from '../lib/schema';
+interface Props {
+  crumbs: Crumb[];
+}
+const { crumbs } = Astro.props;
+---
+
+<nav aria-label="Okruszki" class="text-sm text-muted">
+  <ol class="flex flex-wrap items-center gap-1.5">
+    {
+      crumbs.map((c, i) => (
+        <li class="flex items-center gap-1.5">
+          {i > 0 && <span aria-hidden="true">/</span>}
+          {i === crumbs.length - 1 ? (
+            <span aria-current="page" class="text-ink">{c.name}</span>
+          ) : (
+            <a href={c.href} class="hover:text-wood-600">
+              {c.name}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

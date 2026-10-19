@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { serviceLabels } from '../../lib/labels';
+import { absoluteUrl } from '../../lib/schema';
+import { cities } from '../../data/cities';
+
+const projects = (await getCollection('realizacje')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const types = [...new Set(projects.map((p) => p.data.service))];
+const crumbs = [{ name: 'Realizacje', href: '/realizacje/' }];
+const itemList = {
+  '@type': 'ItemList',
+  itemListElement: projects.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: absoluteUrl(`/realizacje/${p.id}/`), name: p.data.title })),
+};
+---
+
+<BaseLayout
+  title="Realizacje – altany, wiaty i zadaszenia z drewna"
+  description={`Nasze realizacje: drewniane altany ogrodowe, wiaty samochodowe, pergole i zadaszenia tarasów – ${cities[0].name} i okolice. Zdjęcia, wymiary, materiały.`}
+  crumbs={crumbs}
+  schema={[itemList]}
+>
+  <PageHeader
+    title="Realizacje"
+    lead="Każda z tych konstrukcji powstała na wymiar – dla konkretnego ogrodu, domu i rodziny. Zobacz zdjęcia, wymiary i zastosowane materiały."
+    crumbs={crumbs}
+  />
+  <section class="section">
+    <div class="container-x">
+      <!-- Filtr działa po stronie klienta; bez JS widoczne są wszystkie realizacje -->
+      <div class="flex flex-wrap gap-2" role="group" aria-label="Filtruj realizacje" data-filters>
+        <button type="button" class="btn-secondary aria-pressed:bg-forest-900 aria-pressed:text-white" aria-pressed="true" data-filter="all">Wszystkie</button>
+        {
+          types.map((t) => (
+            <button type="button" class="btn-secondary aria-pressed:bg-forest-900 aria-pressed:text-white" aria-pressed="false" data-filter={t}>
+              {serviceLabels[t]}
+            </button>
+          ))
+        }
+      </div>
+      <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          projects.map((p) => (
+            <li data-type={p.data.service}>
+              <ProjectCard project={p} headingLevel="h2" />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+  <CtaBanner title="Chcesz podobną konstrukcję?" />
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const items = document.querySelectorAll<HTMLElement>('[data-type]');
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      items.forEach((el) => (el.hidden = f !== 'all' && el.dataset.type !== f));
+    }),
+  );
+</script>

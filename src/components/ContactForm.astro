@@ -1,0 +1,107 @@
+---
+import { site } from '../config/site';
+
+interface Props {
+  /** Preselekcja rodzaju konstrukcji, np. na stronie usługi */
+  service?: string;
+}
+const { service } = Astro.props;
+const options = ['Altana ogrodowa', 'Wiata samochodowa', 'Zadaszenie tarasu', 'Pergola', 'Wiata śmietnikowa / drewutnia', 'Inne'];
+const field =
+  'mt-1.5 block w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-base shadow-sm focus:border-wood-500 focus:ring-2 focus:ring-wood-500/30 focus:outline-none';
+---
+
+<form
+  id="wycena"
+  action={site.form.endpoint}
+  method="POST"
+  class="scroll-mt-28 space-y-5 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 sm:p-8"
+  data-contact-form
+>
+  <input type="hidden" name="access_key" value={site.form.accessKey} />
+  <input type="hidden" name="subject" value={`Nowe zapytanie ze strony ${site.name}`} />
+  <input type="hidden" name="redirect" value={new URL('/dziekujemy/', site.url).href} />
+  <!-- Honeypot antyspamowy -->
+  <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+
+  <div>
+    <h2 class="text-2xl">Bezpłatna wycena</h2>
+    <p class="mt-1 text-sm text-muted">Odpowiadamy w ciągu 24 godzin roboczych.</p>
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <label class="block text-sm font-medium">
+      Imię i nazwisko *
+      <input name="name" required autocomplete="name" class={field} />
+    </label>
+    <label class="block text-sm font-medium">
+      Telefon *
+      <input name="phone" type="tel" required autocomplete="tel" inputmode="tel" class={field} />
+    </label>
+    <label class="block text-sm font-medium">
+      E-mail
+      <input name="email" type="email" autocomplete="email" class={field} />
+    </label>
+    <label class="block text-sm font-medium">
+      Miejscowość *
+      <input name="city" required autocomplete="address-level2" class={field} />
+    </label>
+  </div>
+
+  <label class="block text-sm font-medium">
+    Co chcesz zbudować?
+    <select name="service" class={field}>
+      {options.map((o) => <option selected={o === service}>{o}</option>)}
+    </select>
+  </label>
+
+  <label class="block text-sm font-medium">
+    Opis / przybliżone wymiary
+    <textarea name="message" rows="4" class={field} placeholder="Np. altana ok. 3×4 m z dachem czterospadowym, na trawniku za domem"></textarea>
+  </label>
+
+  <label class="flex items-start gap-3 text-xs leading-relaxed text-muted">
+    <input type="checkbox" name="consent" required class="mt-0.5 size-4 shrink-0 accent-wood-600" />
+    <span>
+      Wyrażam zgodę na przetwarzanie moich danych w celu przygotowania wyceny, zgodnie z
+      <a href="/polityka-prywatnosci/" class="underline">polityką prywatności</a>. *
+    </span>
+  </label>
+
+  <button type="submit" class="btn-primary w-full py-4 text-base">Wyślij zapytanie</button>
+  <p class="hidden text-center text-sm font-medium" role="status" data-form-status></p>
+</form>
+
+<script>
+  // Progressive enhancement: bez JS formularz działa zwykłym POST-em z przekierowaniem.
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const status = form?.querySelector<HTMLElement>('[data-form-status]');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const button = form.querySelector('button')!;
+    button.disabled = true;
+    button.textContent = 'Wysyłanie…';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      window.dataLayer?.push({ event: 'generate_lead', form: 'wycena' });
+      window.location.href = '/dziekujemy/';
+    } catch {
+      status!.textContent = 'Nie udało się wysłać formularza. Zadzwoń do nas lub spróbuj ponownie.';
+      status!.classList.remove('hidden');
+      status!.classList.add('text-red-700');
+      button.disabled = false;
+      button.textContent = 'Wyślij zapytanie';
+    }
+  });
+
+  declare global {
+    interface Window {
+      dataLayer?: object[];
+    }
+  }
+</script>

@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Process from '../components/Process.astro';
+import Reviews from '../components/Reviews.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { site } from '../config/site';
+import { absoluteUrl, businessId } from '../lib/schema';
+import photo from '../assets/images/o-nas.jpg';
+
+const crumbs = [{ name: 'O nas', href: '/o-nas/' }];
+const aboutPage = { '@type': 'AboutPage', url: absoluteUrl('/o-nas/'), about: { '@id': businessId } };
+---
+
+<BaseLayout
+  title={`O nas – stolarnia altan i wiat od ${site.foundingYear} roku`}
+  description={`${site.name} to rodzinna stolarnia z ${site.address.cityGenitive}. Od ${site.foundingYear} roku projektujemy i budujemy drewniane altany, wiaty i zadaszenia na wymiar.`}
+  crumbs={crumbs}
+  schema={[aboutPage]}
+>
+  <PageHeader
+    title="Stolarze, którzy lubią ogrody"
+    lead={`Od ${site.foundingYear} roku budujemy drewniane konstrukcje ogrodowe. Zaczynaliśmy od jednej altany dla sąsiada – dziś mamy własną stolarnię i trzy ekipy montażowe.`}
+    crumbs={crumbs}
+  />
+  <section class="section">
+    <div class="container-x grid items-center gap-12 lg:grid-cols-2">
+      <Image src={photo} alt={`Zespół ${site.name} przy montażu pergoli`} widths={[640, 960]} sizes="(min-width: 1024px) 50vw, 100vw" class="aspect-[4/3] w-full rounded-3xl object-cover" />
+      <div class="prose-garden">
+        <h2>Robimy wszystko sami – od projektu po montaż</h2>
+        <p>
+          Nie jesteśmy pośrednikiem ani sklepem z gotowymi zestawami. Każdą altanę, wiatę i pergolę projektujemy, przycinamy,
+          impregnujemy i montujemy własnym zespołem. Dzięki temu odpowiadamy za całość – i możemy dać 5 lat gwarancji.
+        </p>
+        <p>
+          Pracujemy wyłącznie na drewnie konstrukcyjnym suszonym komorowo (KVH, BSH) od sprawdzonych dostawców z certyfikatem
+          FSC lub PEFC. Na elementy wykończeniowe stosujemy modrzew syberyjski i drewno termowane.
+        </p>
+        <!-- TODO: zdjęcia i krótkie bio właściciela/zespołu – wzmacnia E-E-A-T i zaufanie -->
+      </div>
+    </div>
+  </section>
+  <section aria-label="Liczby" class="border-y border-black/5 bg-white">
+    <dl class="container-x grid grid-cols-2 gap-6 py-10 text-center lg:grid-cols-4">
+      {
+        site.stats.map((s) => (
+          <div class="flex flex-col">
+            <dt class="text-sm text-muted">{s.label}</dt>
+            <dd class="order-first font-display text-3xl font-semibold text-forest-900">{s.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+  <Process />
+  <Reviews />
+  <CtaBanner />
+</BaseLayout>

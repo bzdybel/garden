@@ -1,0 +1,143 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { projectSchema } from '../../lib/schema';
+import { formatDate, serviceLabels } from '../../lib/labels';
+import { cities } from '../../data/cities';
+
+export const getStaticPaths = (async () => {
+  const projects = await getCollection('realizacje');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  project: CollectionEntry<'realizacje'>;
+}
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+const service = await getEntry('uslugi', data.service);
+const city = cities.find((c) => c.name === data.city);
+const related = (await getCollection('realizacje', (p) => p.id !== project.id && p.data.service === data.service)).slice(0, 3);
+
+const path = `/realizacje/${project.id}/`;
+const crumbs = [
+  { name: 'Realizacje', href: '/realizacje/' },
+  { name: data.title, href: path },
+];
+const specs = [
+  ['Rodzaj', serviceLabels[data.service]],
+  ['Lokalizacja', data.city],
+  ['Wymiary', data.size],
+  ['Drewno', data.wood],
+  ['Dach', data.roof],
+  ['Montaż', data.duration],
+  ['Data realizacji', formatDate(data.date)],
+];
+const schema = [
+  projectSchema({
+    title: data.title,
+    description: data.description,
+    path,
+    images: [data.cover.src, ...data.gallery.map((g) => g.src.src)],
+    date: data.date,
+    city: data.city,
+  }),
+];
+---
+
+<BaseLayout title={data.title} description={data.description} image={data.cover} crumbs={crumbs} schema={schema}>
+  <PageHeader title={data.title} lead={data.description} eyebrow={`${serviceLabels[data.service]} · ${data.city}`} crumbs={crumbs} />
+
+  <section class="section">
+    <div class="container-x grid gap-12 lg:grid-cols-[1fr_340px]">
+      <div class="space-y-6">
+        <Image
+          src={data.cover}
+          alt={data.title}
+          widths={[640, 1024, 1400]}
+          sizes="(min-width: 1024px) 66vw, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          class="aspect-[3/2] w-full rounded-3xl object-cover"
+        />
+        <div class="grid gap-6 sm:grid-cols-2">
+          {
+            data.gallery.map((g) => (
+              <Image src={g.src} alt={g.alt} widths={[480, 800]} sizes="(min-width: 640px) 33vw, 100vw" class="aspect-[3/2] w-full rounded-2xl object-cover" />
+            ))
+          }
+        </div>
+        <article class="prose-garden pt-6">
+          <Content />
+        </article>
+        {
+          data.testimonial && (
+            <figure class="rounded-2xl bg-forest-700 p-8 text-cream">
+              <blockquote class="font-display text-xl leading-relaxed text-cream">„{data.testimonial.text}”</blockquote>
+              <figcaption class="mt-4 text-sm text-cream/80">— {data.testimonial.author}, {data.city}</figcaption>
+            </figure>
+          )
+        }
+      </div>
+
+      <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
+        <div class="rounded-2xl bg-white p-6 ring-1 ring-black/5">
+          <h2 class="text-xl">Dane realizacji</h2>
+          <dl class="mt-4 divide-y divide-black/5 text-sm">
+            {
+              specs.map(([k, v]) => (
+                <div class="flex justify-between gap-4 py-2.5">
+                  <dt class="text-muted">{k}</dt>
+                  <dd class="text-right font-medium">{v}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+        <div class="rounded-2xl bg-cream p-6 ring-1 ring-black/5">
+          {
+            service && (
+              <p class="text-sm">
+                Więcej o usłudze:{' '}
+                <a href={`/uslugi/${service.id}/`} class="font-semibold text-wood-600 hover:underline">
+                  {service.data.name}
+                </a>
+              </p>
+            )
+          }
+          {
+            city && (
+              <p class="mt-2 text-sm">
+                Budujemy {city.locative}:{' '}
+                <a href={`/obszar-dzialania/${city.slug}/`} class="font-semibold text-wood-600 hover:underline">
+                  zobacz ofertę lokalną
+                </a>
+              </p>
+            )
+          }
+          <a href="/kontakt/#wycena" class="btn-primary mt-5 w-full">Chcę podobną konstrukcję</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {
+    related.length > 0 && (
+      <section class="section bg-white">
+        <div class="container-x">
+          <h2 class="text-3xl">Podobne realizacje</h2>
+          <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {related.map((p) => <ProjectCard project={p} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+  <CtaBanner />
+</BaseLayout>

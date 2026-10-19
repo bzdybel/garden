@@ -1,0 +1,147 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Icon from '../components/Icon.astro';
+import Faq from '../components/Faq.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { formatPrice } from '../lib/labels';
+import { absoluteUrl, businessId, faqSchema } from '../lib/schema';
+
+const services = (await getCollection('uslugi')).sort((a, b) => a.data.order - b.data.order);
+const crumbs = [{ name: 'Cennik', href: '/cennik/' }];
+const year = new Date().getFullYear();
+
+const included = [
+  'projekt i wizualizacja 3D',
+  'drewno konstrukcyjne KVH/BSH z impregnacją',
+  'fundament punktowy lub wkręty',
+  'pokrycie dachowe z obróbkami i rynną',
+  'transport i montaż',
+  'sprzątanie terenu i 5 lat gwarancji',
+];
+const extras = [
+  ['Malowanie lakierobejcą (2 warstwy)', 'od 45 zł/m²'],
+  ['Podłoga z desek tarasowych', 'od 290 zł/m²'],
+  ['Ściana z deski elewacyjnej', 'od 420 zł/m²'],
+  ['Oświetlenie LED (bez przyłącza)', 'od 1 200 zł'],
+  ['Zabudowa grilla z blatem', 'od 6 500 zł'],
+  ['Rysunki do zgłoszenia budowy', 'od 600 zł'],
+];
+const faq = [
+  { q: 'Czy ceny zawierają VAT?', a: 'Tak, wszystkie ceny w cenniku to kwoty brutto z 8% lub 23% VAT, w zależności od rodzaju konstrukcji i miejsca montażu.' },
+  { q: 'Czy ceny w cenniku są ostateczne?', a: 'To ceny orientacyjne dla typowych wymiarów. Dokładną cenę podajemy po bezpłatnym pomiarze – i nie zmienia się ona po podpisaniu umowy.' },
+  { q: 'Czy trzeba wpłacać zaliczkę?', a: 'Tak, zaliczka wynosi 30% wartości zamówienia i pozwala zarezerwować termin oraz zamówić materiał. Resztę płacisz po montażu.' },
+];
+
+const offerCatalog = {
+  '@type': 'OfferCatalog',
+  name: `Cennik ${year}`,
+  url: absoluteUrl('/cennik/'),
+  provider: { '@id': businessId },
+  itemListElement: services.flatMap((s) =>
+    s.data.variants.map((v) => ({
+      '@type': 'Offer',
+      name: v.name,
+      priceCurrency: 'PLN',
+      price: v.priceFrom ?? s.data.priceFrom,
+      itemOffered: { '@type': 'Service', name: `${s.data.name} – ${v.name}`, url: absoluteUrl(`/uslugi/${s.id}/`) },
+    })),
+  ),
+};
+---
+
+<BaseLayout
+  title={`Cennik ${year} – altany ogrodowe, wiaty, zadaszenia`}
+  description={`Ile kosztuje altana ogrodowa, wiata samochodowa lub zadaszenie tarasu? Cennik ${year} z montażem i fundamentem. Bez ukrytych kosztów – sprawdź ceny.`}
+  crumbs={crumbs}
+  schema={[offerCatalog, faqSchema(faq)]}
+>
+  <PageHeader
+    title={`Cennik altan, wiat i zadaszeń ${year}`}
+    lead="Ceny orientacyjne dla typowych wymiarów – z projektem, fundamentem, transportem i montażem. Dokładną kwotę podajemy po bezpłatnym pomiarze."
+    crumbs={crumbs}
+  />
+
+  <section class="section">
+    <div class="container-x space-y-10">
+      {
+        services.map((s) => (
+          <div class="card">
+            <div class="flex flex-col justify-between gap-2 border-b border-black/5 p-6 sm:flex-row sm:items-center">
+              <h2 class="text-2xl">
+                <a href={`/uslugi/${s.id}/`} class="hover:text-wood-600">
+                  {s.data.name}
+                </a>
+              </h2>
+              <a href={`/uslugi/${s.id}/`} class="flex items-center gap-1 text-sm font-semibold text-wood-600">
+                Szczegóły <Icon name="arrow" class="size-4" />
+              </a>
+            </div>
+            <table class="w-full text-sm">
+              <caption class="sr-only">Ceny – {s.data.name}</caption>
+              <thead class="sr-only">
+                <tr>
+                  <th scope="col">Wariant</th>
+                  <th scope="col">Cena od</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-black/5">
+                {s.data.variants.map((v) => (
+                  <tr>
+                    <th scope="row" class="p-4 pl-6 text-left align-top font-normal">
+                      <strong class="block font-semibold text-forest-900">{v.name}</strong>
+                      <span class="text-muted">{v.text}</span>
+                    </th>
+                    <td class="p-4 pr-6 text-right align-top whitespace-nowrap">
+                      od <strong class="text-lg text-forest-900">{formatPrice(v.priceFrom ?? s.data.priceFrom)}</strong>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-x grid gap-12 lg:grid-cols-2">
+      <div>
+        <h2 class="text-3xl">Co zawsze jest w cenie</h2>
+        <ul class="mt-6 space-y-3">
+          {
+            included.map((i) => (
+              <li class="flex items-start gap-3">
+                <Icon name="check" class="mt-0.5 size-5 shrink-0 text-forest-500" />
+                {i}
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-6 text-sm text-muted">
+          Chcesz wiedzieć, od czego zależy cena? Przeczytaj: <a href="/poradnik/ile-kosztuje-altana-ogrodowa/" class="font-medium text-wood-600 underline">ile kosztuje altana ogrodowa</a>.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-3xl">Dodatki</h2>
+        <table class="mt-6 w-full text-sm">
+          <tbody class="divide-y divide-black/5">
+            {
+              extras.map(([name, price]) => (
+                <tr>
+                  <th scope="row" class="py-3 text-left font-normal">{name}</th>
+                  <td class="py-3 text-right font-semibold whitespace-nowrap">{price}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Pytania o ceny i płatności" />
+  <CtaBanner title="Poznaj dokładną cenę swojej konstrukcji" />
+</BaseLayout>

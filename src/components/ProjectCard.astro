@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { serviceLabels } from '../lib/labels';
+
+interface Props {
+  project: CollectionEntry<'realizacje'>;
+  headingLevel?: 'h2' | 'h3';
+}
+const { project, headingLevel: H = 'h3' } = Astro.props;
+const { data } = project;
+---
+
+<article class="card group flex flex-col">
+  <a href={`/realizacje/${project.id}/`} class="flex flex-1 flex-col">
+    <div class="aspect-[4/3] overflow-hidden">
+      <Image
+        src={data.cover}
+        alt={data.title}
+        widths={[400, 640, 900]}
+        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+        class="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+    </div>
+    <div class="flex flex-1 flex-col gap-2 p-5">
+      <p class="eyebrow">{serviceLabels[data.service]} · {data.city}</p>
+      <H class="text-lg leading-snug">{data.title}</H>
+      <p class="mt-auto text-sm text-muted">{data.size} · {data.wood}</p>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import { phoneHref, site } from '../config/site';
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = 'Porozmawiajmy o Twoim projekcie',
+  text = 'Bezpłatna wycena w 24 godziny. Przyjedziemy na pomiar, doradzimy rozwiązanie i przygotujemy wizualizację 3D.',
+} = Astro.props;
+---
+
+<section class="section">
+  <div class="container-x">
+    <div class="relative overflow-hidden rounded-3xl bg-forest-700 px-6 py-14 text-center sm:px-16">
+      <svg class="absolute -top-10 -right-10 size-64 text-white/5" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M4 20 20 6l16 14M8 20v16M32 20v16" fill="none" stroke="currentColor" stroke-width="3"></path>
+      </svg>
+      <h2 class="relative mx-auto max-w-2xl text-3xl text-cream sm:text-4xl">{title}</h2>
+      <p class="relative mx-auto mt-4 max-w-xl text-cream/80">{text}</p>
+      <div class="relative mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href="/kontakt/#wycena" class="btn-light">Zamów bezpłatną wycenę</a>
+        <a href={phoneHref} class="btn border border-white/30 text-cream hover:bg-white/10">
+          <Icon name="phone" class="size-4" />{site.phone}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
