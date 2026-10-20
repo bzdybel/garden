@@ -34,8 +34,8 @@ const specs = [
   ['Rodzaj', serviceLabels[data.service]],
   ['Lokalizacja', data.city],
   ['Wymiary', data.size],
-  ['Drewno', data.wood],
-  ['Dach', data.roof],
+  ['System', data.system],
+  ['Wypełnienie dachu', data.fill],
   ['Montaż', data.duration],
   ['Data realizacji', formatDate(data.date)],
 ];
@@ -64,12 +64,12 @@ const schema = [
           sizes="(min-width: 1024px) 66vw, 100vw"
           loading="eager"
           fetchpriority="high"
-          class="aspect-[3/2] w-full rounded-3xl object-cover"
+          class="aspect-[3/2] w-full object-cover"
         />
         <div class="grid gap-6 sm:grid-cols-2">
           {
             data.gallery.map((g) => (
-              <Image src={g.src} alt={g.alt} widths={[480, 800]} sizes="(min-width: 640px) 33vw, 100vw" class="aspect-[3/2] w-full rounded-2xl object-cover" />
+              <Image src={g.src} alt={g.alt} widths={[480, 800]} sizes="(min-width: 640px) 33vw, 100vw" class="aspect-[3/2] w-full object-cover" />
             ))
           }
         </div>
@@ -78,16 +78,16 @@ const schema = [
         </article>
         {
           data.testimonial && (
-            <figure class="rounded-2xl bg-forest-700 p-8 text-cream">
-              <blockquote class="font-display text-xl leading-relaxed text-cream">„{data.testimonial.text}”</blockquote>
-              <figcaption class="mt-4 text-sm text-cream/80">— {data.testimonial.author}, {data.city}</figcaption>
+            <figure class=" bg-slate p-8 text-white">
+              <blockquote class="font-display text-xl leading-relaxed text-white">„{data.testimonial.text}”</blockquote>
+              <figcaption class="mt-4 text-sm text-white/80">— {data.testimonial.author}, {data.city}</figcaption>
             </figure>
           )
         }
       </div>
 
       <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
-        <div class="rounded-2xl bg-white p-6 ring-1 ring-black/5">
+        <div class=" bg-white p-6 ring-1 ring-black/5">
           <h2 class="text-xl">Dane realizacji</h2>
           <dl class="mt-4 divide-y divide-black/5 text-sm">
             {
@@ -100,12 +100,12 @@ const schema = [
             }
           </dl>
         </div>
-        <div class="rounded-2xl bg-cream p-6 ring-1 ring-black/5">
+        <div class=" bg-white p-6 ring-1 ring-black/5">
           {
             service && (
               <p class="text-sm">
                 Więcej o usłudze:{' '}
-                <a href={`/uslugi/${service.id}/`} class="font-semibold text-wood-600 hover:underline">
+                <a href={`/uslugi/${service.id}/`} class="font-semibold text-ink hover:underline">
                   {service.data.name}
                 </a>
               </p>
@@ -115,7 +115,7 @@ const schema = [
             city && (
               <p class="mt-2 text-sm">
                 Budujemy {city.locative}:{' '}
-                <a href={`/obszar-dzialania/${city.slug}/`} class="font-semibold text-wood-600 hover:underline">
+                <a href={`/obszar-dzialania/${city.slug}/`} class="font-semibold text-ink hover:underline">
                   zobacz ofertę lokalną
                 </a>
               </p>

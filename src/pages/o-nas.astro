@@ -2,52 +2,62 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 import Process from '../components/Process.astro';
 import Reviews from '../components/Reviews.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 import { site } from '../config/site';
+import { cities } from '../data/cities';
 import { absoluteUrl, businessId } from '../lib/schema';
 import photo from '../assets/images/o-nas.jpg';
 
 const crumbs = [{ name: 'O nas', href: '/o-nas/' }];
+const hq = cities.find((c) => c.headquarters)!;
 const aboutPage = { '@type': 'AboutPage', url: absoluteUrl('/o-nas/'), about: { '@id': businessId } };
 ---
 
 <BaseLayout
-  title={`O nas – stolarnia altan i wiat od ${site.foundingYear} roku`}
-  description={`${site.name} to rodzinna stolarnia z ${site.address.cityGenitive}. Od ${site.foundingYear} roku projektujemy i budujemy drewniane altany, wiaty i zadaszenia na wymiar.`}
+  title="O nas – aluminiowe zadaszenia tarasów premium z Radomia"
+  description={`${site.name} – projektujemy i montujemy aluminiowe zadaszenia tarasów, pergole i zabudowy szklane. Siedziba ${hq.locative}, montaż w całej Polsce.`}
   crumbs={crumbs}
   schema={[aboutPage]}
 >
   <PageHeader
-    title="Stolarze, którzy lubią ogrody"
-    lead={`Od ${site.foundingYear} roku budujemy drewniane konstrukcje ogrodowe. Zaczynaliśmy od jednej altany dla sąsiada – dziś mamy własną stolarnię i trzy ekipy montażowe.`}
+    eyebrow="O nas"
+    title="Tworzymy przestrzeń, którą się pokochasz"
+    lead="Zadaszony taras to coś więcej niż ochrona przed deszczem. To miejsce, które łączy dom z ogrodem, relaks z funkcjonalnością i styl z komfortem."
     crumbs={crumbs}
   />
   <section class="section">
-    <div class="container-x grid items-center gap-12 lg:grid-cols-2">
-      <Image src={photo} alt={`Zespół ${site.name} przy montażu pergoli`} widths={[640, 960]} sizes="(min-width: 1024px) 50vw, 100vw" class="aspect-[4/3] w-full rounded-3xl object-cover" />
-      <div class="prose-garden">
-        <h2>Robimy wszystko sami – od projektu po montaż</h2>
+    <div class="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-24">
+      <Image src={photo} alt="Aluminiowe zadaszenie tarasu z przeszkleniami przy nowoczesnym domu" widths={[640, 960]} sizes="(min-width: 1024px) 50vw, 100vw" class="aspect-[4/5] w-full object-cover" data-reveal />
+      <div class="prose-garden" data-reveal style="--reveal-delay:1">
+        <h2>Nowoczesny design, trwałość i funkcjonalność</h2>
         <p>
-          Nie jesteśmy pośrednikiem ani sklepem z gotowymi zestawami. Każdą altanę, wiatę i pergolę projektujemy, przycinamy,
-          impregnujemy i montujemy własnym zespołem. Dzięki temu odpowiadamy za całość – i możemy dać 5 lat gwarancji.
+          Projektujemy i montujemy aluminiowe zadaszenia tarasów, pergole oraz systemy zabudowy i zacieniania. Każda
+          konstrukcja, która trafia do klienta, jest efektem dbałości o jakość i estetykę – tak, by z tarasu można było
+          korzystać komfortowo przez cały rok.
         </p>
         <p>
-          Pracujemy wyłącznie na drewnie konstrukcyjnym suszonym komorowo (KVH, BSH) od sprawdzonych dostawców z certyfikatem
-          FSC lub PEFC. Na elementy wykończeniowe stosujemy modrzew syberyjski i drewno termowane.
+          Stosujemy profile aluminiowe produkowane w Polsce, o wysokich parametrach statycznych, odporne na wiatr i warunki
+          atmosferyczne. Dach wypełniamy szkłem bezpiecznym 4.4.2, poliwęglanem litym lub komorowym, a konstrukcję lakierujemy
+          w dowolnym kolorze RAL. Na konstrukcje udzielamy <strong>5 lat gwarancji</strong>.
         </p>
-        <!-- TODO: zdjęcia i krótkie bio właściciela/zespołu – wzmacnia E-E-A-T i zaufanie -->
+        <p>
+          Siedzibę mamy {hq.locative}, a montaż wykonujemy w całej Polsce.
+          Jeden opiekun prowadzi Twój projekt od pierwszej rozmowy do odbioru.
+        </p>
+        <!-- TODO: zdjęcia i krótkie bio właściciela/zespołu, historia firmy – wzmacnia E-E-A-T i zaufanie -->
       </div>
     </div>
   </section>
-  <section aria-label="Liczby" class="border-y border-black/5 bg-white">
-    <dl class="container-x grid grid-cols-2 gap-6 py-10 text-center lg:grid-cols-4">
+  <section aria-label="Najważniejsze fakty" class="bg-slate text-white">
+    <dl class="container-x grid grid-cols-2 gap-y-12 py-20 lg:grid-cols-4">
       {
-        site.stats.map((s) => (
-          <div class="flex flex-col">
-            <dt class="text-sm text-muted">{s.label}</dt>
-            <dd class="order-first font-display text-3xl font-semibold text-forest-900">{s.value}</dd>
+        site.stats.map((s, i) => (
+          <div class="flex flex-col border-l border-gold/40 pl-6" data-reveal style={`--reveal-delay:${i}`}>
+            <dt class="mt-3 max-w-[12rem] text-sm leading-relaxed text-white/70">{s.label}</dt>
+            <dd class="order-first font-display text-5xl text-gold sm:text-6xl">{s.value}</dd>
           </div>
         ))
       }
@@ -55,5 +65,10 @@ const aboutPage = { '@type': 'AboutPage', url: absoluteUrl('/o-nas/'), about: { 
   </section>
   <Process />
   <Reviews />
+  <section class="section border-t border-line">
+    <div class="container-x">
+      <SectionHeading label="Nasze wartości" title={['Taras to więcej niż konstrukcja.', 'To nowa jakość życia.']} />
+    </div>
+  </section>
   <CtaBanner />
 </BaseLayout>

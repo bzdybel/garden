@@ -1,38 +1,40 @@
 ---
 import { getCollection } from 'astro:content';
 import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
 import { site } from '../config/site';
 
 interface Props {
   limit?: number;
+  index?: number;
 }
-const { limit = 3 } = Astro.props;
+const { limit = 3, index } = Astro.props;
 const reviews = (await getCollection('opinie')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, limit);
 ---
 
-<section class="section" aria-labelledby="reviews-heading">
+{/* Sekcja ukryta, dopóki w site.ts nie ma prawdziwych opinii (rating.published) */}
+{site.rating.published && (
+<section class="section bg-mist" aria-labelledby="reviews-heading">
   <div class="container-x">
-    <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-      <div>
-        <p class="eyebrow">Opinie klientów</p>
-        <h2 id="reviews-heading" class="mt-2 text-3xl sm:text-4xl">Polecają nas sąsiedzi</h2>
-      </div>
-      <a href={site.social.google} rel="noopener" class="flex items-center gap-2 text-sm font-medium">
-        <span class="flex text-wood-500">{Array.from({ length: 5 }, () => <Icon name="star" class="size-4" />)}</span>
-        {site.rating.value.toLocaleString('pl-PL')}/5 · {site.rating.count} opinii w Google
-      </a>
-    </div>
-    <ul class="mt-10 grid gap-6 md:grid-cols-3">
+    <SectionHeading index={index} label="Opinie klientów" title={['Polecają nas', 'sąsiedzi']} id="reviews-heading">
+      <p class="mt-6 flex items-center gap-3 text-sm">
+        <span class="flex">{Array.from({ length: 5 }, () => <Icon name="star" class="size-4" />)}</span>
+        <a href={site.social.google} rel="noopener" class="underline-offset-4 hover:underline">
+          {site.rating.value.toLocaleString('pl-PL')}/5 · {site.rating.count} opinii w Google
+        </a>
+      </p>
+    </SectionHeading>
+    <ul class="mt-16 grid gap-px bg-line md:grid-cols-3">
       {
-        reviews.map((r) => (
-          <li>
-            <figure class="flex h-full flex-col rounded-2xl bg-white p-6 ring-1 ring-black/5">
-              <div class="flex text-wood-500" aria-label={`Ocena ${r.data.rating} na 5`}>
+        reviews.map((r, i) => (
+          <li class="bg-mist" data-reveal style={`--reveal-delay:${i}`}>
+            <figure class="flex h-full flex-col py-8 md:px-8 md:first:pl-0">
+              <div class="flex" aria-label={`Ocena ${r.data.rating} na 5`}>
                 {Array.from({ length: r.data.rating }, () => <Icon name="star" class="size-4" />)}
               </div>
-              <blockquote class="mt-4 flex-1 leading-relaxed text-ink/85">„{r.data.text}”</blockquote>
-              <figcaption class="mt-5 text-sm">
-                <strong class="text-forest-900">{r.data.author}</strong>
+              <blockquote class="mt-6 flex-1 text-lg leading-relaxed">„{r.data.text}”</blockquote>
+              <figcaption class="mt-8 text-sm">
+                <strong class="font-semibold">{r.data.author}</strong>
                 <span class="text-muted"> · {r.data.city}</span>
               </figcaption>
             </figure>
@@ -42,3 +44,4 @@ const reviews = (await getCollection('opinie')).sort((a, b) => b.data.date.getTi
     </ul>
   </div>
 </section>
+)}

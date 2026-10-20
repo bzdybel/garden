@@ -12,14 +12,14 @@ const contactPage = { '@type': 'ContactPage', url: absoluteUrl('/kontakt/'), abo
 ---
 
 <BaseLayout
-  title={`Kontakt – bezpłatna wycena altany lub wiaty, ${site.address.city}`}
-  description={`Zadzwoń ${site.phone} lub wypełnij formularz – bezpłatna wycena altany, wiaty lub zadaszenia w 24 h. ${site.address.street}, ${site.address.city}.`}
+  title={`Kontakt – bezpłatna wycena zadaszenia tarasu`}
+  description={`Zadzwoń ${site.phone} lub wypełnij formularz – bezpłatna wycena aluminiowego zadaszenia tarasu lub pergoli w 24 h. Siedziba w Radomiu, montaż w całej Polsce.`}
   crumbs={crumbs}
   schema={[contactPage]}
 >
   <PageHeader
     title="Kontakt i bezpłatna wycena"
-    lead="Opisz, co chcesz zbudować – odezwiemy się w ciągu 24 godzin roboczych i umówimy bezpłatny pomiar."
+    lead="Opisz swój taras – odezwiemy się w ciągu 24 godzin roboczych, przygotujemy wstępną wycenę i umówimy pomiar."
     crumbs={crumbs}
   />
   <section class="section">
@@ -28,40 +28,40 @@ const contactPage = { '@type': 'ContactPage', url: absoluteUrl('/kontakt/'), abo
         <ul class="space-y-5">
           <li>
             <a href={phoneHref} class="flex items-center gap-4">
-              <span class="flex size-12 items-center justify-center rounded-2xl bg-sand text-wood-700"><Icon name="phone" class="size-6" /></span>
+              <span class="flex size-12 items-center justify-center bg-mist text-ink"><Icon name="phone" class="size-6" /></span>
               <span><span class="block text-sm text-muted">Telefon</span><strong class="text-lg">{site.phone}</strong></span>
             </a>
           </li>
           <li>
             <a href={mailHref} class="flex items-center gap-4">
-              <span class="flex size-12 items-center justify-center rounded-2xl bg-sand text-wood-700"><Icon name="mail" class="size-6" /></span>
+              <span class="flex size-12 items-center justify-center bg-mist text-ink"><Icon name="mail" class="size-6" /></span>
               <span><span class="block text-sm text-muted">E-mail</span><strong class="text-lg">{site.email}</strong></span>
             </a>
           </li>
           <li class="flex items-center gap-4">
-            <span class="flex size-12 items-center justify-center rounded-2xl bg-sand text-wood-700"><Icon name="pin" class="size-6" /></span>
+            <span class="flex size-12 items-center justify-center bg-mist text-ink"><Icon name="pin" class="size-6" /></span>
             <address class="not-italic">
-              <span class="block text-sm text-muted">Stolarnia i biuro</span>
+              <span class="block text-sm text-muted">Siedziba i biuro (montaż w całej Polsce)</span>
               <strong>{site.address.street}, {site.address.postalCode} {site.address.city}</strong>
             </address>
           </li>
           <li class="flex items-center gap-4">
-            <span class="flex size-12 items-center justify-center rounded-2xl bg-sand text-wood-700"><Icon name="clock" class="size-6" /></span>
+            <span class="flex size-12 items-center justify-center bg-mist text-ink"><Icon name="clock" class="size-6" /></span>
             <span><span class="block text-sm text-muted">Godziny otwarcia</span><strong>{site.openingHours.map((h) => h.label).join(', ')}</strong></span>
           </li>
         </ul>
         <p class="text-sm text-muted">{site.legalName} · NIP {site.nip}</p>
         <!-- Mapa ładowana dopiero po kliknięciu: zero zapytań do Google przy wejściu na stronę (szybkość + RODO) -->
-        <div class="overflow-hidden rounded-2xl ring-1 ring-black/5">
+        <div class="overflow-hidden ring-1 ring-black/5">
           <a
             href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
             rel="noopener"
             target="_blank"
-            class="flex aspect-[4/3] flex-col items-center justify-center gap-3 bg-sand text-center"
+            class="flex aspect-[4/3] flex-col items-center justify-center gap-3 bg-mist text-center"
             data-map-trigger
             data-map-src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
           >
-            <Icon name="pin" class="size-10 text-wood-600" />
+            <Icon name="pin" class="size-10 text-ink" />
             <span class="font-semibold">Pokaż mapę dojazdu</span>
             <span class="text-xs text-muted">Kliknięcie załaduje Mapy Google</span>
           </a>

@@ -1,8 +1,8 @@
-# Plan projektu – strona firmy budującej altany, wiaty i zadaszenia
+# Plan projektu – Zadaszenia Premium (aluminiowe zadaszenia tarasów i pergole)
 
 ## Cel
 Szybka, nowoczesna strona-wizytówka, której głównym zadaniem jest **pozyskiwanie zapytań z Google**
-(organicznie + mapy/lokalnie). Każda decyzja techniczna jest podporządkowana SEO i konwersji.
+(organicznie w całej Polsce + Profil Firmy w Google dla siedziby w Radomiu). Każda decyzja techniczna jest podporządkowana SEO i konwersji.
 
 ## Stack
 | Element | Wybór | Dlaczego |
@@ -17,20 +17,20 @@ Szybka, nowoczesna strona-wizytówka, której głównym zadaniem jest **pozyskiw
 
 ## Architektura informacji (URL-e = słowa kluczowe)
 ```
-/                                   strona główna (altany, wiaty, zadaszenia + miasto)
-/uslugi/                            hub usług
-/uslugi/altany-ogrodowe/            ← "altany ogrodowe", "altana drewniana na wymiar"
-/uslugi/wiaty-samochodowe/          ← "wiata samochodowa", "wiata garażowa drewniana"
-/uslugi/zadaszenia-tarasow/         ← "zadaszenie tarasu", "zadaszenie tarasu drewniane"
-/uslugi/pergole/                    ← "pergola drewniana", "pergola ogrodowa"
-/uslugi/wiaty-smietnikowe-drewutnie/← "wiata śmietnikowa", "drewutnia"
+/                                   strona główna ("zadaszenia tarasów aluminiowe", "pergole")
+/uslugi/                            hub oferty
+/uslugi/zadaszenia-tarasow/         ← "zadaszenie tarasu", "zadaszenie tarasu aluminiowe / szkło / poliwęglan"
+/uslugi/pergole/                    ← "pergola lamelowa", "pergola aluminiowa", "pergola bioklimatyczna"
+/uslugi/zabudowy-tarasu/            ← "zabudowa tarasu", "szklane ściany przesuwne", "shuttersy"
+/uslugi/systemy-zacieniajace/       ← "markiza dachowa", "rolety tarasowe"
+/kalkulator/                        ← "zadaszenie tarasu cena", "kalkulator zadaszenia"
 /realizacje/                        portfolio z filtrami (typ)
-/realizacje/[slug]/                 case study: miasto, wymiary, drewno, galeria
-/cennik/                            ← "altana ogrodowa cena", "ile kosztuje wiata"
+/realizacje/[slug]/                 case study: miasto, wymiary, system, wypełnienie, galeria
+/cennik/                            ← "zadaszenie tarasu cennik", "pergola lamelowa cena"
 /poradnik/                          blog / content marketing
-/poradnik/[slug]/                   np. "czy altana wymaga pozwolenia na budowę"
-/obszar-dzialania/                  hub lokalny
-/obszar-dzialania/[miasto]/         landing lokalny ("altany ogrodowe Radom")
+/poradnik/[slug]/                   np. "czy zadaszenie tarasu wymaga pozwolenia"
+/obszar-dzialania/                  hub – cała Polska
+/obszar-dzialania/[miasto]/         landing ("zadaszenia tarasów Warszawa") – unikalna treść dla każdego miasta
 /o-nas/  /kontakt/  /polityka-prywatnosci/  /dziekujemy/ (noindex)
 ```
 
@@ -53,30 +53,30 @@ Szybka, nowoczesna strona-wizytówka, której głównym zadaniem jest **pozyskiw
 
 ### Treść (do uzupełnienia przez firmę)
 - [ ] **Prawdziwe zdjęcia realizacji** – najważniejszy czynnik zaufania i konwersji.
-      Nazwy plików opisowe: `altana-drewniana-radom-golebiow.jpg`
+      Nazwy plików opisowe: `zadaszenie-tarasu-szklo-warszawa-wilanow.jpg`
 - [ ] Min. 10–15 realizacji z miastem w opisie (sygnał lokalny)
 - [ ] 1–2 artykuły poradnikowe miesięcznie (lista tematów niżej)
 - [ ] Opinie klientów (prawdziwe, z Google)
 - [ ] Nazwa, NAP, NIP – wszystko w jednym pliku `src/config/site.ts`
 
 ### Off-site / lokalne (poza kodem)
-- [ ] **Profil Firmy w Google** (kategoria: „Wykonawca altan”/„Stolarz”, zdjęcia, posty, opinie)
+- [ ] **Profil Firmy w Google** (siedziba w Radomiu; obszar obsługi: cała Polska; kategorie np. „Wykonawca zadaszeń”, „Producent pergoli” – do weryfikacji w GBP)
 - [ ] Google Search Console + Bing Webmaster – zgłoszenie sitemapy
 - [ ] Spójny NAP w katalogach: Panorama Firm, pkt.pl, Oferteo, Fixly, Houzz
 - [ ] Linki z lokalnych portali, partnerów (tartak, sklepy ogrodnicze, architekci krajobrazu)
 - [ ] Prośba o opinię po każdej realizacji (link do Google w SMS/mailu)
 
 ## Tematy poradnika (intencja informacyjna → zapytania)
-1. Czy altana wymaga pozwolenia na budowę? (2026) ✅
-2. Ile kosztuje altana ogrodowa? Cennik i co wpływa na cenę ✅
-3. Wiata garażowa czy garaż – co się bardziej opłaca? ✅
-4. Jakie drewno na altanę: świerk, modrzew, KVH, BSH
-5. Zadaszenie tarasu: poliwęglan, szkło czy blacha?
-6. Jak zabezpieczyć drewnianą altanę na zimę
-7. Pergola bioklimatyczna vs drewniana
-8. Wiata śmietnikowa – przepisy i odległości od granicy działki
-9. Fundament pod altanę: stopy betonowe, kotwy, wkręty
-10. Altana z grillem / kuchnią letnią – inspiracje
+1. Czy zadaszenie tarasu wymaga pozwolenia lub zgłoszenia? (2026) ✅ – do weryfikacji prawnej
+2. Ile kosztuje aluminiowe zadaszenie tarasu? ✅
+3. Poliwęglan czy szkło na zadaszenie tarasu? ✅
+4. Pergola lamelowa (bioklimatyczna) – jak działa i ile kosztuje
+5. SMART, T-LINE czy SKYLINE – który system zadaszenia wybrać
+6. Zadaszenie tarasu od południa – jak uniknąć przegrzewania (markizy, szkło mleczne)
+7. Szklane ściany przesuwne a ogród zimowy – różnice
+8. Oświetlenie LED i promienniki ciepła pod zadaszeniem
+9. Zadaszenie tarasu w zabudowie szeregowej – formalności i sąsiedzi
+10. Jak dbać o aluminiowe zadaszenie i szkło dachowe
 
 ## Etapy
 1. **Fundament** (ten commit): struktura, design system, komponenty SEO, wszystkie podstrony, przykładowe treści

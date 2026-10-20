@@ -18,8 +18,8 @@ const itemList = {
 ---
 
 <BaseLayout
-  title="Realizacje – altany, wiaty i zadaszenia z drewna"
-  description={`Nasze realizacje: drewniane altany ogrodowe, wiaty samochodowe, pergole i zadaszenia tarasów – ${cities[0].name} i okolice. Zdjęcia, wymiary, materiały.`}
+  title="Realizacje – aluminiowe zadaszenia tarasów i pergole"
+  description={`Nasze realizacje: aluminiowe zadaszenia tarasów SMART, T-LINE i SKYLINE, pergole lamelowe i zabudowy szklane w całej Polsce. Zdjęcia, wymiary, systemy.`}
   crumbs={crumbs}
   schema={[itemList]}
 >
@@ -32,10 +32,10 @@ const itemList = {
     <div class="container-x">
       <!-- Filtr działa po stronie klienta; bez JS widoczne są wszystkie realizacje -->
       <div class="flex flex-wrap gap-2" role="group" aria-label="Filtruj realizacje" data-filters>
-        <button type="button" class="btn-secondary aria-pressed:bg-forest-900 aria-pressed:text-white" aria-pressed="true" data-filter="all">Wszystkie</button>
+        <button type="button" class="btn-secondary aria-pressed:bg-ink aria-pressed:text-white" aria-pressed="true" data-filter="all">Wszystkie</button>
         {
           types.map((t) => (
-            <button type="button" class="btn-secondary aria-pressed:bg-forest-900 aria-pressed:text-white" aria-pressed="false" data-filter={t}>
+            <button type="button" class="btn-secondary aria-pressed:bg-ink aria-pressed:text-white" aria-pressed="false" data-filter={t}>
               {serviceLabels[t]}
             </button>
           ))
@@ -52,7 +52,7 @@ const itemList = {
       </ul>
     </div>
   </section>
-  <CtaBanner title="Chcesz podobną konstrukcję?" />
+  <CtaBanner title="Chcesz podobne" accent="zadaszenie?" />
 </BaseLayout>
 
 <script>

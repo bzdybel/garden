@@ -13,12 +13,12 @@ const crumbs = [{ name: 'Cennik', href: '/cennik/' }];
 const year = new Date().getFullYear();
 
 const included = [
-  'projekt i wizualizacja 3D',
-  'drewno konstrukcyjne KVH/BSH z impregnacją',
-  'fundament punktowy lub wkręty',
-  'pokrycie dachowe z obróbkami i rynną',
-  'transport i montaż',
-  'sprzątanie terenu i 5 lat gwarancji',
+  'projekt dopasowany do domu i tarasu',
+  'aluminiowa konstrukcja z profili produkowanych w Polsce',
+  'lakierowanie proszkowe (standard RAL 7016)',
+  'wypełnienie dachu: poliwęglan lub szkło bezpieczne',
+  'zintegrowany system odprowadzania wody',
+  'transport, montaż i 5 lat gwarancji',
 ];
 const extras = [
   ['Malowanie lakierobejcą (2 warstwy)', 'od 45 zł/m²'],
@@ -52,16 +52,18 @@ const offerCatalog = {
 ---
 
 <BaseLayout
-  title={`Cennik ${year} – altany ogrodowe, wiaty, zadaszenia`}
-  description={`Ile kosztuje altana ogrodowa, wiata samochodowa lub zadaszenie tarasu? Cennik ${year} z montażem i fundamentem. Bez ukrytych kosztów – sprawdź ceny.`}
+  title={`Cennik ${year} – zadaszenia tarasów i pergole aluminiowe`}
+  description={`Ile kosztuje aluminiowe zadaszenie tarasu, pergola lamelowa lub zabudowa szklana? Cennik ${year} z montażem w całej Polsce. Sprawdź ceny.`}
   crumbs={crumbs}
   schema={[offerCatalog, faqSchema(faq)]}
 >
   <PageHeader
-    title={`Cennik altan, wiat i zadaszeń ${year}`}
-    lead="Ceny orientacyjne dla typowych wymiarów – z projektem, fundamentem, transportem i montażem. Dokładną kwotę podajemy po bezpłatnym pomiarze."
+    title={`Cennik zadaszeń i pergoli ${year}`}
+    lead="Ceny orientacyjne dla typowych wymiarów – z projektem, transportem i montażem. Dokładną kwotę potwierdzamy po pomiarze."
     crumbs={crumbs}
-  />
+  >
+    <a href="/kalkulator/" class="btn-primary mt-8">Policz cenę zadaszenia tarasu <Icon name="arrow" class="size-4" /></a>
+  </PageHeader>
 
   <section class="section">
     <div class="container-x space-y-10">
@@ -70,11 +72,11 @@ const offerCatalog = {
           <div class="card">
             <div class="flex flex-col justify-between gap-2 border-b border-black/5 p-6 sm:flex-row sm:items-center">
               <h2 class="text-2xl">
-                <a href={`/uslugi/${s.id}/`} class="hover:text-wood-600">
+                <a href={`/uslugi/${s.id}/`} class="hover:text-ink">
                   {s.data.name}
                 </a>
               </h2>
-              <a href={`/uslugi/${s.id}/`} class="flex items-center gap-1 text-sm font-semibold text-wood-600">
+              <a href={`/uslugi/${s.id}/`} class="flex items-center gap-1 text-sm font-semibold text-ink">
                 Szczegóły <Icon name="arrow" class="size-4" />
               </a>
             </div>
@@ -90,11 +92,11 @@ const offerCatalog = {
                 {s.data.variants.map((v) => (
                   <tr>
                     <th scope="row" class="p-4 pl-6 text-left align-top font-normal">
-                      <strong class="block font-semibold text-forest-900">{v.name}</strong>
+                      <strong class="block font-semibold text-ink">{v.name}</strong>
                       <span class="text-muted">{v.text}</span>
                     </th>
                     <td class="p-4 pr-6 text-right align-top whitespace-nowrap">
-                      od <strong class="text-lg text-forest-900">{formatPrice(v.priceFrom ?? s.data.priceFrom)}</strong>
+                      od <strong class="text-lg text-ink">{formatPrice(v.priceFrom ?? s.data.priceFrom)}</strong>
                     </td>
                   </tr>
                 ))}
@@ -114,14 +116,14 @@ const offerCatalog = {
           {
             included.map((i) => (
               <li class="flex items-start gap-3">
-                <Icon name="check" class="mt-0.5 size-5 shrink-0 text-forest-500" />
+                <Icon name="check" class="mt-0.5 size-5 shrink-0 text-ink" />
                 {i}
               </li>
             ))
           }
         </ul>
         <p class="mt-6 text-sm text-muted">
-          Chcesz wiedzieć, od czego zależy cena? Przeczytaj: <a href="/poradnik/ile-kosztuje-altana-ogrodowa/" class="font-medium text-wood-600 underline">ile kosztuje altana ogrodowa</a>.
+          Chcesz wiedzieć, od czego zależy cena? Przeczytaj: <a href="/poradnik/ile-kosztuje-zadaszenie-tarasu/" class="font-medium text-ink underline decoration-gold underline-offset-4">ile kosztuje zadaszenie tarasu</a>.
         </p>
       </div>
       <div>
@@ -143,5 +145,5 @@ const offerCatalog = {
   </section>
 
   <Faq items={faq} title="Pytania o ceny i płatności" />
-  <CtaBanner title="Poznaj dokładną cenę swojej konstrukcji" />
+  <CtaBanner title="Poznaj dokładną cenę" accent="swojego zadaszenia." />
 </BaseLayout>

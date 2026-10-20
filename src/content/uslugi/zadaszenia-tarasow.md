@@ -1,59 +1,66 @@
 ---
-title: Zadaszenia tarasów drewniane
+title: Aluminiowe zadaszenia tarasów
 name: Zadaszenia tarasów
-seoTitle: Zadaszenie tarasu drewniane – poliwęglan, szkło, montaż
-description: Drewniane zadaszenia tarasów przy domu – z poliwęglanem, szkłem lub blachą. Konstrukcja dopasowana do elewacji, montaż w 1–2 dni. Bezpłatny pomiar.
-lead: Zadaszenie tarasu wydłuża sezon o kilka miesięcy – kawa na zewnątrz w deszczowy poranek i kolacja w cieniu w upalny dzień. Projektujemy je tak, by wyglądały jak część domu.
-order: 3
-priceFrom: 9900
+seoTitle: Zadaszenia tarasów aluminiowe – szkło, poliwęglan, montaż
+description: Aluminiowe zadaszenia tarasów SMART, T-LINE i SKYLINE ze szkłem lub poliwęglanem. Polskie profile, LED w krokwiach, 5 lat gwarancji. Montaż w całej Polsce.
+lead: Taras pod aluminiowym dachem staje się drugim salonem – na poranną kawę w deszczu i kolację w cieniu. Projektujemy zadaszenia, które wyglądają jak część architektury domu, a nie dodatek do niej.
+order: 1
+priceFrom: 11900
 cover: ../../assets/images/uslugi/zadaszenia-tarasow.jpg
-coverAlt: Drewniane zadaszenie tarasu przy domu jednorodzinnym
-keywords: [zadaszenie tarasu, zadaszenie tarasu drewniane, zadaszenie tarasu poliwęglan, zadaszenie tarasu szkło]
+coverAlt: Aluminiowe zadaszenie tarasu ze szkłem i oświetleniem LED przy nowoczesnym domu
+keywords: [zadaszenie tarasu, zadaszenia tarasów aluminiowe, zadaszenie tarasu szkło, zadaszenie tarasu poliwęglan, zadaszenie tarasu cena]
 features:
-  - title: Montaż do ściany bez mostków
-    text: Mocujemy belkę przyścienną na kotwach chemicznych z dystansem – bez uszkadzania ocieplenia i ryzyka zawilgocenia elewacji.
-  - title: Poliwęglan, szkło lub blacha
-    text: Dobieramy pokrycie do potrzeb – od taniego poliwęglanu komorowego po bezpieczne szkło VSG.
-  - title: Doświetlenie wnętrza
-    text: Projektujemy kąt dachu i pokrycie tak, by salon za tarasem nie stał się ciemny.
-  - title: Ściany i rolety
-    text: Opcjonalnie dodajemy ściany szklane przesuwne, markizy pionowe lub panele z lamelami.
+  - title: Profile produkowane w Polsce
+    text: Aluminiowe profile o wysokich parametrach statycznych, odporne na wiatr, śnieg i korozję. Nie wymagają malowania ani konserwacji.
+  - title: Zintegrowane odprowadzanie wody
+    text: Rynna ukryta w belce czołowej i odpływ prowadzony wewnątrz słupa – bez widocznych rur i kapiącej wody.
+  - title: Oświetlenie LED w krokwiach
+    text: Opcjonalne listwy LED wbudowane w krokwie zamieniają taras w wieczorną strefę wypoczynku. Sterowanie pilotem lub aplikacją.
+  - title: Dowolny kolor RAL
+    text: Standardem jest antracyt RAL 7016, ale konstrukcję lakierujemy proszkowo w dowolnym kolorze palety RAL – także pod stolarkę okienną.
 variants:
-  - name: Zadaszenie z poliwęglanem
-    text: Lekkie, jasne i najkorzystniejsze cenowo. Poliwęglan komorowy 16 mm z filtrem UV.
-    priceFrom: 9900
-  - name: Zadaszenie ze szkłem VSG
-    text: Elegancki, w pełni przejrzysty dach ze szkła laminowanego – nie żółknie i cicho przyjmuje deszcz.
-    priceFrom: 18900
-  - name: Zadaszenie pełne
-    text: Dach z blachy lub EPDM z podbitką drewnianą i oświetleniem LED – taras staje się zewnętrznym pokojem.
-    priceFrom: 14900
+  - name: Zadaszenie SMART
+    text: Modułowy system dla domów jednorodzinnych. Wymiary do 8 × 4,5 m, standardowo RAL 7016. Najszybszy czas realizacji.
+    priceFrom: 11900
+  - name: Zadaszenie T-LINE
+    text: Prosta linia, zwiększona nośność i indywidualny wymiar. Dla dużych tarasów, zabudowy bliźniaczej i szeregowej.
+    priceFrom: 17900
+  - name: Zadaszenie SKYLINE
+    text: Ukryty spadek dachu, duże rozstawy słupów, wersja przyścienna lub wolnostojąca. Dla najbardziej wymagających.
+    priceFrom: 24900
 faq:
-  - q: Jakie pokrycie wybrać na zadaszenie tarasu?
-    a: Poliwęglan jest najtańszy i najlżejszy, ale z czasem może matowieć. Szkło VSG jest najtrwalsze i najbardziej eleganckie, za to droższe i wymaga mocniejszej konstrukcji. Dach pełny daje najwięcej cienia, ale przyciemnia wnętrze. Pomożemy dobrać rozwiązanie do strony świata.
-  - q: Czy zadaszenie tarasu wymaga zgłoszenia?
-    a: Zadaszenie trwale połączone z budynkiem może być traktowane jako jego przebudowa lub rozbudowa i wymagać zgłoszenia. Wolnostojące zadaszenie tarasu kwalifikuje się często jak wiata. Każdy przypadek oceniamy indywidualnie i pomagamy w formalnościach.
-  - q: Ile kosztuje zadaszenie tarasu drewniane?
-    a: Zadaszenie tarasu 4×3 m z poliwęglanem kosztuje od ok. 9 900 zł brutto z montażem. Wariant ze szkłem VSG – od ok. 18 900 zł.
-  - q: Czy można zamontować zadaszenie do ściany z ociepleniem?
-    a: Tak. Stosujemy specjalne konsole i kotwy przechodzące przez ocieplenie do muru nośnego. Połączenie uszczelniamy, żeby woda nie dostawała się pod tynk.
+  - q: Jakie wypełnienie dachu wybrać – szkło czy poliwęglan?
+    a: Szkło bezpieczne 4.4.2 daje pełną przejrzystość i najbardziej elegancki efekt. Poliwęglan lity 8 mm wygląda podobnie do szkła, jest lżejszy i odporniejszy na uderzenia, ale łatwiej go zarysować. Poliwęglan komorowy 16 mm to najbardziej ekonomiczny wybór z dobrą izolacją termiczną.
+  - q: Ile kosztuje aluminiowe zadaszenie tarasu?
+    a: Zadaszenie SMART 3 × 2 m z poliwęglanem komorowym kosztuje od ok. 11 900 zł brutto z montażem. Cenę dla wybranych wymiarów i wypełnienia sprawdzisz w kalkulatorze zadaszeń.
+  - q: Jaki jest maksymalny wymiar zadaszenia?
+    a: System SMART pozwala zbudować zadaszenie do 8 × 4,5 m. Systemy T-LINE i SKYLINE projektujemy indywidualnie – także dla większych tarasów i nietypowych kształtów.
+  - q: Czy montujecie zadaszenia poza Radomiem?
+    a: Tak. Siedzibę mamy w Radomiu, a montaż wykonujemy w całej Polsce. Pomiar i projekt przygotowujemy na podstawie wizyty lub zdjęć i wymiarów od klienta.
+  - q: Czy zadaszenie można później rozbudować?
+    a: Tak. Do zadaszenia można dodać szklane ściany przesuwne, shuttersy, rolety, markizę dachową, promienniki ciepła i automatykę pogodową.
 ---
 
 ## Zadaszenie tarasu, które wygląda jak część domu
 
-Najczęstszy błąd przy zadaszeniach tarasów to konstrukcja „doklejona” do domu – za niska, w innym kolorze, z widocznymi blachami i kapiącą wodą. Projektujemy zadaszenie od elewacji: dobieramy wysokość do linii okien, kolor drewna do stolarki, a orynnowanie chowamy w belce czołowej.
+Dobrze zaprojektowane zadaszenie tarasu nie powinno wyglądać na „doklejone”. Dobieramy wysokość belki do linii okien, kolor konstrukcji do stolarki i elewacji, a wodę odprowadzamy wewnątrz profili. Efekt: spójna, minimalistyczna forma, która podnosi wartość domu.
 
-## Pokrycia – porównanie
+## Trzy systemy – jeden standard jakości
 
-| Pokrycie | Przepuszczalność światła | Trwałość | Cena |
-|---|---|---|---|
-| Poliwęglan komorowy 16 mm | wysoka, rozproszona | 10–15 lat | $ |
-| Poliwęglan lity | bardzo wysoka | 15–20 lat | $$ |
-| Szkło VSG 44.2 / 55.2 | pełna przejrzystość | 30+ lat | $$$ |
-| Blacha / EPDM | brak (cień) | 25+ lat | $$ |
+- **SMART** – modułowy system dla typowych tarasów przy domach jednorodzinnych. Wymiary do 8 × 4,5 m i krótki czas realizacji.
+- **T-LINE** – mocniejsza konstrukcja o prostej linii, projektowana na indywidualny wymiar. Dobrze sprawdza się przy dużych tarasach oraz w zabudowie bliźniaczej i szeregowej.
+- **SKYLINE** – nasz najbardziej architektoniczny system: lekki optycznie, z ukrytym spadkiem dachu i dużymi rozstawami słupów. Może stać przy ścianie lub jako zadaszenie wolnostojące.
 
-## Taras od południa czy od północy?
+## Wypełnienie dachu
 
-Na tarasie od **południa i zachodu** polecamy poliwęglan z filtrem przeciwsłonecznym lub dach pełny z doświetlami – inaczej latem pod zadaszeniem robi się bardzo gorąco. Na tarasach od **północy i wschodu** stosujemy szkło lub poliwęglan przezroczysty, żeby nie zaciemniać salonu.
+| Wypełnienie | Wygląd | Zalety |
+|---|---|---|
+| Szkło bezpieczne 4.4.2 | pełna przejrzystość | najbardziej eleganckie, trwałe, odporne na warunki atmosferyczne |
+| Poliwęglan lity 8 mm | jak szkło | lżejszy, odporny na uderzenia, filtr UV |
+| Poliwęglan komorowy 16 mm | światło rozproszone | ekonomiczny, dobra izolacja termiczna |
 
-Zadaszenie tarasu można połączyć z **pergolą** po stronie ogrodu – część zadaszona chroni przed deszczem, a część z lamelami daje lekki cień. Zobacz też nasze [pergole drewniane](/uslugi/pergole/).
+Nie wiesz, co wybrać? Przeczytaj nasze porównanie: [poliwęglan czy szkło na zadaszenie tarasu](/poradnik/poliweglan-czy-szklo-na-zadaszenie-tarasu/).
+
+## Komfort przez cały rok
+
+Zadaszenie to dopiero początek. Możesz je rozbudować o [szklane ściany przesuwne i shuttersy](/uslugi/zabudowy-tarasu/), [rolety i markizy dachowe](/uslugi/systemy-zacieniajace/) oraz promienniki ciepła – wtedy taras służy od wczesnej wiosny do późnej jesieni. Cenę zadaszenia dla swoich wymiarów sprawdzisz w [kalkulatorze zadaszeń](/kalkulator/).

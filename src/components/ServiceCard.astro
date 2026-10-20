@@ -6,31 +6,39 @@ import { formatPrice } from '../lib/labels';
 
 interface Props {
   service: CollectionEntry<'uslugi'>;
+  /** Cena „od” na kaflu – domyślnie ukryta, żeby nie sprowadzać oferty do ceny */
+  showPrice?: boolean;
+  delay?: number;
+  /** Większy kafel (np. pierwszy w siatce) */
+  large?: boolean;
+  headingLevel?: 'h2' | 'h3';
 }
-const { service } = Astro.props;
+const { service, showPrice = false, delay = 0, large = false, headingLevel: H = 'h3' } = Astro.props;
 const { data } = service;
 ---
 
-<article class="card group flex flex-col">
-  <a href={`/uslugi/${service.id}/`} class="flex flex-1 flex-col">
-    <div class="aspect-[3/2] overflow-hidden">
-      <Image
-        src={data.cover}
-        alt={data.coverAlt}
-        widths={[400, 640, 900]}
-        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-        class="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-      />
-    </div>
-    <div class="flex flex-1 flex-col gap-3 p-6">
-      <h3 class="text-xl">{data.name}</h3>
-      <p class="text-sm leading-relaxed text-muted">{data.description}</p>
-      <div class="mt-auto flex items-center justify-between pt-2 text-sm">
-        <span class="text-muted">od <strong class="text-forest-900">{formatPrice(data.priceFrom)}</strong></span>
-        <span class="flex items-center gap-1 font-semibold text-wood-600">
-          Zobacz <Icon name="arrow" class="size-4 transition-transform group-hover:translate-x-1" />
-        </span>
-      </div>
-    </div>
+<article
+  class:list={['group relative isolate overflow-hidden bg-ink text-white', large ? 'h-full min-h-[28rem]' : 'h-full min-h-[22rem]']}
+  data-reveal
+  style={`--reveal-delay:${delay}`}
+>
+  <Image
+    src={data.cover}
+    alt={data.coverAlt}
+    widths={[480, 720, 960, 1280]}
+    sizes={large ? '(min-width: 1024px) 60vw, 100vw' : '(min-width: 1024px) 40vw, 100vw'}
+    class="absolute inset-0 -z-10 size-full object-cover transition duration-1000 ease-out group-hover:scale-105"
+  />
+  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/30 to-black/0"></div>
+  <a href={`/uslugi/${service.id}/`} class="flex h-full flex-col justify-between p-7 sm:p-9">
+    <span class="font-display text-2xl text-gold">{String(data.order).padStart(2, '0')}</span>
+    <span class="block">
+      <H class:list={['text-white', large ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl']}>{data.name}</H>
+      <span class="mt-3 block max-w-md text-sm leading-relaxed text-white/75">{data.description}</span>
+      <span class="mt-6 flex items-center justify-between border-t border-white/20 pt-5">
+        <span class="text-xs tracking-[0.2em] text-gold-light uppercase">{showPrice ? `od ${formatPrice(data.priceFrom)}` : 'Poznaj ofertę'}</span>
+        <Icon name="arrow-up-right" class="size-5 text-gold transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+      </span>
+    </span>
   </a>
 </article>

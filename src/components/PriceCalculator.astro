@@ -1,0 +1,361 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../config/site';
+import { depths, materials, widths } from '../data/kalkulator';
+
+const field =
+  'mt-1.5 block w-full border border-black/15 bg-white px-4 py-3 text-base focus:border-ink focus:ring-2 focus:ring-ink/30 focus:outline-none data-[invalid]:border-red-600 data-[invalid]:ring-red-600/20';
+const chip =
+  'flex cursor-pointer items-center justify-center border border-black/10 bg-white px-2 py-3 text-sm font-semibold tabular-nums transition-colors hover:border-ink has-checked:border-ink has-checked:bg-ink has-checked:text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink';
+const prices = Object.fromEntries(materials.map((m) => [m.id, { label: m.label, prices: m.prices }]));
+const fmt = (mm: number) => (mm / 1000).toLocaleString('pl-PL') + ' m';
+const [defW, defD] = [widths[0], depths[0]];
+---
+
+<form
+  action={site.form.endpoint}
+  method="POST"
+  novalidate
+  class="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-8"
+  data-calculator
+  data-prices={JSON.stringify(prices)}
+>
+  <input type="hidden" name="access_key" value={site.form.accessKey} />
+  <input type="hidden" name="subject" value={`Kalkulator zadaszeń – nowy kontakt ze strony ${site.name}`} />
+  <input type="hidden" name="redirect" value={new URL('/dziekujemy/', site.url).href} />
+  <input type="hidden" name="Cena" value="" data-price-field />
+  <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+
+  <div class="space-y-6">
+    <fieldset class="card p-6 sm:p-8">
+      <legend class="contents">
+        <span class="eyebrow">Krok 1</span>
+        <span class="mt-2 block font-display text-3xl text-ink">Wypełnienie dachu</span>
+      </legend>
+      <div class="mt-5 grid gap-3 md:grid-cols-3">
+        {
+          materials.map((m, i) => (
+            <label class="flex cursor-pointer gap-3 border border-black/10 p-4 transition-colors hover:border-ink has-checked:border-gold-deep has-checked:bg-mist has-checked:ring-1 has-checked:ring-gold-deep has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink">
+              <input type="radio" name="Pokrycie" value={m.id} checked={i === 0} class="mt-1 size-4 shrink-0 accent-gold-deep" />
+              <span>
+                <strong class="block font-semibold text-ink">{m.label}</strong>
+                <span class="text-sm text-muted">{m.text}</span>
+              </span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <div class="card grid gap-8 p-6 sm:p-8 md:grid-cols-2">
+      <fieldset>
+        <legend class="contents">
+          <span class="eyebrow">Krok 2</span>
+          <span class="mt-2 block font-display text-3xl text-ink">Szerokość</span>
+          <span class="mt-1 block text-sm text-muted">Wzdłuż ściany domu</span>
+        </legend>
+        <div class="mt-4 grid grid-cols-3 gap-2">
+          {
+            widths.map((w) => (
+              <label class={chip}>
+                <input type="radio" name="Szerokość (mm)" value={w} checked={w === defW} class="sr-only" data-width />
+                {fmt(w)}
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend class="contents">
+          <span class="eyebrow">Krok 3</span>
+          <span class="mt-2 block font-display text-3xl text-ink">Głębokość</span>
+          <span class="mt-1 block text-sm text-muted">Wysięg od ściany</span>
+        </legend>
+        <div class="mt-4 grid grid-cols-3 gap-2">
+          {
+            depths.map((d) => (
+              <label class={chip}>
+                <input type="radio" name="Głębokość (mm)" value={d} checked={d === defD} class="sr-only" data-depth />
+                {fmt(d)}
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <figure class="md:col-span-2">
+        <svg viewBox="0 0 320 214" class="mx-auto w-full max-w-md" role="img" aria-label="Rzut zadaszenia z góry">
+          <rect x="10" y="8" width="300" height="12" rx="2" class="fill-mist" />
+          <text x="160" y="17.5" text-anchor="middle" class="fill-muted text-[8px] font-semibold tracking-widest uppercase">ściana domu</text>
+          <rect data-plan-rect x="20" y="20" width="280" height="100" rx="3" class="fill-mist stroke-gold-deep" stroke-width="2" />
+          <text data-plan-w x="160" y="140" text-anchor="middle" class="fill-ink text-[11px] font-semibold"></text>
+          <text data-plan-d x="0" y="0" text-anchor="middle" class="fill-ink text-[11px] font-semibold"></text>
+        </svg>
+        <figcaption class="sr-only">Podgląd proporcji wybranego zadaszenia</figcaption>
+      </figure>
+    </div>
+
+    <fieldset class="card scroll-mt-28 p-6 sm:p-8" data-lead>
+      <legend class="contents">
+        <span class="eyebrow">Krok 4</span>
+        <span class="mt-2 block font-display text-3xl text-ink">Zostaw kontakt – pokażemy cenę</span>
+        <span class="mt-1 block text-sm text-muted">Cena wyświetli się od razu po wysłaniu formularza. Oddzwonimy w ciągu 24 godzin roboczych.</span>
+      </legend>
+
+      <div class="mt-6 grid gap-5 sm:grid-cols-2">
+        <label class="block text-sm font-medium sm:col-span-2">
+          Imię i nazwisko *
+          <input name="name" autocomplete="name" placeholder="Jan Kowalski" class={field} data-name />
+        </label>
+        <label class="block text-sm font-medium">
+          Telefon *
+          <input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="600 100 200" class={field} data-phone />
+          <span class="mt-1 hidden text-xs text-red-700" data-error>Wpisz poprawny numer telefonu (min. 9 cyfr).</span>
+        </label>
+        <label class="block text-sm font-medium">
+          E-mail *
+          <input name="email" type="email" autocomplete="email" placeholder="jan@example.com" class={field} data-email />
+          <span class="mt-1 hidden text-xs text-red-700" data-error>Wpisz poprawny adres e-mail.</span>
+        </label>
+      </div>
+
+      <div class="mt-6 space-y-3">
+        <label class="flex items-start gap-3 text-xs leading-relaxed text-muted">
+          <input type="checkbox" name="Zgoda na kontakt" value="tak" class="mt-0.5 size-4 shrink-0 accent-gold-deep" data-consent />
+          <span>Wyrażam zgodę na przetwarzanie moich danych osobowych w celu kontaktu telefonicznego i mailowego w sprawie oferty. *</span>
+        </label>
+        <label class="flex items-start gap-3 text-xs leading-relaxed text-muted">
+          <input type="checkbox" name="Polityka prywatności" value="zaakceptowana" class="mt-0.5 size-4 shrink-0 accent-gold-deep" data-consent />
+          <span>
+            Zapoznałem/am się z <a href="/polityka-prywatnosci/" class="underline">polityką prywatności</a> i akceptuję jej warunki. *
+          </span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn-primary mt-6 w-full py-4 text-base" data-submit>Wyślij i poznaj cenę</button>
+      <p class="mt-3 hidden text-center text-sm font-medium" role="status" data-status></p>
+      <button type="button" class="mx-auto mt-2 hidden text-sm text-muted underline" data-reset>Wyczyść formularz</button>
+    </fieldset>
+  </div>
+
+  <aside class=" bg-ink p-6 text-white sm:p-8 lg:sticky lg:top-28" aria-live="polite">
+    <p class="eyebrow text-gold">Twoje zadaszenie SMART</p>
+    <dl class="mt-5 space-y-3 text-sm">
+      <div class="flex justify-between gap-4 border-b border-white/10 pb-3">
+        <dt class="text-white/70">Wypełnienie</dt>
+        <dd class="text-right font-semibold" data-out-material></dd>
+      </div>
+      <div class="flex justify-between gap-4 border-b border-white/10 pb-3">
+        <dt class="text-white/70">Wymiary (szer. × gł.)</dt>
+        <dd class="font-semibold tabular-nums" data-out-dims></dd>
+      </div>
+      <div class="flex justify-between gap-4 border-b border-white/10 pb-3">
+        <dt class="text-white/70">Powierzchnia</dt>
+        <dd class="font-semibold tabular-nums" data-out-area></dd>
+      </div>
+    </dl>
+
+    <div class="mt-6">
+      <p class="text-sm text-white/70">Cena z montażem</p>
+      <p class="mt-1 flex items-center gap-3 font-display text-5xl text-white tabular-nums">
+        <span data-out-locked class="flex items-center gap-3">
+          <span class="blur-sm select-none" aria-hidden="true">00 000 zł</span>
+          <Icon name="lock" class="size-6 shrink-0 text-gold" />
+          <span class="sr-only">Cena ukryta – wypełnij formularz, aby ją zobaczyć</span>
+        </span>
+        <span data-out-price hidden></span>
+      </p>
+      <p class="mt-1 text-xs text-white/60" data-out-note hidden>brutto, z transportem i montażem</p>
+    </div>
+
+    <button type="button" class="btn-gold mt-6 w-full py-4" data-unlock>
+      Poznaj cenę <Icon name="arrow" class="size-4" />
+    </button>
+
+    <ul class="mt-6 grid grid-cols-2 gap-x-3 gap-y-2 text-xs text-white/80">
+      {
+        ['5 lat gwarancji', 'Montaż w całej Polsce', 'Profile z Polski', 'Dowolny kolor RAL'].map((f) => (
+          <li class="flex items-center gap-1.5">
+            <Icon name="check" class="size-4 shrink-0 text-gold" />
+            {f}
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-6 text-[11px] leading-snug text-white/50">
+      *Cena orientacyjna – może ulec zmianie i nie stanowi oferty w rozumieniu art. 66 § 1 Kodeksu cywilnego.
+    </p>
+  </aside>
+</form>
+
+<noscript>
+  <p class="mt-6 text-center text-sm text-muted">Kalkulator wymaga włączonej obsługi JavaScript. Możesz też <a href="/kontakt/#wycena" class="underline">wysłać zapytanie o wycenę</a>.</p>
+</noscript>
+
+<script>
+  type Prices = Record<string, { label: string; prices: Record<string, Record<string, number>> }>;
+
+  const STORAGE_KEY = 'kalkulator-zadaszen';
+  const nf = new Intl.NumberFormat('pl-PL');
+  const form = document.querySelector<HTMLFormElement>('[data-calculator]');
+
+  if (form) {
+    const prices: Prices = JSON.parse(form.dataset.prices!);
+    const $ = <T extends Element = HTMLElement>(sel: string) => form.querySelector<T>(sel)!;
+    const lead = $('[data-lead]');
+    const submit = $<HTMLButtonElement>('[data-submit]');
+    const status = $('[data-status]');
+    const resetBtn = $('[data-reset]');
+    const phone = $<HTMLInputElement>('[data-phone]');
+    const email = $<HTMLInputElement>('[data-email]');
+    const name = $<HTMLInputElement>('[data-name]');
+    const consents = [...form.querySelectorAll<HTMLInputElement>('[data-consent]')];
+    let unlocked = false;
+    let price = 0;
+
+    const validPhone = (v: string) => v.replace(/[-\s()]/g, '').length >= 9 && /^[0-9+\-\s()]+$/.test(v);
+    const validEmail = (v: string) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v);
+
+    const selection = () => {
+      const data = new FormData(form);
+      return {
+        material: String(data.get('Pokrycie')),
+        width: String(data.get('Szerokość (mm)')),
+        depth: String(data.get('Głębokość (mm)')),
+      };
+    };
+
+    const meters = (mm: string) => nf.format(Number(mm) / 1000);
+
+    function update() {
+      const { material, width, depth } = selection();
+      price = prices[material]?.prices[depth]?.[width] ?? 0;
+      const area = (Number(width) * Number(depth)) / 1e6;
+
+      $('[data-out-material]').textContent = prices[material]?.label ?? '';
+      $('[data-out-dims]').textContent = `${meters(width)} × ${meters(depth)} m`;
+      $('[data-out-area]').textContent = `${nf.format(area)} m²`;
+      $('[data-out-price]').textContent = `${nf.format(price)} zł`;
+      $<HTMLInputElement>('[data-price-field]').value = `${nf.format(price)} zł brutto`;
+
+      // Rzut z góry: stała skala, ściana domu u góry
+      const s = 0.035;
+      const w = Number(width) * s;
+      const d = Number(depth) * s;
+      const x = (320 - w) / 2;
+      const rect = $<SVGRectElement>('[data-plan-rect]');
+      rect.setAttribute('x', String(x));
+      rect.setAttribute('width', String(w));
+      rect.setAttribute('height', String(d));
+      const wLabel = $<SVGTextElement>('[data-plan-w]');
+      wLabel.setAttribute('y', String(20 + d + 16));
+      wLabel.textContent = `${meters(width)} m`;
+      const dLabel = $<SVGTextElement>('[data-plan-d]');
+      dLabel.setAttribute('transform', `translate(${x + w + 12} ${20 + d / 2}) rotate(90)`);
+      dLabel.textContent = `${meters(depth)} m`;
+
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ material, width, depth }));
+      } catch {}
+    }
+
+    function restore() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? 'null');
+        if (!saved) return;
+        const pick = (field: string, value: string) => {
+          const input = form!.querySelector<HTMLInputElement>(`input[name="${field}"][value="${CSS.escape(value)}"]`);
+          if (input) input.checked = true;
+        };
+        pick('Pokrycie', saved.material);
+        pick('Szerokość (mm)', saved.width);
+        pick('Głębokość (mm)', saved.depth);
+      } catch {}
+    }
+
+    function setFieldError(input: HTMLInputElement, invalid: boolean) {
+      const error = input.parentElement!.querySelector('[data-error]')!;
+      error.classList.toggle('hidden', !invalid);
+      input.toggleAttribute('data-invalid', invalid);
+    }
+
+    function showStatus(text: string, ok = false) {
+      status.textContent = text;
+      status.classList.remove('hidden', 'text-red-700', 'text-slate');
+      status.classList.add(ok ? 'text-slate' : 'text-red-700');
+    }
+
+    function unlock() {
+      unlocked = true;
+      $('[data-out-locked]').hidden = true;
+      $('[data-out-price]').hidden = false;
+      $('[data-out-note]').hidden = false;
+      $('[data-unlock]').hidden = true;
+    }
+
+    // Formularz kontaktowy pokazujemy dopiero po kliknięciu „Poznaj cenę” (bez JS jest widoczny od razu)
+    lead.hidden = true;
+    $('[data-unlock]').addEventListener('click', () => {
+      lead.hidden = false;
+      lead.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      name.focus({ preventScroll: true });
+    });
+
+    form.addEventListener('change', (e) => {
+      if ((e.target as HTMLInputElement).type === 'radio') update();
+    });
+
+    phone.addEventListener('input', () => setFieldError(phone, phone.value.trim() !== '' && !validPhone(phone.value.trim())));
+    email.addEventListener('input', () => setFieldError(email, email.value.trim() !== '' && !validEmail(email.value.trim())));
+
+    resetBtn.addEventListener('click', () => {
+      [name, phone, email].forEach((i) => {
+        i.value = '';
+        i.removeAttribute('data-invalid');
+      });
+      consents.forEach((c) => (c.checked = false));
+      form.querySelectorAll('[data-error]').forEach((e) => e.classList.add('hidden'));
+      status.classList.add('hidden');
+      resetBtn.classList.add('hidden');
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.classList.add('hidden');
+      const [n, p, m] = [name, phone, email].map((i) => i.value.trim());
+
+      if (!n || !p || !m) return showStatus('Proszę wypełnić wszystkie pola.');
+      if (consents.some((c) => !c.checked)) return showStatus('Proszę zaakceptować wymagane zgody.');
+      if (!validPhone(p)) {
+        setFieldError(phone, true);
+        return showStatus('Proszę poprawić numer telefonu.');
+      }
+      if (!validEmail(m)) {
+        setFieldError(email, true);
+        return showStatus('Proszę poprawić adres e-mail.');
+      }
+
+      submit.disabled = true;
+      submit.textContent = 'Wysyłanie…';
+      try {
+        const body = new FormData(form);
+        body.set('Pokrycie', prices[selection().material]?.label ?? '');
+        const res = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body });
+        if (!res.ok) throw new Error(String(res.status));
+        window.dataLayer?.push({ event: 'generate_lead', form: 'kalkulator', value: price, currency: 'PLN' });
+        unlock();
+        showStatus('Dziękujemy! Twoja cena jest widoczna w podsumowaniu. Oddzwonimy w ciągu 24 godzin roboczych.', true);
+        resetBtn.classList.remove('hidden');
+        if (window.matchMedia('(max-width: 1023px)').matches) $('[data-out-price]').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch {
+        showStatus('Nie udało się wysłać formularza. Spróbuj ponownie lub zadzwoń do nas.');
+      } finally {
+        submit.disabled = false;
+        submit.textContent = unlocked ? 'Wyślij ponownie' : 'Wyślij i poznaj cenę';
+      }
+    });
+
+    restore();
+    update();
+  }
+</script>

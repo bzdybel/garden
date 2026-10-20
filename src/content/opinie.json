@@ -1,38 +1,29 @@
 [
   {
     "id": "r1",
-    "author": "Joanna W.",
-    "city": "Jedlnia-Letnisko",
+    "author": "PRZYKŁAD – Anna M.",
+    "city": "Konstancin-Jeziorna",
     "rating": 5,
     "date": "2026-06-20",
-    "text": "Altana stoi między sosnami, a teren wokół został nietknięty. Projekt 3D pomógł nam zdecydować się na kolor. Ekipa punktualna i czysta.",
-    "project": "altana-modrzewiowa-jedlnia-letnisko"
+    "text": "Przykładowa opinia – zastąp prawdziwą opinią klienta (np. z Profilu Firmy w Google) przed włączeniem sekcji opinii.",
+    "project": "zadaszenie-smart-szklo-konstancin-jeziorna"
   },
   {
     "id": "r2",
-    "author": "Tomasz K.",
-    "city": "Kozienice",
+    "author": "PRZYKŁAD – Piotr K.",
+    "city": "Kraków",
     "rating": 5,
     "date": "2026-05-30",
-    "text": "Wiata na dwa auta bez słupa w środku – dokładnie tego chcieliśmy. Pomogli też ze zgłoszeniem w starostwie.",
-    "project": "wiata-dwustanowiskowa-kozienice"
+    "text": "Przykładowa opinia – zastąp prawdziwą opinią klienta przed włączeniem sekcji opinii.",
+    "project": "pergola-lamelowa-krakow-zabierzow"
   },
   {
     "id": "r3",
-    "author": "Anna i Piotr",
-    "city": "Radom",
+    "author": "PRZYKŁAD – Magdalena W.",
+    "city": "Wrocław",
     "rating": 5,
-    "date": "2026-05-08",
-    "text": "Zadaszenie tarasu ze szkłem wygląda świetnie, a w salonie nadal jest jasno. Montaż w dwa dni, zero bałaganu.",
-    "project": "zadaszenie-tarasu-radom-golebiow"
-  },
-  {
-    "id": "r4",
-    "author": "Katarzyna M.",
-    "city": "Pionki",
-    "rating": 5,
-    "date": "2025-07-15",
-    "text": "Altana z kuchnią letnią to najlepsza inwestycja w ogrodzie. Fachowe doradztwo od pierwszego telefonu.",
-    "project": "altana-z-grillem-pionki"
+    "date": "2026-04-25",
+    "text": "Przykładowa opinia – zastąp prawdziwą opinią klienta przed włączeniem sekcji opinii.",
+    "project": "zadaszenie-skyline-wolnostojace-wroclaw"
   }
 ]

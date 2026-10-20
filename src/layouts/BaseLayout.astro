@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
-import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
-import interLatinExt from '@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2?url';
+import fontLatin from '@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2?url';
+import fontLatinExt from '@fontsource-variable/figtree/files/figtree-latin-ext-wght-normal.woff2?url';
+import serifLatin from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
 import Seo, { type Props as SeoProps } from '../components/Seo.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -12,9 +13,11 @@ interface Props extends Omit<SeoProps, 'jsonLd'> {
   crumbs?: Crumb[];
   /** Dodatkowe węzły schema.org dla tej podstrony */
   schema?: object[];
+  /** Przezroczysty nagłówek nad zdjęciem hero (strona główna) */
+  overlayHeader?: boolean;
 }
 
-const { crumbs = [], schema = [], ...seo } = Astro.props;
+const { crumbs = [], schema = [], overlayHeader = false, ...seo } = Astro.props;
 const allCrumbs = crumbs.length ? [{ name: 'Strona główna', href: '/' }, ...crumbs] : [];
 const jsonLd = graph(businessSchema(), websiteSchema(), ...(allCrumbs.length ? [breadcrumbSchema(allCrumbs)] : []), ...schema);
 ---
@@ -23,25 +26,39 @@ const jsonLd = graph(businessSchema(), websiteSchema(), ...(allCrumbs.length ? [
 <html lang="pl">
   <head>
     <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={interLatinExt} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fontLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fontLatinExt} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#2f4f30" />
+    <meta name="theme-color" content="#121110" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <Seo {...seo} jsonLd={jsonLd} />
     <slot name="head" />
   </head>
   <body class="flex min-h-dvh flex-col pb-16 lg:pb-0">
-    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:p-3">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:p-3">
       Przejdź do treści
     </a>
-    <Header />
+    <Header overlay={overlayHeader} />
     <main id="main" class="flex-1">
       <slot />
     </main>
     <Footer />
+    <script>
+      const io = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.toggleAttribute('data-shown', true);
+            io.unobserve(e.target);
+          }),
+        { rootMargin: '0px 0px -8% 0px' },
+      );
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    </script>
   </body>
 </html>

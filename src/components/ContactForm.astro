@@ -6,16 +6,16 @@ interface Props {
   service?: string;
 }
 const { service } = Astro.props;
-const options = ['Altana ogrodowa', 'Wiata samochodowa', 'Zadaszenie tarasu', 'Pergola', 'Wiata śmietnikowa / drewutnia', 'Inne'];
+const options = ['Zadaszenie tarasu', 'Pergola', 'Zabudowa tarasu (ściany szklane, shuttersy)', 'Systemy zacieniające', 'Inne'];
 const field =
-  'mt-1.5 block w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-base shadow-sm focus:border-wood-500 focus:ring-2 focus:ring-wood-500/30 focus:outline-none';
+  'mt-1.5 block w-full border border-black/15 bg-white px-4 py-3 text-base focus:border-ink focus:ring-2 focus:ring-ink/30 focus:outline-none';
 ---
 
 <form
   id="wycena"
   action={site.form.endpoint}
   method="POST"
-  class="scroll-mt-28 space-y-5 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 sm:p-8"
+  class="scroll-mt-28 space-y-5 bg-white p-6 ring-1 ring-black/5 sm:p-8"
   data-contact-form
 >
   <input type="hidden" name="access_key" value={site.form.accessKey} />
@@ -57,11 +57,11 @@ const field =
 
   <label class="block text-sm font-medium">
     Opis / przybliżone wymiary
-    <textarea name="message" rows="4" class={field} placeholder="Np. altana ok. 3×4 m z dachem czterospadowym, na trawniku za domem"></textarea>
+    <textarea name="message" rows="4" class={field} placeholder="Np. zadaszenie tarasu ok. 5 × 3 m przy ścianie domu, dach ze szkła, kolor antracyt"></textarea>
   </label>
 
   <label class="flex items-start gap-3 text-xs leading-relaxed text-muted">
-    <input type="checkbox" name="consent" required class="mt-0.5 size-4 shrink-0 accent-wood-600" />
+    <input type="checkbox" name="consent" required class="mt-0.5 size-4 shrink-0 accent-ink" />
     <span>
       Wyrażam zgodę na przetwarzanie moich danych w celu przygotowania wyceny, zgodnie z
       <a href="/polityka-prywatnosci/" class="underline">polityką prywatności</a>. *
