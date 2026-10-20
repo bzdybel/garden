@@ -4,18 +4,19 @@
  * jak i do danych strukturalnych. Po ustaleniu nazwy firmy wystarczy zmienić ten plik.
  */
 export const site = {
-  // TODO: docelowa nazwa i domena
-  name: 'Drewniany Zakątek',
-  legalName: 'Drewniany Zakątek Sp. z o.o.',
-  url: 'https://www.drewnianyzakatek.pl',
-  tagline: 'Altany, wiaty i zadaszenia z drewna na wymiar',
+  // TODO: potwierdzić rejestrację domeny zadaszeniapremium.pl i formę prawną
+  name: 'Zadaszenia Premium',
+  legalName: 'Zadaszenia Premium Sp. z o.o.',
+  url: 'https://www.zadaszeniapremium.pl',
+  tagline: 'Aluminiowe zadaszenia tarasów i pergole premium',
   description:
-    'Projektujemy i budujemy drewniane altany ogrodowe, wiaty samochodowe, pergole i zadaszenia tarasów na wymiar. Własna stolarnia, montaż w 1–3 dni, 5 lat gwarancji.',
+    'Aluminiowe zadaszenia tarasów, pergole lamelowe i zabudowy szklane klasy premium. Profile produkowane w Polsce, montaż w całej Polsce, 5 lat gwarancji.',
+  // TODO: rok założenia firmy
   foundingYear: 2012,
 
   // TODO: prawdziwe dane kontaktowe
   phone: '+48 600 100 200',
-  email: 'kontakt@drewnianyzakatek.pl',
+  email: 'kontakt@zadaszeniapremium.pl',
   address: {
     street: 'ul. Ogrodowa 12',
     postalCode: '26-600',
@@ -35,10 +36,14 @@ export const site = {
     { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '17:00', label: 'pon.–pt. 8:00–17:00' },
     { days: ['Saturday'], opens: '09:00', closes: '13:00', label: 'sob. 9:00–13:00' },
   ],
-  priceRange: '$$',
+  priceRange: '$$$',
+  /** Zasięg usług – siedziba w Radomiu, montaż w całej Polsce */
+  areaServed: 'Polska',
 
-  // Oceny pokazywane w schema MUSZĄ odpowiadać prawdziwym opiniom widocznym na stronie.
-  rating: { value: 4.9, count: 87 },
+  // Opinie i ocena MUSZĄ pochodzić od prawdziwych klientów (np. z Profilu Firmy w Google).
+  // Publikowanie zmyślonych opinii jest niezgodne z prawem (dyrektywa Omnibus) i wytycznymi Google.
+  // Dopóki `published` = false, sekcja opinii i aggregateRating w schema są ukryte.
+  rating: { value: 4.9, count: 87, published: false as boolean },
 
   social: {
     facebook: 'https://www.facebook.com/',
@@ -52,11 +57,12 @@ export const site = {
     accessKey: import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '',
   },
 
+  // Tylko fakty, które można udowodnić (źródło: katalog produktów)
   stats: [
-    { value: '650+', label: 'zrealizowanych konstrukcji' },
-    { value: '12 lat', label: 'doświadczenia' },
-    { value: '5 lat', label: 'gwarancji' },
-    { value: '1–3 dni', label: 'montażu na miejscu' },
+    { value: '5 lat', label: 'gwarancji na konstrukcję' },
+    { value: '16', label: 'województw – montujemy w całej Polsce' },
+    { value: '8 × 4,5 m', label: 'maksymalny moduł zadaszenia SMART' },
+    { value: 'RAL', label: 'dowolny kolor konstrukcji' },
   ],
 } as const;
 
@@ -64,9 +70,10 @@ export const phoneHref = `tel:${site.phone.replace(/\s/g, '')}`;
 export const mailHref = `mailto:${site.email}`;
 
 export const nav = [
-  { href: '/uslugi/', label: 'Usługi' },
+  { href: '/uslugi/', label: 'Oferta' },
   { href: '/realizacje/', label: 'Realizacje' },
   { href: '/cennik/', label: 'Cennik' },
+  { href: '/kalkulator/', label: 'Kalkulator' },
   { href: '/poradnik/', label: 'Poradnik' },
   { href: '/o-nas/', label: 'O nas' },
   { href: '/kontakt/', label: 'Kontakt' },

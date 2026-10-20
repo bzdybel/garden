@@ -11,13 +11,13 @@ const crumbs = [{ name: 'Poradnik', href: '/poradnik/' }];
 ---
 
 <BaseLayout
-  title="Poradnik – altany, wiaty i zadaszenia od A do Z"
-  description="Przepisy, ceny, materiały i inspiracje. Praktyczne porady stolarzy o budowie altan ogrodowych, wiat samochodowych, pergoli i zadaszeń tarasów."
+  title="Poradnik – zadaszenia tarasów i pergole od A do Z"
+  description="Przepisy, ceny, wypełnienia i inspiracje. Praktyczne porady o aluminiowych zadaszeniach tarasów, pergolach lamelowych i zabudowach szklanych."
   crumbs={crumbs}
 >
   <PageHeader
     title="Poradnik"
-    lead="Zanim zaczniesz budowę: przepisy, koszty, wybór drewna i pokryć. Piszemy o tym, o co najczęściej pytają nas klienci."
+    lead="Zanim wybierzesz zadaszenie: przepisy, koszty, systemy i wypełnienia dachu. Piszemy o tym, o co najczęściej pytają nas klienci."
     crumbs={crumbs}
   />
   <section class="section">
@@ -32,7 +32,7 @@ const crumbs = [{ name: 'Poradnik', href: '/poradnik/' }];
                   <time datetime={a.data.published.toISOString()} class="text-xs text-muted">
                     {formatDate(a.data.published)}
                   </time>
-                  <h2 class="mt-2 text-xl leading-snug group-hover:text-wood-600">{a.data.title}</h2>
+                  <h2 class="mt-2 text-xl leading-snug group-hover:text-ink">{a.data.title}</h2>
                   <p class="mt-3 text-sm leading-relaxed text-muted">{a.data.description}</p>
                 </div>
               </a>

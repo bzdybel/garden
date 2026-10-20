@@ -3,26 +3,32 @@ import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { nav, phoneHref, site } from '../config/site';
 
+interface Props {
+  /** Przezroczysty nagłówek nad zdjęciem hero, staje się biały po przewinięciu */
+  overlay?: boolean;
+}
+const { overlay = false } = Astro.props;
 const path = Astro.url.pathname;
 const isActive = (href: string) => path.startsWith(href);
 ---
 
-<header class="sticky top-0 z-40 border-b border-black/5 bg-cream/90 backdrop-blur">
-  <div class="container-x flex h-16 items-center justify-between gap-6 lg:h-20">
+<header
+  data-header
+  data-overlay={overlay || undefined}
+  class:list={['top-0 z-40 w-full border-b border-line bg-white text-ink transition-colors duration-300', overlay ? 'fixed' : 'sticky']}
+>
+  <div class="flex h-16 items-center justify-between gap-6 px-4 sm:px-6 lg:h-[88px]">
     <Logo />
 
     <nav aria-label="Główna nawigacja" class="hidden lg:block">
-      <ul class="flex items-center gap-1">
+      <ul class="flex items-center gap-1 xl:gap-3">
         {
           nav.map((item) => (
             <li>
               <a
                 href={item.href}
                 aria-current={isActive(item.href) ? 'page' : undefined}
-                class:list={[
-                  'rounded-full px-3.5 py-2 text-sm font-medium transition-colors hover:bg-sand',
-                  isActive(item.href) ? 'text-wood-700' : 'text-ink/80',
-                ]}
+                class="relative px-2.5 py-2 text-[15px] whitespace-nowrap after:absolute after:inset-x-2.5 after:bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform hover:after:scale-x-100 aria-[current=page]:after:scale-x-100 xl:text-base"
               >
                 {item.label}
               </a>
@@ -32,38 +38,59 @@ const isActive = (href: string) => path.startsWith(href);
       </ul>
     </nav>
 
-    <div class="hidden items-center gap-3 lg:flex">
-      <a href={phoneHref} class="flex items-center gap-2 text-sm font-semibold text-forest-900">
-        <Icon name="phone" class="size-4" />
+    <div class="hidden items-center gap-5 lg:flex">
+      <a href={phoneHref} class="hidden items-center gap-2 text-sm font-medium whitespace-nowrap transition-colors hover:text-gold xl:flex" aria-label={`Zadzwoń: ${site.phone}`}>
+        <Icon name="phone" class="size-4 text-gold" />
         {site.phone}
       </a>
-      <a href="/kontakt/#wycena" class="btn-primary">Bezpłatna wycena</a>
+      <a href="/kontakt/#wycena" class="btn-gold whitespace-nowrap">
+        Bezpłatna wycena <Icon name="arrow-up-right" class="size-4" />
+      </a>
     </div>
 
     <!-- Menu mobilne bez JavaScriptu -->
-    <details class="group lg:hidden">
-      <summary class="flex cursor-pointer list-none items-center rounded-full p-2 hover:bg-sand [&::-webkit-details-marker]:hidden">
+    <details class="group lg:hidden" data-header-menu>
+      <summary class="flex cursor-pointer list-none items-center border border-current p-2 [&::-webkit-details-marker]:hidden">
         <span class="sr-only">Otwórz menu</span>
         <Icon name="menu" class="size-6 group-open:hidden" />
         <Icon name="close" class="hidden size-6 group-open:block" />
       </summary>
-      <nav
-        aria-label="Menu mobilne"
-        class="absolute inset-x-0 top-16 border-b border-black/5 bg-cream px-4 pt-2 pb-6 shadow-lg"
-      >
-        <ul class="divide-y divide-black/5">
+      <nav aria-label="Menu mobilne" class="absolute inset-x-0 top-16 h-[calc(100dvh-4rem)] overflow-y-auto bg-white px-4 pt-4 pb-24 text-ink">
+        <ul class="divide-y divide-line border-y border-line">
           {
             nav.map((item) => (
               <li>
-                <a href={item.href} class="block py-3 text-base font-medium">
+                <a href={item.href} class="flex items-center justify-between py-4 font-display text-3xl">
                   {item.label}
+                  <Icon name="arrow-up-right" class="size-5" />
                 </a>
               </li>
             ))
           }
         </ul>
-        <a href="/kontakt/#wycena" class="btn-primary mt-4 w-full">Bezpłatna wycena</a>
+        <a href="/kontakt/#wycena" class="btn-gold mt-6 w-full py-4">Bezpłatna wycena</a>
+        <a href={phoneHref} class="btn-secondary mt-3 w-full py-4"><Icon name="phone" class="size-4" />{site.phone}</a>
       </nav>
     </details>
   </div>
 </header>
+
+<style>
+  /* Wariant „nad zdjęciem”: przezroczysty, biały tekst – do momentu przewinięcia lub otwarcia menu */
+  [data-header][data-overlay]:not([data-solid]) {
+    background: transparent;
+    border-color: rgb(255 255 255 / 0.15);
+    color: #fff;
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header][data-overlay]');
+  if (header) {
+    const menu = header.querySelector<HTMLDetailsElement>('[data-header-menu]');
+    const update = () => header.toggleAttribute('data-solid', window.scrollY > 24 || !!menu?.open);
+    window.addEventListener('scroll', update, { passive: true });
+    menu?.addEventListener('toggle', update);
+    update();
+  }
+</script>

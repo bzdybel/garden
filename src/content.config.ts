@@ -2,13 +2,7 @@ import { defineCollection, reference } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-export const serviceTypes = [
-  'altany-ogrodowe',
-  'wiaty-samochodowe',
-  'zadaszenia-tarasow',
-  'pergole',
-  'wiaty-smietnikowe-drewutnie',
-] as const;
+export const serviceTypes = ['zadaszenia-tarasow', 'pergole', 'zabudowy-tarasu', 'systemy-zacieniajace'] as const;
 
 const faq = z.array(z.object({ q: z.string(), a: z.string() })).default([]);
 
@@ -44,8 +38,10 @@ const realizacje = defineCollection({
       city: z.string(),
       date: z.coerce.date(),
       size: z.string(),
-      wood: z.string(),
-      roof: z.string(),
+      // System konstrukcji i kolor, np. „SMART, RAL 7016”
+      system: z.string(),
+      // Wypełnienie dachu, np. „szkło bezpieczne 4.4.2”
+      fill: z.string(),
       duration: z.string(),
       featured: z.boolean().default(false),
       cover: image(),
@@ -63,7 +59,7 @@ const poradnik = defineCollection({
       description: z.string().max(160),
       published: z.coerce.date(),
       updated: z.coerce.date().optional(),
-      author: z.string().default('Zespół Drewniany Zakątek'),
+      author: z.string().default('Zespół Zadaszenia Premium'),
       cover: image(),
       coverAlt: z.string(),
       relatedService: z.enum(serviceTypes).optional(),

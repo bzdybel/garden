@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
 import Icon from '../../components/Icon.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
@@ -21,9 +22,9 @@ const { city } = Astro.props;
 const services = (await getCollection('uslugi')).sort((a, b) => a.data.order - b.data.order);
 const allProjects = (await getCollection('realizacje')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const localProjects = allProjects.filter((p) => p.data.city === city.name);
-// Gdy brak realizacji w danym mieście, pokazujemy najnowsze z regionu
+// Gdy brak realizacji w danym mieście, pokazujemy najnowsze z całej Polski
 const projects = (localProjects.length ? localProjects : allProjects).slice(0, 3);
-const neighbours = cities.filter((c) => c.slug !== city.slug);
+const others = cities.filter((c) => c.slug !== city.slug);
 
 const path = `/obszar-dzialania/${city.slug}/`;
 const crumbs = [
@@ -32,101 +33,104 @@ const crumbs = [
 ];
 const faq = [
   {
-    q: `Czy dojazd na pomiar ${city.locative} jest płatny?`,
-    a:
-      city.distanceKm === 0
-        ? `Nie. ${city.name} to nasza siedziba – pomiar i wycena są zawsze bezpłatne.`
-        : `Nie. ${city.name} leży ok. ${city.distanceKm} km od naszej stolarni – dojazd na pomiar i wycena są bezpłatne.`,
+    q: `Jak wygląda wycena zadaszenia ${city.locative}?`,
+    a: city.headquarters
+      ? `${city.name} to nasza siedziba – możesz obejrzeć próbki profili, kolorów i wypełnień w biurze, a pomiar umówimy w krótkim terminie.`
+      : `Wstępną wycenę przygotujemy zdalnie na podstawie zdjęć i wymiarów tarasu. Następnie umawiamy pomiar ${city.locative} i przesyłamy ofertę ostateczną.`,
   },
   {
-    q: `Jak szybko możecie zbudować altanę ${city.locative}?`,
-    a: 'Od podpisania umowy do montażu mija zwykle 3–6 tygodni. Sam montaż na działce trwa 1–3 dni, w zależności od wielkości konstrukcji.',
+    q: `Ile trwa montaż zadaszenia ${city.locative}?`,
+    a: 'Sam montaż typowego zadaszenia tarasu trwa zwykle 1–2 dni, a większych konstrukcji z zabudową – do kilku dni. Termin ustalamy po podpisaniu umowy, w zależności od produkcji wybranego systemu.',
   },
   {
-    q: `Gdzie zgłosić budowę wiaty ${city.locative}?`,
-    a: `Zgłoszenie składa się w organie administracji architektoniczno-budowlanej właściwym dla lokalizacji – dla tej lokalizacji jest to ${city.authority}. Przygotowujemy rysunki i opis potrzebny do zgłoszenia.`,
+    q: `Gdzie zgłosić zadaszenie tarasu ${city.locative}?`,
+    a: `Jeśli zadaszenie wymaga zgłoszenia, składa się je w organie administracji architektoniczno-budowlanej. W granicach miasta jest to ${city.authority}, a w gminach ościennych – starostwo powiatowe. Przygotujemy rysunki i opis techniczny.`,
   },
 ];
 const schema = [
   {
     '@type': 'Service',
-    name: `Altany, wiaty i zadaszenia ${city.locative}`,
+    name: `Aluminiowe zadaszenia tarasów i pergole ${city.locative}`,
+    serviceType: 'Montaż aluminiowych zadaszeń tarasów i pergoli',
     provider: { '@id': businessId },
     areaServed: { '@type': 'City', name: city.name },
-    serviceType: 'Budowa drewnianych konstrukcji ogrodowych',
   },
   faqSchema(faq),
 ];
 ---
 
 <BaseLayout
-  title={`Altany ogrodowe i wiaty ${city.locative} – na wymiar`}
-  description={`Altany ogrodowe, wiaty samochodowe, pergole i zadaszenia tarasów z drewna ${city.locative} i okolicach. Bezpłatny pomiar, montaż w 1–3 dni.`}
+  title={`Zadaszenia tarasów ${city.locative} – aluminiowe, premium`}
+  description={`Aluminiowe zadaszenia tarasów, pergole lamelowe i zabudowy szklane ${city.locative} i okolicach. Szkło lub poliwęglan, LED, 5 lat gwarancji. Bezpłatna wycena.`}
   crumbs={crumbs}
   schema={schema}
 >
-  <PageHeader title={`Altany ogrodowe, wiaty i zadaszenia ${city.locative}`} lead={city.intro} crumbs={crumbs}>
-    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-      <a href="#wycena" class="btn-primary px-8 py-4 text-base">Bezpłatna wycena {city.locative}</a>
-      <a href={phoneHref} class="btn-secondary px-8 py-4 text-base"><Icon name="phone" class="size-4" />{site.phone}</a>
+  <PageHeader eyebrow={city.region} title={`Zadaszenia tarasów i pergole ${city.locative}`} lead={city.intro} crumbs={crumbs}>
+    <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+      <a href="#wycena" class="btn-gold py-4">Bezpłatna wycena <Icon name="arrow-up-right" class="size-4" /></a>
+      <a href={phoneHref} class="btn-secondary py-4"><Icon name="phone" class="size-4" />{site.phone}</a>
     </div>
   </PageHeader>
 
   <section class="section">
-    <div class="container-x grid gap-12 lg:grid-cols-2">
-      <div class="prose-garden">
-        <h2>Budujemy {city.locative} i okolicy</h2>
+    <div class="container-x grid gap-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-24">
+      <div class="prose-garden" data-reveal>
+        <h2>Montujemy {city.locative} i okolicy</h2>
         <p>{city.local}</p>
         <p>
-          Każdą konstrukcję przygotowujemy w naszej stolarni, a na miejscu jedynie ją montujemy. Dzięki temu prace na
-          Twojej działce trwają krótko, a teren po montażu jest czysty.
+          Wszystkie konstrukcje wykonujemy z aluminiowych profili produkowanych w Polsce i lakierujemy w wybranym kolorze RAL. Dach
+          wypełniamy szkłem bezpiecznym 4.4.2 lub poliwęglanem, a na życzenie dodajemy oświetlenie LED, zabudowy boczne i automatykę.
+          Cenę orientacyjną sprawdzisz w <a href="/kalkulator/">kalkulatorze zadaszeń</a>.
         </p>
       </div>
-      <div class="rounded-2xl bg-white p-6 ring-1 ring-black/5">
-        <h2 class="text-xl">Obsługiwane miejscowości i dzielnice</h2>
-        <ul class="mt-4 flex flex-wrap gap-2">
-          {city.areas.map((a) => <li class="rounded-full bg-cream px-3 py-1.5 text-sm">{a}</li>)}
+      <div class="self-start border-t border-ink pt-8" data-reveal style="--reveal-delay:1">
+        <h2 class="text-3xl">Dzielnice i okoliczne miejscowości</h2>
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {city.areas.map((a) => <li class="border border-line px-3 py-1.5 text-sm">{a}</li>)}
         </ul>
-        <p class="mt-6 text-sm text-muted">
-          {city.distanceKm === 0 ? 'Siedziba firmy' : `Odległość od stolarni: ok. ${city.distanceKm} km`} · dojazd na pomiar bezpłatny
+        <p class="mt-8 text-sm text-muted">
+          {city.headquarters ? 'Siedziba firmy' : `Montaż ${city.locative} realizujemy z naszej siedziby w Radomiu`} · {city.region}
         </p>
       </div>
     </div>
   </section>
 
-  <section class="section bg-white" aria-labelledby="oferta">
+  <section class="section bg-mist" aria-labelledby="oferta">
     <div class="container-x">
-      <h2 id="oferta" class="text-3xl sm:text-4xl">Co budujemy {city.locative}</h2>
-      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s) => <ServiceCard service={s} />)}
+      <SectionHeading label="Oferta" title={['Co montujemy', city.locative]} id="oferta" />
+      <div class="mt-16 grid auto-rows-[minmax(22rem,auto)] gap-4 md:grid-cols-2">
+        {services.map((s, i) => <ServiceCard service={s} delay={i % 2} />)}
       </div>
     </div>
   </section>
 
   <section class="section" aria-labelledby="realizacje-lokalne">
     <div class="container-x">
-      <h2 id="realizacje-lokalne" class="text-3xl sm:text-4xl">
-        {localProjects.length ? `Nasze realizacje ${city.locative}` : 'Nasze realizacje w regionie'}
-      </h2>
-      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((p) => <ProjectCard project={p} />)}
+      <SectionHeading
+        label="Realizacje"
+        title={localProjects.length ? ['Nasze realizacje', city.locative] : ['Nasze realizacje', 'w całej Polsce']}
+        id="realizacje-lokalne"
+        action={{ href: '/realizacje/', label: 'Wszystkie realizacje' }}
+      />
+      <div class="mt-16 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((p, i) => <ProjectCard project={p} delay={i} />)}
       </div>
     </div>
   </section>
 
-  <Faq items={faq} title={`Altany i wiaty ${city.locative} – pytania`} />
+  <Faq items={faq} title={`Zadaszenia ${city.locative} – pytania`} />
 
-  <section class="section bg-sand/60">
-    <div class="container-x grid items-start gap-12 lg:grid-cols-2">
+  <section class="section bg-mist">
+    <div class="container-x grid items-start gap-12 lg:grid-cols-2 lg:gap-24">
       <div>
-        <h2 class="text-3xl sm:text-4xl">Wycena {city.locative}</h2>
-        <p class="mt-4 leading-relaxed text-muted">Zostaw kontakt – oddzwonimy i umówimy bezpłatny pomiar na Twojej działce.</p>
-        <p class="mt-8 font-display text-lg text-forest-900">Działamy także w:</p>
-        <ul class="mt-3 flex flex-wrap gap-2">
+        <SectionHeading label="Wycena" title={['Wycena zadaszenia', city.locative]} />
+        <p class="mt-8 leading-relaxed text-muted">Zostaw kontakt – oddzwonimy, przygotujemy wstępną wycenę i umówimy pomiar.</p>
+        <p class="mt-12 eyebrow">Montujemy także</p>
+        <ul class="mt-4 flex flex-wrap gap-2">
           {
-            neighbours.map((n) => (
+            others.map((n) => (
               <li>
-                <a href={`/obszar-dzialania/${n.slug}/`} class="inline-block rounded-full bg-white px-3 py-1.5 text-sm hover:bg-sand">
+                <a href={`/obszar-dzialania/${n.slug}/`} class="inline-block border border-line bg-white px-3 py-1.5 text-sm transition-colors hover:border-gold-deep">
                   {n.name}
                 </a>
               </li>

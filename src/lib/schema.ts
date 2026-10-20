@@ -33,19 +33,24 @@ export function businessSchema() {
       addressCountry: site.address.country,
     },
     geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
-    areaServed: cities.map((c) => ({ '@type': 'City', name: c.name })),
+    // Siedziba w Radomiu, usługi w całej Polsce
+    areaServed: [{ '@type': 'Country', name: site.areaServed }, ...cities.map((c) => ({ '@type': 'City', name: c.name }))],
     openingHoursSpecification: site.openingHours.map((h) => ({
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: h.days,
       opens: h.opens,
       closes: h.closes,
     })),
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: site.rating.value,
-      reviewCount: site.rating.count,
-      bestRating: 5,
-    },
+    ...(site.rating.published
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: site.rating.value,
+            reviewCount: site.rating.count,
+            bestRating: 5,
+          },
+        }
+      : {}),
     sameAs: Object.values(site.social),
     vatID: `PL${site.nip}`,
   };
@@ -103,7 +108,7 @@ export function serviceSchema(opts: {
     url: absoluteUrl(opts.path),
     image: absoluteUrl(opts.image),
     provider: { '@id': businessId },
-    areaServed: (opts.areaServed ?? cities.map((c) => c.name)).map((name) => ({ '@type': 'City', name })),
+    areaServed: opts.areaServed?.map((name) => ({ '@type': 'City', name })) ?? { '@type': 'Country', name: site.areaServed },
     offers: {
       '@type': 'Offer',
       priceCurrency: 'PLN',

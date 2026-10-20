@@ -7,78 +7,89 @@ import { cities } from '../data/cities';
 
 const services = (await getCollection('uslugi')).sort((a, b) => a.data.order - b.data.order);
 const year = new Date().getFullYear();
+const colHeading = 'mb-6 text-xs font-medium tracking-[0.2em] text-gold uppercase';
+const link = 'text-white/80 transition-colors hover:text-gold-light';
 ---
 
-<footer class="bg-forest-900 text-cream/80">
-  <div class="container-x grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
-    <div class="space-y-4">
-      <Logo light />
-      <p class="text-sm leading-relaxed">{site.description}</p>
-    </div>
-
-    <div>
-      <p class="mb-4 font-display text-lg text-cream">Usługi</p>
-      <ul class="space-y-2 text-sm">
-        {
-          services.map((s) => (
-            <li>
-              <a href={`/uslugi/${s.id}/`} class="hover:text-white">
-                {s.data.name}
-              </a>
-            </li>
-          ))
-        }
-        <li><a href="/cennik/" class="hover:text-white">Cennik</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <p class="mb-4 font-display text-lg text-cream">Obszar działania</p>
-      <ul class="space-y-2 text-sm">
-        {
-          cities.map((c) => (
-            <li>
-              <a href={`/obszar-dzialania/${c.slug}/`} class="hover:text-white">
-                Altany i wiaty {c.locative}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-
-    <!-- NAP – identyczny jak w Profilu Firmy w Google -->
-    <address class="space-y-3 text-sm not-italic">
-      <p class="mb-4 font-display text-lg text-cream">Kontakt</p>
-      <p class="flex gap-2">
-        <Icon name="pin" class="mt-0.5 size-4 shrink-0" />
-        <span>{site.name}<br />{site.address.street}<br />{site.address.postalCode} {site.address.city}</span>
-      </p>
-      <p><a href={phoneHref} class="flex items-center gap-2 hover:text-white"><Icon name="phone" class="size-4" />{site.phone}</a></p>
-      <p><a href={mailHref} class="flex items-center gap-2 hover:text-white"><Icon name="mail" class="size-4" />{site.email}</a></p>
-      <div class="flex gap-2">
-        <Icon name="clock" class="mt-0.5 size-4 shrink-0" />
-        <ul>{site.openingHours.map((h) => <li>{h.label}</li>)}</ul>
+<footer class="bg-ink text-white">
+  <div class="container-x">
+    <div class="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_auto]">
+      <div class="space-y-5">
+        <Logo />
+        <p class="max-w-xs text-sm leading-relaxed text-white/60">{site.description}</p>
       </div>
-    </address>
-  </div>
 
-  <div class="border-t border-white/10">
-    <div class="container-x flex flex-col gap-3 py-6 text-xs sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <p class={colHeading}>Oferta</p>
+        <ul class="space-y-3.5 text-sm">
+          {
+            services.map((s) => (
+              <li>
+                <a href={`/uslugi/${s.id}/`} class={link}>
+                  {s.data.name}
+                </a>
+              </li>
+            ))
+          }
+          <li><a href="/cennik/" class={link}>Cennik</a></li>
+          <li><a href="/kalkulator/" class={link}>Kalkulator zadaszeń</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class={colHeading}>Obszar działania</p>
+        <ul class="space-y-3.5 text-sm">
+          {
+            cities.map((c) => (
+              <li>
+                <a href={`/obszar-dzialania/${c.slug}/`} class={link}>
+                  Zadaszenia tarasów {c.locative}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- NAP – identyczny jak w Profilu Firmy w Google -->
+      <address class="space-y-3.5 text-sm not-italic">
+        <p class={colHeading}>Kontakt</p>
+        <p class="text-white/80">{site.name}<br />{site.address.street}<br />{site.address.postalCode} {site.address.city}<br /><span class="text-white/50">Montaż w całej Polsce</span></p>
+        <p><a href={phoneHref} class={link}>{site.phone}</a></p>
+        <p><a href={mailHref} class={link}>{site.email}</a></p>
+        <ul class="text-white/60">{site.openingHours.map((h) => <li>{h.label}</li>)}</ul>
+      </address>
+
+      <ul class="flex gap-0 lg:flex-col" aria-label="Media społecznościowe">
+        {
+          [
+            ['Facebook', site.social.facebook, 'Fb'],
+            ['Instagram', site.social.instagram, 'Ig'],
+            ['Opinie Google', site.social.google, 'G'],
+          ].map(([label, href, short]) => (
+            <li class="-mt-px -ml-px lg:ml-0">
+              <a href={href} rel="noopener" aria-label={label} class="flex size-12 items-center justify-center border border-white/25 text-sm font-semibold transition-colors hover:border-gold hover:bg-gold hover:text-ink">
+                {short}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="flex flex-col gap-3 border-t border-white/15 py-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
       <p>© {year} {site.legalName}. NIP {site.nip}</p>
-      <ul class="flex flex-wrap gap-4">
-        <li><a href="/o-nas/" class="hover:text-white">O nas</a></li>
-        <li><a href="/obszar-dzialania/" class="hover:text-white">Obszar działania</a></li>
-        <li><a href="/polityka-prywatnosci/" class="hover:text-white">Polityka prywatności</a></li>
-        <li><a href={site.social.facebook} rel="noopener" class="hover:text-white">Facebook</a></li>
-        <li><a href={site.social.instagram} rel="noopener" class="hover:text-white">Instagram</a></li>
+      <ul class="flex flex-wrap gap-5">
+        <li><a href="/o-nas/" class={link}>O nas</a></li>
+        <li><a href="/obszar-dzialania/" class={link}>Obszar działania</a></li>
+        <li><a href="/polityka-prywatnosci/" class={link}>Polityka prywatności</a></li>
       </ul>
     </div>
   </div>
 </footer>
 
 <!-- Pasek CTA na telefonach – najwięcej zapytań w tej branży to telefony z mobile -->
-<div class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-black/10 bg-cream/95 p-2 backdrop-blur lg:hidden">
-  <a href={phoneHref} class="btn-secondary"><Icon name="phone" class="size-4" />Zadzwoń</a>
-  <a href="/kontakt/#wycena" class="btn-primary">Bezpłatna wycena</a>
+<div class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-ink bg-white lg:hidden">
+  <a href={phoneHref} class="btn py-4 text-ink"><Icon name="phone" class="size-4" />Zadzwoń</a>
+  <a href="/kontakt/#wycena" class="btn-gold py-4">Wycena <Icon name="arrow-up-right" class="size-4" /></a>
 </div>

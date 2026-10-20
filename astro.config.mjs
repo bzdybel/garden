@@ -8,7 +8,7 @@ const noindex = ['/dziekujemy/', '/404/'];
 
 export default defineConfig({
   // TODO: docelowa domena (musi zgadzać się z site.url w src/config/site.ts)
-  site: 'https://www.drewnianyzakatek.pl',
+  site: 'https://www.zadaszeniapremium.pl',
   trailingSlash: 'always',
   build: { format: 'directory', inlineStylesheets: 'auto' },
   prefetch: { prefetchAll: false, defaultStrategy: 'hover' },

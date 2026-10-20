@@ -16,19 +16,19 @@ const itemList = {
 ---
 
 <BaseLayout
-  title="Usługi – altany, wiaty, pergole i zadaszenia tarasów"
-  description="Drewniane altany ogrodowe, wiaty samochodowe i śmietnikowe, pergole oraz zadaszenia tarasów na wymiar. Projekt, produkcja we własnej stolarni i montaż."
+  title="Oferta – zadaszenia tarasów, pergole i zabudowy szklane"
+  description="Aluminiowe zadaszenia tarasów, pergole lamelowe, szklane ściany przesuwne, shuttersy i markizy dachowe. Projekt i montaż w całej Polsce."
   crumbs={crumbs}
   schema={[itemList]}
 >
   <PageHeader
-    title="Drewniane konstrukcje ogrodowe na wymiar"
-    lead="Od projektu, przez produkcję we własnej stolarni, po montaż na Twojej działce. Wybierz, czego potrzebujesz – resztą zajmiemy się my."
+    title="Aluminiowe systemy dla Twojego tarasu"
+    lead="Zadaszenia, pergole, zabudowy i osłony – zaprojektowane jako jeden spójny system. Wybierz, od czego chcesz zacząć, a resztą zajmiemy się my."
     crumbs={crumbs}
   />
   <section class="section">
-    <div class="container-x grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {services.map((s) => <ServiceCard service={s} />)}
+    <div class="container-x grid auto-rows-[minmax(24rem,auto)] gap-4 md:grid-cols-2">
+      {services.map((s, i) => <ServiceCard service={s} showPrice delay={i % 2} headingLevel="h2" />)}
     </div>
   </section>
   <Process />

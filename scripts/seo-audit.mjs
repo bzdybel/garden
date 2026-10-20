@@ -40,7 +40,9 @@ for await (const file of htmlFiles(DIST)) {
   if (h1 !== 1) issues.push(`liczba H1: ${h1}`);
 
   for (const img of html.match(/<img\b[^>]*>/g) ?? []) {
-    if (!/\salt="[^"]+"/.test(img)) issues.push(`obraz bez alt: ${img.slice(0, 80)}`);
+    // Puste alt dozwolone tylko dla obrazów czysto dekoracyjnych (aria-hidden)
+    const decorative = /\salt(="")?[\s>]/.test(img) && /\saria-hidden="true"/.test(img);
+    if (!decorative && !/\salt="[^"]+"/.test(img)) issues.push(`obraz bez alt: ${img.slice(0, 80)}`);
     if (!/\swidth=/.test(img) || !/\sheight=/.test(img)) issues.push(`obraz bez wymiarów (CLS): ${img.slice(0, 80)}`);
   }
 

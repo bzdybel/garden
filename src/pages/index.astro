@@ -6,14 +6,16 @@ import Icon from '../components/Icon.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Process from '../components/Process.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 import Reviews from '../components/Reviews.astro';
 import Faq from '../components/Faq.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 import { site } from '../config/site';
-import { cities, extraArea } from '../data/cities';
+import { cities } from '../data/cities';
 import { faqSchema } from '../lib/schema';
 import { formatDate } from '../lib/labels';
 import hero from '../assets/images/hero.jpg';
+import calculatorImg from '../assets/images/uslugi/zadaszenia-tarasow.jpg';
 
 const services = (await getCollection('uslugi')).sort((a, b) => a.data.order - b.data.order);
 const projects = (await getCollection('realizacje', (p) => p.data.featured))
@@ -21,125 +23,159 @@ const projects = (await getCollection('realizacje', (p) => p.data.featured))
   .slice(0, 3);
 const articles = (await getCollection('poradnik')).sort((a, b) => b.data.published.getTime() - a.data.published.getTime()).slice(0, 3);
 
+// Systemy zadaszeń – źródło: katalog produktów
+const systems = [
+  {
+    name: 'SMART',
+    text: 'Modułowy system dla domów jednorodzinnych – najszybsza droga do zadaszonego tarasu.',
+    specs: ['wymiary do 8 × 4,5 m', 'standard RAL 7016, opcjonalnie dowolny RAL', 'zintegrowane odprowadzanie wody'],
+  },
+  {
+    name: 'T-LINE',
+    text: 'Prosta linia i zwiększona nośność. Dla dużych tarasów oraz zabudowy bliźniaczej i szeregowej.',
+    specs: ['indywidualny rozmiar i kształt', 'możliwość zabudowy bocznej', 'dowolny kolor RAL'],
+  },
+  {
+    name: 'SKYLINE',
+    text: 'Lekka optycznie, niezwykle solidna konstrukcja z ukrytym spadkiem dachu – dla najbardziej wymagających.',
+    specs: ['ukryty spadek dachu', 'duże odległości między słupami', 'wersja przyścienna lub wolnostojąca'],
+  },
+];
+
 const usp = [
-  { icon: 'ruler', title: 'Na wymiar, nie z katalogu', text: 'Każdą konstrukcję projektujemy pod Twoją działkę, dom i sposób używania ogrodu.' },
-  { icon: 'tree', title: 'Drewno KVH i BSH', text: 'Suszone komorowo drewno konstrukcyjne – nie pęka, nie skręca się, zachowuje wymiary.' },
-  { icon: 'truck', title: 'Montaż w 1–3 dni', text: 'Elementy przygotowujemy w stolarni, na działce tylko je składamy. Sprzątamy po sobie.' },
-  { icon: 'shield', title: '5 lat gwarancji', text: 'Na konstrukcję i pokrycie dachowe. Po roku przyjeżdżamy na bezpłatny przegląd.' },
+  { icon: 'ruler', title: 'Projekt pod architekturę domu', text: 'Dobieramy system, wysokość i kolor do elewacji oraz stolarki – zadaszenie wygląda jak część domu.' },
+  { icon: 'shield', title: 'Profile produkowane w Polsce', text: 'Aluminium o wysokich parametrach statycznych, odporne na wiatr, śnieg i korozję. Bez konserwacji.' },
+  { icon: 'clock', title: 'LED, ogrzewanie, automatyka', text: 'Oświetlenie w krokwiach, promienniki ciepła i czujniki pogodowe sterowane z telefonu.' },
+  { icon: 'truck', title: 'Jedna firma, cała Polska', text: 'Siedziba w Radomiu, montaż w każdym województwie. Jeden opiekun od wyceny do odbioru.' },
 ] as const;
 
 const faq = [
   {
     q: 'Na jakim terenie działacie?',
-    a: `Budujemy altany, wiaty i zadaszenia ${cities[0].locative} i w promieniu ok. 60 km, m.in. ${cities
+    a: `Siedzibę mamy ${cities[0].locative}, a montaż zadaszeń i pergoli wykonujemy w całej Polsce – m.in. ${cities
       .slice(1)
       .map((c) => c.locative)
-      .join(', ')}. Większe realizacje wykonujemy także w dalszych lokalizacjach.`,
+      .join(', ')}.`,
   },
-  { q: 'Ile kosztuje wycena?', a: 'Wycena i pomiar na działce są bezpłatne i do niczego nie zobowiązują. Wstępną wycenę na podstawie zdjęć i wymiarów przygotowujemy w 24 godziny.' },
-  { q: 'Jak długo czeka się na realizację?', a: 'Od podpisania umowy do montażu mijają zwykle 3–6 tygodni. W sezonie (kwiecień–czerwiec) warto zamawiać z wyprzedzeniem – najlepiej zimą.' },
-  { q: 'Czy pomagacie w formalnościach?', a: 'Tak. Sprawdzamy, czy konstrukcja wymaga zgłoszenia, i przygotowujemy rysunki oraz opis techniczny potrzebny do urzędu.' },
-  { q: 'Czy wykonujecie fundamenty?', a: 'Tak, fundament jest zawsze w cenie. Stosujemy stopy betonowe lub wkręty fundamentowe – dobieramy je do gruntu i ukształtowania terenu.' },
+  { q: 'Ile kosztuje aluminiowe zadaszenie tarasu?', a: 'Zadaszenie SMART 3 × 2 m z poliwęglanem komorowym kosztuje od ok. 11 900 zł brutto z montażem. Cenę dla swoich wymiarów i wypełnienia sprawdzisz w kalkulatorze online.' },
+  { q: 'Jakie wypełnienie dachu oferujecie?', a: 'Szkło bezpieczne 4.4.2, poliwęglan lity 8 mm oraz poliwęglan komorowy 16 mm. Doradzimy wybór w zależności od ekspozycji tarasu i oczekiwanego efektu.' },
+  { q: 'Jaką gwarancję dajecie?', a: 'Na aluminiowe konstrukcje zadaszeń udzielamy 5 lat gwarancji.' },
+  { q: 'Czy pomagacie w formalnościach?', a: 'Tak. Podpowiadamy, czy zadaszenie wymaga zgłoszenia, i przygotowujemy rysunki oraz opis techniczny potrzebny w urzędzie.' },
 ];
 ---
 
 <BaseLayout
-  title={`Altany ogrodowe, wiaty i zadaszenia na wymiar – ${site.address.city}`}
-  description={`Drewniane altany ogrodowe, wiaty samochodowe, pergole i zadaszenia tarasów na wymiar ${cities[0].locative} i okolicach. Wycena w 24 h, montaż w 1–3 dni, 5 lat gwarancji.`}
+  title="Aluminiowe zadaszenia tarasów i pergole | Zadaszenia Premium"
+  description="Aluminiowe zadaszenia tarasów SMART, T-LINE i SKYLINE, pergole lamelowe i zabudowy szklane. Polskie profile, 5 lat gwarancji, montaż w całej Polsce."
   image={hero}
   schema={[faqSchema(faq)]}
+  overlayHeader
 >
   <!-- HERO -->
-  <section class="relative overflow-hidden">
-    <div class="container-x grid items-center gap-10 py-12 lg:grid-cols-2 lg:py-20">
+  <section class="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-ink text-white">
+    <Image
+      src={hero}
+      alt="Aluminiowe zadaszenie tarasu ze szkłem i oświetleniem LED przy nowoczesnym domu o zmierzchu"
+      widths={[768, 1280, 1920, 2560]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="absolute inset-0 -z-10 size-full animate-hero-zoom object-cover motion-reduce:animate-none"
+    />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/40 to-ink/50"></div>
+    <div class="container-x grid w-full items-end gap-12 pt-36 pb-16 sm:pb-24 lg:grid-cols-[1fr_auto]">
       <div>
-        <p class="eyebrow">Własna stolarnia · {site.address.city} i okolice</p>
-        <h1 class="mt-4 text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">
-          Altany ogrodowe, wiaty i zadaszenia z drewna <span class="text-wood-600">na wymiar</span>
+        <p class="eyebrow flex items-center gap-4 text-gold"><span class="h-px w-10 bg-current"></span>Montaż w całej Polsce</p>
+        <h1 class="mt-6 max-w-4xl text-[3.25rem] leading-[0.98] text-white sm:text-7xl lg:text-[5.75rem]">
+          Aluminiowe zadaszenia tarasów <em class="text-gold-light">i pergole premium</em>
         </h1>
-        <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-          Projektujemy, produkujemy i montujemy drewniane konstrukcje ogrodowe, które pasują do Twojego domu i przetrwają
-          dziesiątki sezonów. Od pomysłu do gotowej altany – z jednym zespołem.
+        <p class="mt-8 max-w-xl text-lg leading-relaxed text-white/80">
+          Projektujemy i montujemy zadaszenia, które łączą dom z ogrodem – z dachem ze szkła lub poliwęglanu, oświetleniem LED
+          i zabudową na każdą pogodę.
         </p>
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a href="/kontakt/#wycena" class="btn-primary px-8 py-4 text-base">Bezpłatna wycena w 24 h</a>
-          <a href="/realizacje/" class="btn-secondary px-8 py-4 text-base">Zobacz realizacje</a>
-        </div>
-        <div class="mt-8 flex items-center gap-3 text-sm">
-          <span class="flex text-wood-500">{Array.from({ length: 5 }, () => <Icon name="star" class="size-4" />)}</span>
-          <span><strong>{site.rating.value.toLocaleString('pl-PL')}/5</strong> na podstawie {site.rating.count} opinii w Google</span>
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+          <a href="/kontakt/#wycena" class="btn-gold py-4">Bezpłatna wycena <Icon name="arrow-up-right" class="size-4" /></a>
+          <a href="/kalkulator/" class="btn border border-white/40 py-4 text-white hover:border-gold hover:text-gold">Policz cenę online</a>
         </div>
       </div>
-      <div class="relative">
-        <Image
-          src={hero}
-          alt="Drewniana altana ogrodowa wykonana na wymiar w ogrodzie przy domu"
-          widths={[640, 960, 1280]}
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          loading="eager"
-          fetchpriority="high"
-          class="aspect-[4/3] w-full rounded-3xl object-cover shadow-xl"
-        />
-        <div class="absolute -bottom-6 left-6 hidden rounded-2xl bg-white p-5 shadow-lg ring-1 ring-black/5 sm:block">
-          <p class="font-display text-3xl font-semibold text-forest-900">650+</p>
-          <p class="text-sm text-muted">konstrukcji od {site.foundingYear} r.</p>
-        </div>
+      <dl class="hidden w-72 divide-y divide-white/15 border-y border-white/15 lg:block">
+        {
+          [
+            ['5 lat', 'gwarancji na konstrukcję'],
+            ['PL', 'profile produkowane w Polsce'],
+            ['16', 'województw – montaż w całej Polsce'],
+          ].map(([v, l]) => (
+            <div class="flex items-baseline gap-5 py-4">
+              <dt class="w-16 shrink-0 font-display text-3xl text-gold">{v}</dt>
+              <dd class="text-sm text-white/75">{l}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- 01 OFERTA -->
+  <section class="section" aria-labelledby="oferta-heading">
+    <div class="container-x">
+      <SectionHeading index={1} label="Oferta" title={['Rozwiązania', 'dla wymagających tarasów']} id="oferta-heading" action={{ href: '/uslugi/', label: 'Cała oferta' }} />
+      <div class="mt-16 grid auto-rows-[minmax(22rem,auto)] gap-4 lg:grid-cols-3">
+        {
+          services.map((s, i) => (
+            <div class:list={[i === 0 && 'lg:col-span-2 lg:row-span-2', i === 3 && 'lg:col-span-2']}>
+              <ServiceCard service={s} delay={i % 2} large={i === 0} />
+            </div>
+          ))
+        }
+        <a href="/kalkulator/" class="group flex flex-col justify-between bg-mist p-8 sm:p-9" data-reveal style="--reveal-delay:1">
+          <span class="eyebrow">Wycena online</span>
+          <span>
+            <span class="block font-display text-4xl leading-tight">Policz cenę <em class="text-gold-deep">w 10 sekund</em></span>
+            <span class="mt-3 block text-sm leading-relaxed text-muted">Wybierz wypełnienie i wymiary – kalkulator pokaże cenę zadaszenia z montażem.</span>
+            <span class="mt-6 flex items-center gap-2 text-xs font-medium tracking-[0.2em] uppercase">
+              Kalkulator <Icon name="arrow-up-right" class="size-4 text-gold-deep transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </span>
+          </span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- STATYSTYKI -->
-  <section aria-label="Liczby" class="border-y border-black/5 bg-white">
-    <dl class="container-x grid grid-cols-2 gap-6 py-8 text-center lg:grid-cols-4">
+  <!-- LICZBY -->
+  <section aria-label="Najważniejsze fakty" class="bg-slate text-white">
+    <dl class="container-x grid grid-cols-2 gap-y-12 py-20 lg:grid-cols-4">
       {
-        site.stats.map((s) => (
-          <div class="flex flex-col">
-            <dt class="text-sm text-muted">{s.label}</dt>
-            <dd class="order-first font-display text-3xl font-semibold text-forest-900">{s.value}</dd>
+        site.stats.map((s, i) => (
+          <div class="flex flex-col border-l border-gold/40 pl-6" data-reveal style={`--reveal-delay:${i}`}>
+            <dt class="mt-3 max-w-[12rem] text-sm leading-relaxed text-white/70">{s.label}</dt>
+            <dd class="order-first font-display text-5xl text-gold sm:text-6xl">{s.value}</dd>
           </div>
         ))
       }
     </dl>
   </section>
 
-  <!-- USŁUGI -->
-  <section class="section" aria-labelledby="uslugi-heading">
+  <!-- 02 SYSTEMY -->
+  <section class="section bg-mist" aria-labelledby="systemy-heading">
     <div class="container-x">
-      <div class="max-w-2xl">
-        <p class="eyebrow">Co budujemy</p>
-        <h2 id="uslugi-heading" class="mt-2 text-3xl sm:text-4xl">Drewniane konstrukcje ogrodowe na każdą potrzebę</h2>
-        <p class="mt-4 text-muted">
-          Wszystko wykonujemy we własnej stolarni z certyfikowanego drewna konstrukcyjnego. Fundament, transport i montaż są
-          zawsze w cenie.
-        </p>
-      </div>
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s) => <ServiceCard service={s} />)}
-        <a href="/cennik/" class="card flex flex-col justify-center gap-3 bg-forest-700 p-8 text-cream ring-0">
-          <span class="font-display text-2xl text-cream">Sprawdź cennik</span>
-          <span class="text-sm text-cream/80">Orientacyjne ceny altan, wiat i zadaszeń z montażem – bez ukrytych kosztów.</span>
-          <span class="mt-2 flex items-center gap-2 text-sm font-semibold">Przejdź do cennika <Icon name="arrow" class="size-4" /></span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- DLACZEGO MY -->
-  <section class="section bg-white" aria-labelledby="usp-heading">
-    <div class="container-x">
-      <div class="max-w-2xl">
-        <p class="eyebrow">Dlaczego my</p>
-        <h2 id="usp-heading" class="mt-2 text-3xl sm:text-4xl">Rzemiosło stolarskie i nowoczesne projektowanie</h2>
-      </div>
-      <ul class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <SectionHeading index={2} label="Systemy zadaszeń" title={['Trzy systemy,', 'jeden standard jakości']} id="systemy-heading" action={{ href: '/uslugi/zadaszenia-tarasow/', label: 'Porównaj systemy' }} />
+      <ul class="mt-16 grid gap-px bg-line lg:grid-cols-3">
         {
-          usp.map((u) => (
-            <li>
-              <span class="flex size-12 items-center justify-center rounded-2xl bg-sand text-wood-700">
-                <Icon name={u.icon} class="size-6" />
-              </span>
-              <h3 class="mt-4 font-sans text-base font-semibold">{u.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-muted">{u.text}</p>
+          systems.map((sys, i) => (
+            <li class="flex flex-col bg-mist py-10 lg:px-10 lg:first:pl-0 lg:last:pr-0" data-reveal style={`--reveal-delay:${i}`}>
+              <h3 class="text-5xl">
+                <span class="sr-only">Zadaszenie </span>
+                {sys.name}
+              </h3>
+              <p class="mt-5 leading-relaxed text-muted">{sys.text}</p>
+              <ul class="mt-8 space-y-3 border-t border-line pt-6 text-sm">
+                {sys.specs.map((sp) => (
+                  <li class="flex items-start gap-3">
+                    <Icon name="check" class="mt-0.5 size-4 shrink-0 text-gold-deep" />
+                    {sp}
+                  </li>
+                ))}
+              </ul>
             </li>
           ))
         }
@@ -147,77 +183,75 @@ const faq = [
     </div>
   </section>
 
-  <!-- REALIZACJE -->
-  <section class="section" aria-labelledby="realizacje-heading">
-    <div class="container-x">
-      <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-        <div>
-          <p class="eyebrow">Portfolio</p>
-          <h2 id="realizacje-heading" class="mt-2 text-3xl sm:text-4xl">Ostatnie realizacje</h2>
-        </div>
-        <a href="/realizacje/" class="flex items-center gap-2 font-semibold text-wood-600">
-          Wszystkie realizacje <Icon name="arrow" class="size-4" />
-        </a>
+  <!-- 03 KALKULATOR -->
+  <section class="section" aria-labelledby="kalkulator-heading">
+    <div class="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-24">
+      <div class="relative" data-reveal>
+        <Image src={calculatorImg} alt="Aluminiowe zadaszenie tarasu przy domu jednorodzinnym" widths={[640, 960, 1280]} sizes="(min-width: 1024px) 50vw, 100vw" class="aspect-[4/5] w-full object-cover" />
+        <div class="absolute -right-4 -bottom-4 hidden size-40 border border-gold lg:block" aria-hidden="true"></div>
       </div>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((p) => <ProjectCard project={p} />)}
+      <div data-reveal style="--reveal-delay:1">
+        <SectionHeading index={3} label="Wycena online" title={['Poznaj cenę', 'swojego zadaszenia']} id="kalkulator-heading">
+          <p class="mt-8 max-w-md text-lg leading-relaxed text-muted">
+            Wybierz wypełnienie dachu i wymiary tarasu. Kalkulator pokaże cenę aluminiowego zadaszenia z transportem i montażem.
+          </p>
+          <ul class="mt-8 space-y-3 text-sm">
+            {['Szkło bezpieczne 4.4.2', 'Poliwęglan lity 8 mm', 'Poliwęglan komorowy 16 mm'].map((m) => (
+              <li class="flex items-center gap-3"><span class="h-px w-6 bg-gold" />{m}</li>
+            ))}
+          </ul>
+          <a href="/kalkulator/" class="btn-primary mt-10">Otwórz kalkulator <Icon name="arrow-up-right" class="size-4" /></a>
+        </SectionHeading>
       </div>
     </div>
   </section>
 
-  <Process />
+  <div class="border-t border-line"><Process index={4} /></div>
+
+  <!-- 05 REALIZACJE -->
+  <section class="section bg-mist" aria-labelledby="realizacje-heading">
+    <div class="container-x">
+      <SectionHeading index={5} label="Realizacje" title={['Zadaszenia', 'w całej Polsce']} id="realizacje-heading" action={{ href: '/realizacje/', label: 'Wszystkie realizacje' }} />
+      <div class="mt-16 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((p, i) => <ProjectCard project={p} delay={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 DLACZEGO MY -->
+  <section class="section" aria-labelledby="usp-heading">
+    <div class="container-x">
+      <SectionHeading index={6} label={`Dlaczego ${site.name}`} title={['Architektura,', 'nie dodatek do domu']} id="usp-heading" />
+      <ul class="mt-16 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
+        {
+          usp.map((u, i) => (
+            <li class="bg-white py-10 sm:pr-8 lg:px-8 lg:first:pl-0" data-reveal style={`--reveal-delay:${i}`}>
+              <Icon name={u.icon} class="size-8 stroke-1 text-gold-deep" />
+              <h3 class="mt-8 text-3xl leading-tight">{u.title}</h3>
+              <p class="mt-4 leading-relaxed text-muted">{u.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
   <Reviews />
 
-  <!-- OBSZAR DZIAŁANIA -->
-  <section class="section bg-white" aria-labelledby="obszar-heading">
-    <div class="container-x grid gap-10 lg:grid-cols-2">
-      <div>
-        <p class="eyebrow">Obszar działania</p>
-        <h2 id="obszar-heading" class="mt-2 text-3xl sm:text-4xl">Altany i wiaty {cities[0].locative} i {site.address.regionLocative}</h2>
-        <p class="mt-4 leading-relaxed text-muted">
-          Nasza stolarnia mieści się {cities[0].locative}. Dojeżdżamy z kompletem elementów w promieniu ok. 60 km – pomiar
-          i wycena są bezpłatne w całym obszarze.
-        </p>
-        <a href="/obszar-dzialania/" class="mt-6 inline-flex items-center gap-2 font-semibold text-wood-600">
-          Zobacz obszar działania <Icon name="arrow" class="size-4" />
-        </a>
-      </div>
-      <div>
-        <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {
-            cities.map((c) => (
-              <li>
-                <a href={`/obszar-dzialania/${c.slug}/`} class="flex items-center gap-2 rounded-xl bg-cream px-4 py-3 text-sm font-medium hover:bg-sand">
-                  <Icon name="pin" class="size-4 text-wood-600" />
-                  {c.name}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-        <p class="mt-4 text-sm text-muted">Także: {extraArea.join(', ')}.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- PORADNIK -->
-  <section class="section" aria-labelledby="poradnik-heading">
+  <section class="section border-t border-line" aria-labelledby="poradnik-heading">
     <div class="container-x">
-      <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-        <div>
-          <p class="eyebrow">Poradnik</p>
-          <h2 id="poradnik-heading" class="mt-2 text-3xl sm:text-4xl">Zanim zaczniesz budowę</h2>
-        </div>
-        <a href="/poradnik/" class="flex items-center gap-2 font-semibold text-wood-600">Wszystkie artykuły <Icon name="arrow" class="size-4" /></a>
-      </div>
-      <ul class="mt-10 grid gap-6 md:grid-cols-3">
+      <SectionHeading index={7} label="Poradnik" title={['Zanim wybierzesz', 'zadaszenie tarasu']} id="poradnik-heading" action={{ href: '/poradnik/', label: 'Wszystkie artykuły' }} />
+      <ul class="mt-16 grid gap-x-6 gap-y-12 md:grid-cols-3">
         {
-          articles.map((a) => (
-            <li>
+          articles.map((a, i) => (
+            <li data-reveal style={`--reveal-delay:${i}`}>
               <a href={`/poradnik/${a.id}/`} class="group block">
-                <Image src={a.data.cover} alt={a.data.coverAlt} widths={[400, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="aspect-[16/10] w-full rounded-2xl object-cover" />
-                <p class="mt-4 text-xs text-muted">{formatDate(a.data.published)}</p>
-                <h3 class="mt-1 text-lg leading-snug group-hover:text-wood-600">{a.data.title}</h3>
+                <div class="overflow-hidden">
+                  <Image src={a.data.cover} alt={a.data.coverAlt} widths={[400, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                </div>
+                <p class="mt-5 text-xs tracking-[0.2em] text-gold-deep uppercase">{formatDate(a.data.published)}</p>
+                <h3 class="mt-2 text-2xl leading-snug decoration-gold underline-offset-4 group-hover:underline">{a.data.title}</h3>
               </a>
             </li>
           ))
@@ -226,6 +260,33 @@ const faq = [
     </div>
   </section>
 
-  <Faq items={faq} />
+  <!-- OBSZAR DZIAŁANIA -->
+  <section class="section bg-ink text-white" aria-labelledby="obszar-heading">
+    <div class="container-x grid gap-12 lg:grid-cols-2 lg:gap-24">
+      <SectionHeading index={8} label="Obszar działania" title={['Siedziba w Radomiu,', 'montaż w całej Polsce']} id="obszar-heading" light>
+        <p class="mt-8 max-w-lg leading-relaxed text-white/70">
+          Nasze ekipy montażowe pracują w każdym województwie. Wstępną wycenę przygotujemy zdalnie na podstawie zdjęć i wymiarów,
+          a pomiar umówimy w dogodnym terminie.
+        </p>
+        <a href="/obszar-dzialania/" class="btn-gold mt-10">Obszar działania <Icon name="arrow-up-right" class="size-4" /></a>
+      </SectionHeading>
+      <ul class="grid grid-cols-1 border-t border-white/15 sm:grid-cols-2 sm:gap-x-10">
+        {
+          cities.map((c) => (
+            <li class="border-b border-white/15">
+              <a href={`/obszar-dzialania/${c.slug}/`} class="group flex items-center justify-between py-4">
+                <span class="font-display text-2xl">
+                  Zadaszenia tarasów <span class="text-gold-light italic">{c.locative}</span>
+                </span>
+                <Icon name="arrow-up-right" class="size-4 text-gold transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <Faq items={faq} index={9} />
   <CtaBanner />
 </BaseLayout>

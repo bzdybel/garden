@@ -1,30 +1,38 @@
 ---
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { phoneHref, site } from '../config/site';
+import background from '../assets/images/uslugi/zadaszenia-tarasow.jpg';
+
 interface Props {
   title?: string;
+  /** Druga linia nagłówka, pisana kursywą w złocie */
+  accent?: string;
   text?: string;
 }
 const {
-  title = 'Porozmawiajmy o Twoim projekcie',
-  text = 'Bezpłatna wycena w 24 godziny. Przyjedziemy na pomiar, doradzimy rozwiązanie i przygotujemy wizualizację 3D.',
+  title = 'Taras, który staje się',
+  accent = 'drugim salonem.',
+  text = 'Umów bezpłatną konsultację. Przygotujemy wstępną wycenę, dobierzemy system i wypełnienie, a montaż wykonamy w dowolnym miejscu w Polsce.',
 } = Astro.props;
 ---
 
-<section class="section">
-  <div class="container-x">
-    <div class="relative overflow-hidden rounded-3xl bg-forest-700 px-6 py-14 text-center sm:px-16">
-      <svg class="absolute -top-10 -right-10 size-64 text-white/5" viewBox="0 0 40 40" aria-hidden="true">
-        <path d="M4 20 20 6l16 14M8 20v16M32 20v16" fill="none" stroke="currentColor" stroke-width="3"></path>
-      </svg>
-      <h2 class="relative mx-auto max-w-2xl text-3xl text-cream sm:text-4xl">{title}</h2>
-      <p class="relative mx-auto mt-4 max-w-xl text-cream/80">{text}</p>
-      <div class="relative mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-        <a href="/kontakt/#wycena" class="btn-light">Zamów bezpłatną wycenę</a>
-        <a href={phoneHref} class="btn border border-white/30 text-cream hover:bg-white/10">
-          <Icon name="phone" class="size-4" />{site.phone}
-        </a>
-      </div>
+<section class="relative isolate overflow-hidden bg-ink text-white">
+  <Image src={background} alt="" aria-hidden="true" widths={[768, 1280, 1920]} sizes="100vw" class="absolute inset-0 -z-10 size-full object-cover opacity-45" />
+  <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/80 to-ink/20"></div>
+  <div class="container-x grid min-h-[70vh] items-end gap-12 py-24 sm:py-32 lg:grid-cols-[1fr_auto]">
+    <div>
+      <p class="eyebrow flex items-center gap-4 text-gold" data-reveal><span class="h-px w-10 bg-current"></span>{site.name}</p>
+      <h2 class="heading-xl mt-6 max-w-3xl text-white" data-reveal>
+        {title}<br /><em class="text-gold-light">{accent}</em>
+      </h2>
+      <p class="mt-8 max-w-xl text-lg leading-relaxed text-white/75" data-reveal style="--reveal-delay:1">{text}</p>
+    </div>
+    <div class="flex flex-col gap-3" data-reveal style="--reveal-delay:2">
+      <a href="/kontakt/#wycena" class="btn-gold py-4">Umów konsultację <Icon name="arrow-up-right" class="size-4" /></a>
+      <a href={phoneHref} class="btn border border-white/40 py-4 text-white hover:border-gold hover:text-gold">
+        <Icon name="phone" class="size-4" />{site.phone}
+      </a>
     </div>
   </div>
 </section>

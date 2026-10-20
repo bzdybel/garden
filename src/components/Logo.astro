@@ -1,18 +1,14 @@
 ---
 import { site } from '../config/site';
-interface Props {
-  light?: boolean;
-}
-const { light = false } = Astro.props;
 ---
 
-<a href="/" class="flex items-center gap-2.5" aria-label={`${site.name} – strona główna`}>
-  <svg viewBox="0 0 40 40" class="size-9 shrink-0" aria-hidden="true">
-    <rect width="40" height="40" rx="10" fill={light ? '#f8f4ec' : '#2f4f30'}></rect>
-    <path d="M8 19 20 9l12 10" fill="none" stroke="#d6b48c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
-    <path d="M12 19v12M28 19v12M12 25h16" fill="none" stroke={light ? '#2f4f30' : '#f8f4ec'} stroke-width="3" stroke-linecap="round"></path>
+<!-- Znak: belka dachu na dwóch słupach (złoto). Tekst dziedziczy kolor – działa na jasnym i ciemnym tle -->
+<a href="/" class="group flex items-center gap-3" aria-label={`${site.name} – strona główna`}>
+  <svg viewBox="0 0 40 40" class="size-8 shrink-0 text-gold" aria-hidden="true">
+    <path d="M5 13h30M11 13v21M29 13v21" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"></path>
   </svg>
-  <span class:list={['font-display text-lg leading-none font-semibold', light ? 'text-cream' : 'text-forest-900']}>
-    {site.name}
+  <span class="flex items-baseline gap-1.5 leading-none whitespace-nowrap">
+    <span class="text-[13px] font-semibold tracking-[0.22em] uppercase">Zadaszenia</span>
+    <span class="font-display text-[1.45rem] text-gold italic">Premium</span>
   </span>
 </a>
