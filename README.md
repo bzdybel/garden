@@ -41,6 +41,15 @@ npm run verify            # typy + build + audyt SEO (title, description, H1, al
 - Treści o przepisach budowlanych (poradnik, FAQ) zweryfikuj z aktualnym Prawem budowlanym.
 - Polityka prywatności do weryfikacji przez prawnika.
 
-## Deploy
-Dowolny hosting statyczny (Cloudflare Pages, Netlify, Vercel): build `npm run build`, katalog `dist/`.
-`public/_headers` ustawia nagłówki bezpieczeństwa i cache na Cloudflare/Netlify.
+## Deploy – Cloudflare Pages
+Projekt podłączony do repozytorium GitHub – każdy push do `main` wdraża się automatycznie.
+
+| Ustawienie | Wartość |
+|---|---|
+| Framework preset | Astro |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Zmienne środowiskowe | `PUBLIC_WEB3FORMS_KEY` (klucz formularza) |
+
+Wersję Node wskazuje plik `.node-version`. `public/_headers` ustawia nagłówki bezpieczeństwa i cache,
+a adresom `*.pages.dev` dodaje `X-Robots-Tag: noindex` – indeksowana ma być tylko docelowa domena.
