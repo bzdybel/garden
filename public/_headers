@@ -8,3 +8,11 @@
 
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Adresy techniczne Cloudflare Pages (*.pages.dev, także podglądy gałęzi) nie mogą trafić do Google –
+# indeksowana ma być wyłącznie docelowa domena (site.url). Zapobiega duplikacji treści.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
