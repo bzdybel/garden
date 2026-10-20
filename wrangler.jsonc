@@ -1,0 +1,11 @@
+// Cloudflare Workers – strona statyczna (wynik `astro build` w ./dist), bez kodu Workera.
+// "name" musi zgadzać się z nazwą Workera w panelu Cloudflare, inaczej deploy utworzy nowy projekt.
+{
+  "name": "zadaszenia-premium",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
