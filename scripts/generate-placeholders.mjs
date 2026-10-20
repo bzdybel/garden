@@ -146,8 +146,8 @@ for (const [file, size] of [['icon-192.png', 192], ['icon-512.png', 512], ['appl
 const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
   <rect width="1200" height="630" fill="#121110"/>
   <path d="M80 210H260M128 210V360M212 210V360" fill="none" stroke="#c3a46b" stroke-width="12"/>
-  <text x="80" y="460" font-family="Georgia, serif" font-size="84" fill="#f6f4ef">Zadaszenia Premium</text>
-  <text x="82" y="530" font-family="sans-serif" font-size="30" letter-spacing="6" fill="#c3a46b">ALUMINIOWE ZADASZENIA TARASÓW · PERGOLE</text>
+  <text x="80" y="460" font-family="Georgia, serif" font-size="84" fill="#f6f4ef">Studio Pergoli</text>
+  <text x="82" y="530" font-family="sans-serif" font-size="30" letter-spacing="6" fill="#c3a46b">PERGOLE ALUMINIOWE · ZADASZENIA TARASÓW</text>
 </svg>`;
 await sharp(Buffer.from(og)).jpeg({ quality: 88 }).toFile(new URL('og-default.jpg', OUT).pathname);
 await sharp(Buffer.from(og)).jpeg({ quality: 88 }).toFile(new URL('og-default.jpg', PUBLIC).pathname);

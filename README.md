@@ -1,4 +1,4 @@
-# Zadaszenia Premium – aluminiowe zadaszenia tarasów i pergole
+# Studio Pergoli – aluminiowe zadaszenia tarasów i pergole
 
 Statyczna strona-wizytówka zbudowana w **Astro 7 + Tailwind 4**, zoptymalizowana pod SEO. Siedziba w Radomiu, zasięg: cała Polska.
 Źródło wiedzy o ofercie: `Katalog.pdf` (systemy SMART, T-LINE, SKYLINE, pergole, wypełnienia, zacienienie, automatyka).
@@ -33,7 +33,7 @@ npm run verify            # typy + build + audyt SEO (title, description, H1, al
 
 ## ⚠️ Przed publikacją
 - Obrazy w `src/assets/images` to **ilustracje zastępcze** – podmień na prawdziwe zdjęcia.
-- Domena `zadaszeniapremium.pl` – potwierdzić rejestrację; dane firmy (adres, NIP, telefon) w `site.ts` są przykładowe.
+- Domena `studiopergoli.pl` – potwierdzić rejestrację; dane firmy (adres, NIP, telefon) w `site.ts` są przykładowe.
 - **Realizacje w `src/content/realizacje/` i opinie są przykładowe** (oznaczone „PRZYKŁAD”) – zastąp prawdziwymi.
 - Ceny w usługach, cenniku, kalkulatorze i artykule o cenach są poglądowe.
 - Dane firmy, ceny, statystyki, **oceny i opinie są przykładowe** – publikowanie zmyślonych opinii/ocen (także w schema.org)

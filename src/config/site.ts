@@ -4,11 +4,11 @@
  * jak i do danych strukturalnych. Po ustaleniu nazwy firmy wystarczy zmienić ten plik.
  */
 export const site = {
-  // TODO: potwierdzić rejestrację domeny zadaszeniapremium.pl i formę prawną
-  name: 'Zadaszenia Premium',
-  legalName: 'Zadaszenia Premium Sp. z o.o.',
-  url: 'https://www.zadaszeniapremium.pl',
-  tagline: 'Aluminiowe zadaszenia tarasów i pergole premium',
+  // TODO: potwierdzić rejestrację domeny studiopergoli.pl i formę prawną
+  name: 'Studio Pergoli',
+  legalName: 'Studio Pergoli Sp. z o.o.',
+  url: 'https://www.studiopergoli.pl',
+  tagline: 'Pergole aluminiowe i zadaszenia tarasów premium',
   description:
     'Aluminiowe zadaszenia tarasów, pergole lamelowe i zabudowy szklane klasy premium. Profile produkowane w Polsce, montaż w całej Polsce, 5 lat gwarancji.',
   // TODO: rok założenia firmy
@@ -16,7 +16,7 @@ export const site = {
 
   // TODO: prawdziwe dane kontaktowe
   phone: '+48 600 100 200',
-  email: 'kontakt@zadaszeniapremium.pl',
+  email: 'kontakt@studiopergoli.pl',
   address: {
     street: 'ul. Ogrodowa 12',
     postalCode: '26-600',

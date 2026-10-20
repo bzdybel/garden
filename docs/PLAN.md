@@ -1,4 +1,4 @@
-# Plan projektu – Zadaszenia Premium (aluminiowe zadaszenia tarasów i pergole)
+# Plan projektu – Studio Pergoli (aluminiowe zadaszenia tarasów i pergole)
 
 ## Cel
 Szybka, nowoczesna strona-wizytówka, której głównym zadaniem jest **pozyskiwanie zapytań z Google**
