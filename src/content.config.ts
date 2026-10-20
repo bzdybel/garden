@@ -59,7 +59,7 @@ const poradnik = defineCollection({
       description: z.string().max(160),
       published: z.coerce.date(),
       updated: z.coerce.date().optional(),
-      author: z.string().default('Zespół Zadaszenia Premium'),
+      author: z.string().default('Zespół Studio Pergoli'),
       cover: image(),
       coverAlt: z.string(),
       relatedService: z.enum(serviceTypes).optional(),
