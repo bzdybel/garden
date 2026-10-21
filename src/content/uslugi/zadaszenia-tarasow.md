@@ -1,14 +1,14 @@
 ---
-title: Aluminiowe zadaszenia tarasów
+title: Nowoczesne zadaszenia tarasów z aluminium
 name: Zadaszenia tarasów
-seoTitle: Zadaszenia tarasów aluminiowe – szkło, poliwęglan, montaż
-description: Aluminiowe zadaszenia tarasów SMART, T-LINE i SKYLINE ze szkłem lub poliwęglanem. Polskie profile, LED w krokwiach, 5 lat gwarancji. Montaż w całej Polsce.
+seoTitle: Nowoczesne zadaszenia tarasów z aluminium – szkło, LED
+description: Nowoczesne zadaszenia tarasowe z aluminium – SMART, T-LINE i SKYLINE ze szkłem lub poliwęglanem. Polskie profile, LED, 5 lat gwarancji, cała Polska.
 lead: Taras pod aluminiowym dachem staje się drugim salonem – na poranną kawę w deszczu i kolację w cieniu. Projektujemy zadaszenia, które wyglądają jak część architektury domu, a nie dodatek do niej.
 order: 1
 priceFrom: 11900
 cover: ../../assets/images/uslugi/zadaszenia-tarasow.jpg
-coverAlt: Aluminiowe zadaszenie tarasu ze szkłem i oświetleniem LED przy nowoczesnym domu
-keywords: [zadaszenie tarasu, zadaszenia tarasów aluminiowe, zadaszenie tarasu szkło, zadaszenie tarasu poliwęglan, zadaszenie tarasu cena]
+coverAlt: Aluminiowe zadaszenie tarasowe ze szkłem bezpiecznym i oświetleniem LED w krokwiach przy nowoczesnym domu
+keywords: [zadaszenie tarasów, zadaszenie tarasu, zadaszenie tarasu nowoczesne, zadaszenie tarasowe, zadaszenia tarasowe, zadaszenia tarasów aluminiowe, zadaszenie tarasu szkło, zadaszenie tarasu poliwęglan, zadaszenie tarasu cena]
 features:
   - title: Profile produkowane w Polsce
     text: Aluminiowe profile o wysokich parametrach statycznych, odporne na wiatr, śnieg i korozję. Nie wymagają malowania ani konserwacji.
@@ -41,7 +41,7 @@ faq:
     a: Tak. Do zadaszenia można dodać szklane ściany przesuwne, shuttersy, rolety, markizę dachową, promienniki ciepła i automatykę pogodową.
 ---
 
-## Zadaszenie tarasu, które wygląda jak część domu
+## Nowoczesne zadaszenie tarasu, które wygląda jak część domu
 
 Dobrze zaprojektowane zadaszenie tarasu nie powinno wyglądać na „doklejone”. Dobieramy wysokość belki do linii okien, kolor konstrukcji do stolarki i elewacji, a wodę odprowadzamy wewnątrz profili. Efekt: spójna, minimalistyczna forma, która podnosi wartość domu.
 

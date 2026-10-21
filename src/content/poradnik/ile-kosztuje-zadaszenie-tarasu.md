@@ -4,7 +4,7 @@ seoTitle: Ile kosztuje zadaszenie tarasu? Ceny aluminium 2026
 description: Ile kosztuje aluminiowe zadaszenie tarasu w 2026 roku? Przykładowe ceny dla popularnych wymiarów, różnice między szkłem a poliwęglanem i koszty dodatków.
 published: 2026-09-15
 cover: ../../assets/images/poradnik/ile-kosztuje-zadaszenie-tarasu.jpg
-coverAlt: Aluminiowe zadaszenie tarasu ze szkłem przy domu jednorodzinnym o zmierzchu
+coverAlt: Nowoczesne zadaszenie tarasu ze szklanym dachem na grafitowej konstrukcji aluminiowej o zmierzchu
 relatedService: zadaszenia-tarasow
 faq:
   - q: Ile kosztuje zadaszenie tarasu 4 × 3 m?

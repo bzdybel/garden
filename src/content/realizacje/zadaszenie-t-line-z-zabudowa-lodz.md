@@ -1,6 +1,6 @@
 ---
 # PRZYKŁAD – zastąpić prawdziwą realizacją (zdjęcia, opis, dane) przed publikacją strony
-title: Zadaszenie T-LINE ze szklaną zabudową w Łodzi
+title: Zadaszenie tarasu T-LINE ze szklaną zabudową w Łodzi
 description: Zadaszenie tarasu T-LINE 8 × 3,5 m ze szklanymi ścianami przesuwnymi przy domu w zabudowie bliźniaczej w Łodzi.
 service: zabudowy-tarasu
 city: Łódź
@@ -11,11 +11,12 @@ fill: szkło bezpieczne 4.4.2
 duration: 3 dni
 featured: false
 cover: ../../assets/images/realizacje/zadaszenie-t-line-z-zabudowa-lodz.jpg
+coverAlt: Zadaszenie tarasu T-LINE ze szklanymi ścianami przesuwnymi przy domu w zabudowie bliźniaczej w Łodzi
 gallery:
   - src: ../../assets/images/realizacje/zadaszenie-t-line-z-zabudowa-lodz-2.jpg
-    alt: Zadaszenie T-LINE w Łodzi – szklane ściany przesuwne
+    alt: Szklane ściany przesuwne zamykające zadaszony taras – zabudowa tarasu w Łodzi
   - src: ../../assets/images/realizacje/zadaszenie-t-line-z-zabudowa-lodz-3.jpg
-    alt: Zadaszenie T-LINE w Łodzi – widok z ogrodu
+    alt: Zabudowany taras z aluminiowym zadaszeniem T-LINE widziany od strony ogrodu w Łodzi
 ---
 
 Taras przy domu w zabudowie bliźniaczej był narażony na wiatr i wzrok sąsiadów. **Zadaszenie T-LINE** o zwiększonej nośności uzupełniliśmy **szklanymi ścianami przesuwnymi** od strony ogrodu i sąsiada.

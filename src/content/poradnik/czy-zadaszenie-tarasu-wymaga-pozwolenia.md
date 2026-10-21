@@ -4,7 +4,7 @@ seoTitle: Zadaszenie tarasu – pozwolenie czy zgłoszenie? (2026)
 description: Kiedy aluminiowe zadaszenie tarasu lub pergola wymaga zgłoszenia, a kiedy pozwolenia na budowę? Wyjaśniamy zasady i podpowiadamy, jak przygotować formalności.
 published: 2026-09-30
 cover: ../../assets/images/poradnik/pozwolenie-zadaszenie-tarasu.jpg
-coverAlt: Wolnostojące aluminiowe zadaszenie tarasu w ogrodzie przy domu
+coverAlt: Wolnostojące zadaszenie tarasowe z aluminium w ogrodzie przy domu jednorodzinnym
 relatedService: zadaszenia-tarasow
 faq:
   - q: Czy pergola lamelowa wymaga zgłoszenia?
