@@ -44,6 +44,9 @@ const realizacje = defineCollection({
       fill: z.string(),
       duration: z.string(),
       featured: z.boolean().default(false),
+      // Realizacja przykładowa (nie prawdziwy projekt): widoczna etykieta, noindex, poza sitemapą
+      // i poza sekcją „Nasze realizacje w [mieście]”. Usunąć po podmianie na prawdziwą realizację.
+      example: z.boolean().default(false),
       cover: image(),
       coverAlt: z.string(),
       gallery: z.array(z.object({ src: image(), alt: z.string() })).default([]),

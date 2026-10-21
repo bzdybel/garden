@@ -1,5 +1,6 @@
 ---
 # PRZYKŁAD – zastąpić prawdziwą realizacją (zdjęcia, opis, dane) przed publikacją strony
+example: true
 title: Wolnostojące zadaszenie tarasu SKYLINE we Wrocławiu
 description: Wolnostojące zadaszenie SKYLINE 7 × 4 m z ukrytym spadkiem dachu i szkłem mlecznym nad strefą jadalni w ogrodzie we Wrocławiu.
 service: zadaszenia-tarasow

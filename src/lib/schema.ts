@@ -2,7 +2,7 @@
  * Generatory danych strukturalnych schema.org (JSON-LD).
  * Testuj w: https://search.google.com/test/rich-results oraz https://validator.schema.org
  */
-import { site } from '../config/site';
+import { site, socialLinks } from '../config/site';
 import { cities } from '../data/cities';
 
 export const absoluteUrl = (path: string) => new URL(path, site.url).href;
@@ -20,7 +20,7 @@ export function businessSchema() {
     url: site.url,
     telephone: site.phone,
     email: site.email,
-    foundingDate: String(site.foundingYear),
+    ...(site.foundingYear ? { foundingDate: String(site.foundingYear) } : {}),
     priceRange: site.priceRange,
     image: absoluteUrl('/og-default.jpg'),
     logo: absoluteUrl('/logo.png'),
@@ -51,8 +51,8 @@ export function businessSchema() {
           },
         }
       : {}),
-    sameAs: Object.values(site.social),
-    vatID: `PL${site.nip}`,
+    ...(socialLinks.length ? { sameAs: socialLinks.map(([, href]) => href) } : {}),
+    ...(site.nip ? { vatID: `PL${site.nip}` } : {}),
   };
 }
 
@@ -109,17 +109,17 @@ export function serviceSchema(opts: {
     image: absoluteUrl(opts.image),
     provider: { '@id': businessId },
     areaServed: opts.areaServed?.map((name) => ({ '@type': 'City', name })) ?? { '@type': 'Country', name: site.areaServed },
+    // Cena „od” – usługa wyceniana na wymiar, więc AggregateOffer z dolną granicą, bez stanu magazynowego
     offers: {
-      '@type': 'Offer',
+      '@type': 'AggregateOffer',
       priceCurrency: 'PLN',
-      price: opts.priceFrom,
+      lowPrice: opts.priceFrom,
       priceSpecification: {
         '@type': 'PriceSpecification',
         minPrice: opts.priceFrom,
         priceCurrency: 'PLN',
         valueAddedTaxIncluded: true,
       },
-      availability: 'https://schema.org/InStock',
     },
   };
 }

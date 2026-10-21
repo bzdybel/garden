@@ -98,8 +98,8 @@ const [defW, defD] = [widths[0], depths[0]];
     <fieldset class="card scroll-mt-28 p-6 sm:p-8" data-lead>
       <legend class="contents">
         <span class="eyebrow">Krok 4</span>
-        <span class="mt-2 block font-display text-3xl text-ink">Zostaw kontakt – pokażemy cenę</span>
-        <span class="mt-1 block text-sm text-muted">Cena wyświetli się od razu po wysłaniu formularza. Oddzwonimy w ciągu 24 godzin roboczych.</span>
+        <span class="mt-2 block font-display text-3xl text-ink">Zamów dokładną wycenę</span>
+        <span class="mt-1 block text-sm text-muted">Bezpłatnie i bez zobowiązań. Oddzwonimy w ciągu 24 godzin roboczych, dopytamy o szczegóły i umówimy pomiar.</span>
       </legend>
 
       <div class="mt-6 grid gap-5 sm:grid-cols-2">
@@ -132,7 +132,7 @@ const [defW, defD] = [widths[0], depths[0]];
         </label>
       </div>
 
-      <button type="submit" class="btn-primary mt-6 w-full py-4 text-base" data-submit>Wyślij i poznaj cenę</button>
+      <button type="submit" class="btn-primary mt-6 w-full py-4 text-base" data-submit>Wyślij zapytanie</button>
       <p class="mt-3 hidden text-center text-sm font-medium" role="status" data-status></p>
       <button type="button" class="mx-auto mt-2 hidden text-sm text-muted underline" data-reset>Wyczyść formularz</button>
     </fieldset>
@@ -158,18 +158,13 @@ const [defW, defD] = [widths[0], depths[0]];
     <div class="mt-6">
       <p class="text-sm text-white/70">Cena z montażem</p>
       <p class="mt-1 flex items-center gap-3 font-display text-5xl text-white tabular-nums">
-        <span data-out-locked class="flex items-center gap-3">
-          <span class="blur-sm select-none" aria-hidden="true">00 000 zł</span>
-          <Icon name="lock" class="size-6 shrink-0 text-gold" />
-          <span class="sr-only">Cena ukryta – wypełnij formularz, aby ją zobaczyć</span>
-        </span>
-        <span data-out-price hidden></span>
+        <span data-out-price>{materials[0].prices[defD][defW].toLocaleString('pl-PL')} zł</span>
       </p>
-      <p class="mt-1 text-xs text-white/60" data-out-note hidden>brutto, z transportem i montażem</p>
+      <p class="mt-1 text-xs text-white/60">brutto, z transportem i montażem</p>
     </div>
 
     <button type="button" class="btn-gold mt-6 w-full py-4" data-unlock>
-      Poznaj cenę <Icon name="arrow" class="size-4" />
+      Zamów dokładną wycenę <Icon name="arrow" class="size-4" />
     </button>
 
     <ul class="mt-6 grid grid-cols-2 gap-x-3 gap-y-2 text-xs text-white/80">
@@ -210,7 +205,7 @@ const [defW, defD] = [widths[0], depths[0]];
     const email = $<HTMLInputElement>('[data-email]');
     const name = $<HTMLInputElement>('[data-name]');
     const consents = [...form.querySelectorAll<HTMLInputElement>('[data-consent]')];
-    let unlocked = false;
+    let sent = false;
     let price = 0;
 
     const validPhone = (v: string) => v.replace(/[-\s()]/g, '').length >= 9 && /^[0-9+\-\s()]+$/.test(v);
@@ -285,15 +280,8 @@ const [defW, defD] = [widths[0], depths[0]];
       status.classList.add(ok ? 'text-slate' : 'text-red-700');
     }
 
-    function unlock() {
-      unlocked = true;
-      $('[data-out-locked]').hidden = true;
-      $('[data-out-price]').hidden = false;
-      $('[data-out-note]').hidden = false;
-      $('[data-unlock]').hidden = true;
-    }
-
-    // Formularz kontaktowy pokazujemy dopiero po kliknięciu „Poznaj cenę” (bez JS jest widoczny od razu)
+    // Cena jest widoczna od razu – formularz to opcjonalna prośba o dokładną wycenę,
+    // pokazywana po kliknięciu „Zamów dokładną wycenę” (bez JS jest widoczny od razu)
     lead.hidden = true;
     $('[data-unlock]').addEventListener('click', () => {
       lead.hidden = false;
@@ -343,15 +331,14 @@ const [defW, defD] = [widths[0], depths[0]];
         const res = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body });
         if (!res.ok) throw new Error(String(res.status));
         window.dataLayer?.push({ event: 'generate_lead', form: 'kalkulator', value: price, currency: 'PLN' });
-        unlock();
-        showStatus('Dziękujemy! Twoja cena jest widoczna w podsumowaniu. Oddzwonimy w ciągu 24 godzin roboczych.', true);
+        sent = true;
+        showStatus('Dziękujemy! Oddzwonimy w ciągu 24 godzin roboczych, żeby potwierdzić wycenę.', true);
         resetBtn.classList.remove('hidden');
-        if (window.matchMedia('(max-width: 1023px)').matches) $('[data-out-price]').scrollIntoView({ behavior: 'smooth', block: 'center' });
       } catch {
         showStatus('Nie udało się wysłać formularza. Spróbuj ponownie lub zadzwoń do nas.');
       } finally {
         submit.disabled = false;
-        submit.textContent = unlocked ? 'Wyślij ponownie' : 'Wyślij i poznaj cenę';
+        submit.textContent = sent ? 'Wyślij ponownie' : 'Wyślij zapytanie';
       }
     });
 

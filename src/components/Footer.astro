@@ -2,13 +2,14 @@
 import { getCollection } from 'astro:content';
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
-import { mailHref, phoneHref, site } from '../config/site';
+import { mailHref, phoneHref, site, socialLinks } from '../config/site';
 import { cities } from '../data/cities';
 
 const services = (await getCollection('uslugi')).sort((a, b) => a.data.order - b.data.order);
 const year = new Date().getFullYear();
 const colHeading = 'mb-6 text-xs font-medium tracking-[0.2em] text-gold uppercase';
-const link = 'text-white/80 transition-colors hover:text-gold-light';
+const link = 'inline-flex min-h-11 items-center text-white/80 transition-colors hover:text-gold-light lg:min-h-0';
+const socialLabels = { facebook: ['Facebook', 'Fb'], instagram: ['Instagram', 'Ig'], google: ['Opinie Google', 'G'] } as const;
 ---
 
 <footer class="bg-ink text-white">
@@ -21,7 +22,7 @@ const link = 'text-white/80 transition-colors hover:text-gold-light';
 
       <div>
         <p class={colHeading}>Oferta</p>
-        <ul class="space-y-3.5 text-sm">
+        <ul class="text-sm lg:space-y-3.5">
           {
             services.map((s) => (
               <li>
@@ -38,7 +39,7 @@ const link = 'text-white/80 transition-colors hover:text-gold-light';
 
       <div>
         <p class={colHeading}>Obszar działania</p>
-        <ul class="space-y-3.5 text-sm">
+        <ul class="text-sm lg:space-y-3.5">
           {
             cities.map((c) => (
               <li>
@@ -60,26 +61,24 @@ const link = 'text-white/80 transition-colors hover:text-gold-light';
         <ul class="text-white/60">{site.openingHours.map((h) => <li>{h.label}</li>)}</ul>
       </address>
 
-      <ul class="flex gap-0 lg:flex-col" aria-label="Media społecznościowe">
-        {
-          [
-            ['Facebook', site.social.facebook, 'Fb'],
-            ['Instagram', site.social.instagram, 'Ig'],
-            ['Opinie Google', site.social.google, 'G'],
-          ].map(([label, href, short]) => (
-            <li class="-mt-px -ml-px lg:ml-0">
-              <a href={href} rel="noopener" aria-label={label} class="flex size-12 items-center justify-center border border-white/25 text-sm font-semibold transition-colors hover:border-gold hover:bg-gold hover:text-ink">
-                {short}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+      {
+        socialLinks.length > 0 && (
+          <ul class="flex gap-0 lg:flex-col" aria-label="Media społecznościowe">
+            {socialLinks.map(([key, href]) => (
+              <li class="-mt-px -ml-px lg:ml-0">
+                <a href={href} rel="noopener" aria-label={socialLabels[key][0]} class="flex size-12 items-center justify-center border border-white/25 text-sm font-semibold transition-colors hover:border-gold hover:bg-gold hover:text-ink">
+                  {socialLabels[key][1]}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
     </div>
 
     <div class="flex flex-col gap-3 border-t border-white/15 py-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
-      <p>© {year} {site.legalName}. NIP {site.nip}</p>
-      <ul class="flex flex-wrap gap-5">
+      <p>© {year} {site.legalName}{site.nip && `. NIP ${site.nip}`}</p>
+      <ul class="flex flex-wrap gap-x-5">
         <li><a href="/o-nas/" class={link}>O nas</a></li>
         <li><a href="/obszar-dzialania/" class={link}>Obszar działania</a></li>
         <li><a href="/polityka-prywatnosci/" class={link}>Polityka prywatności</a></li>
@@ -89,7 +88,7 @@ const link = 'text-white/80 transition-colors hover:text-gold-light';
 </footer>
 
 <!-- Pasek CTA na telefonach – najwięcej zapytań w tej branży to telefony z mobile -->
-<div class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-ink bg-white lg:hidden">
+<div class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-ink bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
   <a href={phoneHref} class="btn py-4 text-ink"><Icon name="phone" class="size-4" />Zadzwoń</a>
   <a href="/kontakt/#wycena" class="btn-gold py-4">Wycena <Icon name="arrow-up-right" class="size-4" /></a>
 </div>

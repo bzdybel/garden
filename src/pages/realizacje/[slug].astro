@@ -39,7 +39,8 @@ const specs = [
   ['Montaż', data.duration],
   ['Data realizacji', formatDate(data.date)],
 ];
-const schema = [
+// Przykładowa realizacja nie może udawać prawdziwego projektu w danych strukturalnych
+const schema = data.example ? [] : [
   projectSchema({
     title: data.title,
     description: data.description,
@@ -51,12 +52,19 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={data.title} description={data.description} image={data.cover} imageAlt={data.coverAlt} crumbs={crumbs} schema={schema}>
+<BaseLayout title={data.title} description={data.description} image={data.cover} imageAlt={data.coverAlt} crumbs={crumbs} schema={schema} noindex={data.example}>
   <PageHeader title={data.title} lead={data.description} eyebrow={`${serviceLabels[data.service]} · ${data.city}`} crumbs={crumbs} />
 
   <section class="section">
     <div class="container-x grid gap-12 lg:grid-cols-[1fr_340px]">
       <div class="space-y-6">
+        {
+          data.example && (
+            <p class="border-l-2 border-gold bg-mist px-5 py-4 text-sm text-muted">
+              <strong class="text-ink">Realizacja przykładowa.</strong> Opis i ilustracje pokazują typowy projekt tego rodzaju – wkrótce zastąpimy je zdjęciami z naszych montaży.
+            </p>
+          )
+        }
         <Image
           src={data.cover}
           alt={data.coverAlt}

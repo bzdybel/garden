@@ -1,14 +1,14 @@
 ---
-title: Pergole ogrodowe i tarasowe z aluminium – lamelowe, szklane, tkaninowe
+title: Pergole tarasowe z aluminium – lamelowe, szklane i tkaninowe
 name: Pergole
-seoTitle: Pergola ogrodowa i tarasowa z aluminium – lamelowa
-description: Aluminiowe pergole ogrodowe i tarasowe – lamelowe (bioklimatyczne), szklane i tkaninowe. Automatyka, czujniki pogodowe, LED. Montaż w całej Polsce.
+seoTitle: Pergola tarasowa aluminiowa – lamelowa, bioklimatyczna
+description: Aluminiowe pergole tarasowe na wymiar – lamelowe (bioklimatyczne), szklane i tkaninowe. Automatyka, czujniki pogodowe, LED. Montaż w całej Polsce.
 lead: Pergola daje to, czego nie da zwykłe zadaszenie – pełną kontrolę nad światłem, cieniem i przewiewem. Jednym ruchem lamel zmienisz słoneczny taras w zacienione, przewiewne wnętrze.
 order: 2
 priceFrom: 19900
 cover: ../../assets/images/uslugi/pergole.jpg
 coverAlt: Pergola ogrodowa z aluminium – bioklimatyczna pergola lamelowa z obrotowymi lamelami i LED nad strefą wypoczynku
-keywords: [pergola ogrodowa, pergola, pergole ogrodowe, pergole tarasowe, pergola lamelowa, pergola aluminiowa, pergola bioklimatyczna, pergola tarasowa, pergola szklana, pergola z tkaniną]
+keywords: [pergola tarasowa, pergola aluminiowa, pergola lamelowa, pergola bioklimatyczna, pergole tarasowe, pergola, pergola szklana, pergola z tkaniną, pergola ogrodowa]
 features:
   - title: Regulacja światła i wentylacji
     text: Obrotowe lamele aluminiowe ustawiasz pod dowolnym kątem – od pełnego cienia po przewiew i światło dzienne. Dostępna także wersja z dachem przesuwnym.
