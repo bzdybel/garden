@@ -23,7 +23,9 @@ const { data } = project;
         class="size-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
     </div>
-    <p class="mt-5 text-xs tracking-[0.2em] text-gold-deep uppercase">{serviceLabels[data.service]} · {data.city}</p>
+    <p class="mt-5 text-xs tracking-[0.2em] text-gold-deep uppercase">
+      {serviceLabels[data.service]} · {data.city}{data.example && <span class="ml-2 text-muted">· przykład</span>}
+    </p>
     <H class="mt-2 text-2xl leading-snug decoration-gold underline-offset-4 group-hover:underline">{data.title}</H>
     <p class="mt-2 text-sm text-muted">{data.size} · {data.system}</p>
   </a>

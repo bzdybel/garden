@@ -21,7 +21,8 @@ interface Props {
 const { city } = Astro.props;
 const services = (await getCollection('uslugi')).sort((a, b) => a.data.order - b.data.order);
 const allProjects = (await getCollection('realizacje')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const localProjects = allProjects.filter((p) => p.data.city === city.name);
+// Przykładowe realizacje nie są dowodem pracy w danym mieście
+const localProjects = allProjects.filter((p) => p.data.city === city.name && !p.data.example);
 // Gdy brak realizacji w danym mieście, pokazujemy najnowsze z całej Polski
 const projects = (localProjects.length ? localProjects : allProjects).slice(0, 3);
 const others = cities.filter((c) => c.slug !== city.slug);
@@ -108,7 +109,7 @@ const schema = [
     <div class="container-x">
       <SectionHeading
         label="Realizacje"
-        title={localProjects.length ? ['Nasze realizacje', city.locative] : ['Nasze realizacje', 'w całej Polsce']}
+        title={localProjects.length ? ['Nasze realizacje', city.locative] : projects.every((p) => p.data.example) ? ['Przykładowe', 'realizacje'] : ['Nasze realizacje', 'w całej Polsce']}
         id="realizacje-lokalne"
         action={{ href: '/realizacje/', label: 'Wszystkie realizacje' }}
       />

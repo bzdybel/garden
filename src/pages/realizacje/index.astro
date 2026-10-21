@@ -13,7 +13,7 @@ const types = [...new Set(projects.map((p) => p.data.service))];
 const crumbs = [{ name: 'Realizacje', href: '/realizacje/' }];
 const itemList = {
   '@type': 'ItemList',
-  itemListElement: projects.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: absoluteUrl(`/realizacje/${p.id}/`), name: p.data.title })),
+  itemListElement: projects.filter((p) => !p.data.example).map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: absoluteUrl(`/realizacje/${p.id}/`), name: p.data.title })),
 };
 ---
 

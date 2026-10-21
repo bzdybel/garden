@@ -1,6 +1,7 @@
 ---
 # PRZYKŁAD – zastąpić prawdziwą realizacją (zdjęcia, opis, dane) przed publikacją strony
-title: Pergola ogrodowa lamelowa z automatyką pod Krakowem
+example: true
+title: Wolnostojąca pergola lamelowa z automatyką pod Krakowem
 description: Wolnostojąca aluminiowa pergola lamelowa 5 × 4 m z czujnikiem deszczu, LED i promiennikiem ciepła w Zabierzowie pod Krakowem.
 service: pergole
 city: Kraków

@@ -1,5 +1,6 @@
 ---
 # PRZYKŁAD – zastąpić prawdziwą realizacją (zdjęcia, opis, dane) przed publikacją strony
+example: true
 title: Zadaszenie tarasu T-LINE ze szklaną zabudową w Łodzi
 description: Zadaszenie tarasu T-LINE 8 × 3,5 m ze szklanymi ścianami przesuwnymi przy domu w zabudowie bliźniaczej w Łodzi.
 service: zabudowy-tarasu

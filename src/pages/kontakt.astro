@@ -50,7 +50,7 @@ const contactPage = { '@type': 'ContactPage', url: absoluteUrl('/kontakt/'), abo
             <span><span class="block text-sm text-muted">Godziny otwarcia</span><strong>{site.openingHours.map((h) => h.label).join(', ')}</strong></span>
           </li>
         </ul>
-        <p class="text-sm text-muted">{site.legalName} · NIP {site.nip}</p>
+        <p class="text-sm text-muted">{site.legalName}{site.nip && ` · NIP ${site.nip}`}</p>
         <!-- Mapa ładowana dopiero po kliknięciu: zero zapytań do Google przy wejściu na stronę (szybkość + RODO) -->
         <div class="overflow-hidden ring-1 ring-black/5">
           <a

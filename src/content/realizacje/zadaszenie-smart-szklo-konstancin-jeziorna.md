@@ -1,5 +1,6 @@
 ---
 # PRZYKŁAD – zastąpić prawdziwą realizacją (zdjęcia, opis, dane) przed publikacją strony
+example: true
 title: Zadaszenie tarasu SMART ze szkłem w Konstancinie-Jeziornie
 description: Aluminiowe zadaszenie tarasu SMART 6 × 4 m ze szkłem bezpiecznym 4.4.2 i oświetleniem LED w krokwiach przy willi w Konstancinie-Jeziornie.
 service: zadaszenia-tarasow

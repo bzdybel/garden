@@ -25,7 +25,7 @@ const [first, ...rest] = Array.isArray(title) ? title : [title];
     </p>
     <H id={id} class:list={['heading-xl mt-6', light && 'text-white']}>
       {first}
-      {rest.map((l) => [<br />, <em class:list={['italic', light ? 'text-gold-light' : 'text-gold-deep']}>{l}</em>])}
+      {rest.map((l) => [' ', <br />, <em class:list={['italic', light ? 'text-gold-light' : 'text-gold-deep']}>{l}</em>])}
     </H>
     <slot />
   </div>

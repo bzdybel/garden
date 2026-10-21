@@ -6,7 +6,7 @@ import { mailHref, site } from '../config/site';
 const crumbs = [{ name: 'Polityka prywatności', href: '/polityka-prywatnosci/' }];
 ---
 
-<BaseLayout title="Polityka prywatności" description={`Zasady przetwarzania danych osobowych i plików cookies w serwisie ${site.name}.`} crumbs={crumbs}>
+<BaseLayout title="Polityka prywatności" description={`Polityka prywatności serwisu ${site.name}: kto przetwarza dane z formularza wyceny, w jakim celu, jak długo, Twoje prawa i pliki cookies.`} crumbs={crumbs}>
   <PageHeader title="Polityka prywatności" crumbs={crumbs} />
   <!-- TODO: treść do weryfikacji przez prawnika przed publikacją -->
   <section class="section">
@@ -14,7 +14,7 @@ const crumbs = [{ name: 'Polityka prywatności', href: '/polityka-prywatnosci/' 
       <h2>1. Administrator danych</h2>
       <p>
         Administratorem danych osobowych jest {site.legalName}, {site.address.street}, {site.address.postalCode}
-        {site.address.city}, NIP {site.nip}. Kontakt w sprawie danych: <a href={mailHref}>{site.email}</a>.
+        {site.address.city}{site.nip && `, NIP ${site.nip}`}. Kontakt w sprawie danych: <a href={mailHref}>{site.email}</a>.
       </p>
       <h2>2. Cel i podstawa przetwarzania</h2>
       <p>

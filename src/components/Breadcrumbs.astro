@@ -15,7 +15,7 @@ const { crumbs } = Astro.props;
           {i === crumbs.length - 1 ? (
             <span aria-current="page" class="text-ink">{c.name}</span>
           ) : (
-            <a href={c.href} class="hover:text-ink underline-offset-4 hover:underline">
+            <a href={c.href} class="inline-flex min-h-11 items-center underline-offset-4 hover:text-ink hover:underline lg:min-h-0">
               {c.name}
             </a>
           )}

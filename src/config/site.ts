@@ -11,8 +11,8 @@ export const site = {
   tagline: 'Pergole aluminiowe i zadaszenia tarasów premium',
   description:
     'Aluminiowe zadaszenia tarasów, pergole lamelowe i zabudowy szklane klasy premium. Profile produkowane w Polsce, montaż w całej Polsce, 5 lat gwarancji.',
-  // TODO: rok założenia firmy
-  foundingYear: 2012,
+  // TODO: rok założenia firmy – dopóki null, nie trafia do danych strukturalnych
+  foundingYear: null as number | null,
 
   // TODO: prawdziwe dane kontaktowe
   phone: '+48 600 100 200',
@@ -31,7 +31,8 @@ export const site = {
     country: 'PL',
   },
   geo: { lat: 51.4027, lng: 21.1471 },
-  nip: '0000000000',
+  // TODO: prawdziwy NIP – dopóki pusty, nie jest wyświetlany ani dodawany do schema (vatID)
+  nip: '',
   openingHours: [
     { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '17:00', label: 'pon.–pt. 8:00–17:00' },
     { days: ['Saturday'], opens: '09:00', closes: '13:00', label: 'sob. 9:00–13:00' },
@@ -45,10 +46,12 @@ export const site = {
   // Dopóki `published` = false, sekcja opinii i aggregateRating w schema są ukryte.
   rating: { value: 4.9, count: 87, published: false as boolean },
 
+  // TODO: linki do profili firmy – puste są pomijane w stopce i w schema (sameAs).
+  // Linki do stron głównych serwisów (np. https://www.facebook.com/) mylą Google co do tożsamości firmy.
   social: {
-    facebook: 'https://www.facebook.com/',
-    instagram: 'https://www.instagram.com/',
-    google: 'https://g.page/',
+    facebook: '',
+    instagram: '',
+    google: '',
   },
 
   // Endpoint formularza – np. Web3Forms (https://web3forms.com). Klucz w .env.
@@ -65,6 +68,9 @@ export const site = {
     { value: 'RAL', label: 'dowolny kolor konstrukcji' },
   ],
 } as const;
+
+/** Profile społecznościowe z uzupełnionym adresem */
+export const socialLinks = Object.entries(site.social).filter(([, href]) => href) as [keyof typeof site.social, string][];
 
 export const phoneHref = `tel:${site.phone.replace(/\s/g, '')}`;
 export const mailHref = `mailto:${site.email}`;

@@ -1,5 +1,6 @@
 ---
 # PRZYKŁAD – zastąpić prawdziwą realizacją (zdjęcia, opis, dane) przed publikacją strony
+example: true
 title: Zadaszenie tarasu z markizą dachową w Radomiu
 description: Zadaszenie tarasu SMART 5 × 3 m z poliwęglanem, markizą dachową Veranda i roletami bocznymi na południowym tarasie w Radomiu.
 service: systemy-zacieniajace
