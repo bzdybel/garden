@@ -1,0 +1,14 @@
+// Cloudflare Workers – strona statyczna (wynik `astro build` w ./dist), bez kodu Workera.
+// "name" musi zgadzać się z nazwą Workera w panelu Cloudflare, inaczej deploy utworzy nowy projekt.
+{
+  "name": "studio-pergoli",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  // Wymagane przez `wrangler preview`, którym Cloudflare buduje podglądy gałęzi innych niż produkcyjna.
+  // Pusty blok wystarczy – assets i compatibility_date są dziedziczone z najwyższego poziomu.
+  "previews": {}
+}
