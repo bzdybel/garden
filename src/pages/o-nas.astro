@@ -6,49 +6,35 @@ import SectionHeading from '../components/SectionHeading.astro';
 import Process from '../components/Process.astro';
 import Reviews from '../components/Reviews.astro';
 import CtaBanner from '../components/CtaBanner.astro';
+import { getEntry } from 'astro:content';
 import { site } from '../config/site';
-import { cities } from '../data/cities';
 import { absoluteUrl, businessId } from '../lib/schema';
-import photo from '../assets/images/o-nas.jpg';
+import { fill } from '../lib/tresci';
 
 const crumbs = [{ name: 'O nas', href: '/o-nas/' }];
-const hq = cities.find((c) => c.headquarters)!;
+const page = (await getEntry('oNas', 'o-nas'))!;
+const t = page.data;
 const aboutPage = { '@type': 'AboutPage', url: absoluteUrl('/o-nas/'), about: { '@id': businessId } };
 ---
 
 <BaseLayout
-  title="O nas – aluminiowe zadaszenia tarasów premium z Radomia"
-  description={`${site.name} – projektujemy i montujemy aluminiowe zadaszenia tarasów, pergole i zabudowy szklane. Siedziba ${hq.locative}, montaż w całej Polsce.`}
+  title={t.seoTitle}
+  description={t.description}
+  image={t.image}
+  imageAlt={t.imageAlt}
   crumbs={crumbs}
   schema={[aboutPage]}
 >
   <PageHeader
-    eyebrow="O nas"
-    title="Nowoczesne zadaszenia tarasów, które pokochasz"
-    lead="Zadaszony taras to coś więcej niż ochrona przed deszczem. To miejsce, które łączy dom z ogrodem, relaks z funkcjonalnością i styl z komfortem."
+    eyebrow={t.eyebrow}
+    title={t.title}
+    lead={t.lead}
     crumbs={crumbs}
   />
   <section class="section">
     <div class="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-24">
-      <Image src={photo} alt="Zadaszenia tarasów z aluminium – taras z przeszkleniami bocznymi przy nowoczesnym domu jednorodzinnym" widths={[640, 960]} sizes="(min-width: 1024px) 50vw, 100vw" class="aspect-[4/5] w-full object-cover" data-reveal />
-      <div class="prose-garden" data-reveal style="--reveal-delay:1">
-        <h2>Nowoczesny design, trwałość i funkcjonalność</h2>
-        <p>
-          Projektujemy i montujemy aluminiowe zadaszenia tarasów, pergole oraz systemy zabudowy i zacieniania. Każda
-          konstrukcja, która trafia do klienta, jest efektem dbałości o jakość i estetykę – tak, by z tarasu można było
-          korzystać komfortowo przez cały rok.
-        </p>
-        <p>
-          Stosujemy profile aluminiowe produkowane w Polsce, o wysokich parametrach statycznych, odporne na wiatr i warunki
-          atmosferyczne. Dach wypełniamy szkłem bezpiecznym 4.4.2, poliwęglanem litym lub komorowym, a konstrukcję lakierujemy
-          w dowolnym kolorze RAL. Na konstrukcje udzielamy <strong>5 lat gwarancji</strong>.
-        </p>
-        <p>
-          Siedzibę mamy {hq.locative}, a montaż wykonujemy w całej Polsce.
-          Jeden opiekun prowadzi Twój projekt od pierwszej rozmowy do odbioru.
-        </p>
-        <!-- TODO: zdjęcia i krótkie bio właściciela/zespołu, historia firmy – wzmacnia E-E-A-T i zaufanie -->
-      </div>
+      <Image src={t.image} alt={t.imageAlt} widths={[640, 960]} sizes="(min-width: 1024px) 50vw, 100vw" class="aspect-[4/5] w-full object-cover" data-reveal />
+      <div class="prose-garden" data-reveal style="--reveal-delay:1" set:html={fill(page.rendered?.html ?? '')} />
     </div>
   </section>
   <section aria-label="Najważniejsze fakty" class="bg-slate text-white">
@@ -67,7 +53,7 @@ const aboutPage = { '@type': 'AboutPage', url: absoluteUrl('/o-nas/'), about: { 
   <Reviews />
   <section class="section border-t border-line">
     <div class="container-x">
-      <SectionHeading label="Nasze wartości" title={['Taras to więcej niż konstrukcja.', 'To nowa jakość życia.']} />
+      <SectionHeading label={t.values.label} title={t.values.title} />
     </div>
   </section>
   <CtaBanner />

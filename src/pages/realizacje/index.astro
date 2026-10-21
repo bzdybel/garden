@@ -1,15 +1,15 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
 import { serviceLabels } from '../../lib/labels';
 import { absoluteUrl } from '../../lib/schema';
-import { cities } from '../../data/cities';
 
 const projects = (await getCollection('realizacje')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const types = [...new Set(projects.map((p) => p.data.service))];
+const { data: t } = (await getEntry('realizacjeLista', 'realizacje'))!;
 const crumbs = [{ name: 'Realizacje', href: '/realizacje/' }];
 const itemList = {
   '@type': 'ItemList',
@@ -18,14 +18,14 @@ const itemList = {
 ---
 
 <BaseLayout
-  title="Realizacje – aluminiowe zadaszenia tarasów i pergole"
-  description={`Nasze realizacje: aluminiowe zadaszenia tarasów SMART, T-LINE i SKYLINE, pergole lamelowe i zabudowy szklane w całej Polsce. Zdjęcia, wymiary, systemy.`}
+  title={t.seoTitle}
+  description={t.description}
   crumbs={crumbs}
   schema={[itemList]}
 >
   <PageHeader
-    title="Realizacje – zadaszenia tarasów i pergole"
-    lead="Każda z tych konstrukcji powstała na wymiar – dla konkretnego ogrodu, domu i rodziny. Zobacz zdjęcia, wymiary i zastosowane materiały."
+    title={t.title}
+    lead={t.lead}
     crumbs={crumbs}
   />
   <section class="section">
@@ -52,7 +52,7 @@ const itemList = {
       </ul>
     </div>
   </section>
-  <CtaBanner title="Chcesz podobne" accent="zadaszenie?" />
+  <CtaBanner title={t.cta.title} accent={t.cta.accent} />
 </BaseLayout>
 
 <script>

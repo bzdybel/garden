@@ -57,7 +57,7 @@ Szybka, nowoczesna strona-wizytówka, której głównym zadaniem jest **pozyskiw
 - [ ] Min. 10–15 realizacji z miastem w opisie (sygnał lokalny)
 - [ ] 1–2 artykuły poradnikowe miesięcznie (lista tematów niżej)
 - [ ] Opinie klientów (prawdziwe, z Google)
-- [ ] Nazwa, NAP, NIP – wszystko w jednym pliku `src/config/site.ts`
+- [ ] Nazwa, NAP, NIP – wszystko w jednym pliku `tresci/firma.yaml`
 
 ### Off-site / lokalne (poza kodem)
 - [ ] **Profil Firmy w Google** (siedziba w Radomiu; obszar obsługi: cała Polska; kategorie np. „Wykonawca zadaszeń”, „Producent pergoli” – do weryfikacji w GBP)
@@ -80,7 +80,7 @@ Szybka, nowoczesna strona-wizytówka, której głównym zadaniem jest **pozyskiw
 
 ## Etapy
 1. **Fundament** (ten commit): struktura, design system, komponenty SEO, wszystkie podstrony, przykładowe treści
-2. Zdjęcia + nazwa firmy + dane kontaktowe → podmiana w `site.ts` i `src/assets`
+2. Zdjęcia + nazwa firmy + dane kontaktowe → podmiana w `tresci/firma.yaml` i `tresci/zdjecia`
 3. Podpięcie formularza (klucz Web3Forms w `.env`) + analityka (GA4/Plausible przez consent)
 4. Deploy, domena, Search Console, Profil Firmy w Google
 5. Ciągłe: realizacje, poradnik, opinie, monitoring pozycji

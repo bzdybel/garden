@@ -1,4 +1,5 @@
 ---
+import { getEntry } from 'astro:content';
 import Icon from './Icon.astro';
 import SectionHeading from './SectionHeading.astro';
 
@@ -6,24 +7,18 @@ interface Props {
   index?: number;
 }
 const { index } = Astro.props;
-const steps = [
-  { title: 'Konsultacja i wstępna wycena', text: 'Opowiedz nam o tarasie – przez formularz, telefon lub kalkulator. Na podstawie wymiarów i zdjęć przygotujemy wstępną ofertę.' },
-  { title: 'Pomiar i projekt', text: 'Umawiamy pomiar, pokazujemy próbki kolorów RAL i wypełnień, dobieramy system do domu i ekspozycji tarasu.' },
-  { title: 'Umowa i formalności', text: 'Przesyłamy ofertę ostateczną i umowę. Przygotowujemy rysunki potrzebne w urzędzie, jeśli są wymagane.' },
-  { title: 'Produkcja', text: 'Konstrukcja powstaje z profili produkowanych w Polsce i jest lakierowana proszkowo w wybranym kolorze.' },
-  { title: 'Montaż w całej Polsce', text: 'Ekipa przyjeżdża z kompletem elementów w umówionym terminie. Po montażu przekazujemy instrukcję i 5 lat gwarancji.' },
-];
+const { process: t } = (await getEntry('wspolne', 'wspolne'))!.data;
+const { steps } = t;
 ---
 
 <section class="section" aria-labelledby="process-heading">
   <div class="container-x grid gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-24">
     <div class="lg:sticky lg:top-36 lg:self-start">
-      <SectionHeading index={index} label="Jak pracujemy" title={['Od pierwszej rozmowy', 'do gotowego tarasu']} id="process-heading">
+      <SectionHeading index={index} label={t.label} title={t.title} id="process-heading">
         <p class="mt-8 max-w-md leading-relaxed text-muted">
-          Prowadzimy cały proces – od projektu po montaż. Ty wybierasz rozwiązanie, a my dbamy o to, by wszystko wydarzyło się
-          w ustalonym terminie.
+          {t.text}
         </p>
-        <a href="/kontakt/#wycena" class="btn-primary mt-10">Umów konsultację <Icon name="arrow-up-right" class="size-4" /></a>
+        <a href="/kontakt/#wycena" class="btn-primary mt-10">{t.button} <Icon name="arrow-up-right" class="size-4" /></a>
       </SectionHeading>
     </div>
 

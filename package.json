@@ -13,6 +13,7 @@
     "check": "astro check",
     "seo:audit": "node scripts/seo-audit.mjs",
     "verify": "astro check && astro build && node scripts/seo-audit.mjs",
+    "sprawdz": "node scripts/sprawdz-tresci.mjs && node scripts/seo-audit.mjs",
     "images:placeholders": "node scripts/generate-placeholders.mjs"
   },
   "dependencies": {

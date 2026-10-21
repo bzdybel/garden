@@ -1,8 +1,9 @@
 ---
 import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
 import Icon from './Icon.astro';
 import { phoneHref, site } from '../config/site';
-import background from '../assets/images/uslugi/zadaszenia-tarasow.jpg';
+import background from '../../tresci/zdjecia/uslugi/zadaszenia-tarasow.jpg';
 
 interface Props {
   title?: string;
@@ -10,11 +11,9 @@ interface Props {
   accent?: string;
   text?: string;
 }
-const {
-  title = 'Taras, który staje się',
-  accent = 'drugim salonem.',
-  text = 'Umów bezpłatną konsultację. Przygotujemy wstępną wycenę, dobierzemy system i wypełnienie, a montaż wykonamy w dowolnym miejscu w Polsce.',
-} = Astro.props;
+// Domyślne teksty: tresci/strony/wspolne.md (sekcja cta)
+const { cta } = (await getEntry('wspolne', 'wspolne'))!.data;
+const { title = cta.title, accent = cta.accent, text = cta.text } = Astro.props;
 ---
 
 <section class="relative isolate overflow-hidden bg-ink text-white">

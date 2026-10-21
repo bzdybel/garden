@@ -10,10 +10,10 @@ const noindex = ['/dziekujemy/', '/404/'];
 // Frontmatter realizacji i poradnika: daty do <lastmod> oraz przykładowe realizacje (noindex) do wykluczenia z mapy
 /** @param {string} collection */
 const entries = (collection) =>
-  readdirSync(`./src/content/${collection}`)
+  readdirSync(`./tresci/${collection}`)
     .filter((f) => f.endsWith('.md'))
     .map((f) => {
-      const fm = readFileSync(`./src/content/${collection}/${f}`, 'utf8').split('---')[1] ?? '';
+      const fm = readFileSync(`./tresci/${collection}/${f}`, 'utf8').split('---')[1] ?? '';
       /** @param {string} name */
       const field = (name) => fm.match(new RegExp(`^${name}:\\s*(.+)$`, 'm'))?.[1].trim();
       return { path: `/${collection}/${f.replace(/\.md$/, '')}/`, date: field('updated') ?? field('published') ?? field('date'), example: field('example') === 'true' };

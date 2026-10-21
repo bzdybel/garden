@@ -1,0 +1,25 @@
+# Sprawdza każdą zmianę (także z edytora GitHuba): czy treści w /tresci są poprawne i strona się buduje.
+# Błędy pokazują się po polsku w zakładce „Checks” Pull Requesta i przy konkretnej linii pliku.
+name: Sprawdź treści
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  sprawdz:
+    name: Sprawdź treści
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Sprawdź treści
+        run: node scripts/sprawdz-tresci.mjs
+      - name: Audyt SEO (tytuły, opisy, alty)
+        run: node scripts/seo-audit.mjs

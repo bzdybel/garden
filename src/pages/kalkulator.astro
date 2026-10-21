@@ -1,4 +1,5 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PriceCalculator from '../components/PriceCalculator.astro';
@@ -6,32 +7,20 @@ import Faq from '../components/Faq.astro';
 import { faqSchema } from '../lib/schema';
 
 const crumbs = [{ name: 'Kalkulator zadaszeń', href: '/kalkulator/' }];
-const faq = [
-  {
-    q: 'Co zawiera cena z kalkulatora?',
-    a: 'Aluminiowe zadaszenie SMART z profili produkowanych w Polsce w kolorze RAL 7016, wybrane wypełnienie dachu, zintegrowany system odprowadzania wody, transport, montaż oraz 5 lat gwarancji. Ceny są brutto.',
-  },
-  {
-    q: 'Czy cena z kalkulatora jest ostateczna?',
-    a: 'To cena orientacyjna dla standardowych wymiarów. Dokładną kwotę potwierdzamy po pomiarze – uwzględniając m.in. sposób mocowania do ściany, rodzaj podłoża i dodatki.',
-  },
-  {
-    q: 'Mam inne wymiary niż w kalkulatorze – co zrobić?',
-    a: 'Wybierz najbliższy rozmiar i zostaw kontakt – przygotujemy wycenę dokładnie pod Twój taras. Zadaszenia większe niż 8 × 4,5 m wykonujemy w systemach T-LINE i SKYLINE.',
-  },
-];
+const { data: t } = (await getEntry('kalkulatorStrona', 'kalkulator'))!;
+const { faq } = t;
 ---
 
 <BaseLayout
-  title="Kalkulator zadaszeń tarasu – sprawdź cenę online"
-  description="Policz w 10 sekund, ile kosztuje aluminiowe zadaszenie tarasu ze szkłem lub poliwęglanem. Wybierz wymiary i poznaj cenę z montażem w całej Polsce."
+  title={t.seoTitle}
+  description={t.description}
   crumbs={crumbs}
   schema={[faqSchema(faq)]}
 >
   <PageHeader
-    eyebrow="Wycena online"
-    title="Kalkulator zadaszeń tarasu"
-    lead="Wybierz wypełnienie dachu i wymiary, a poznasz cenę aluminiowego zadaszenia SMART z transportem i montażem – w 10 sekund."
+    eyebrow={t.eyebrow}
+    title={t.title}
+    lead={t.lead}
     crumbs={crumbs}
   />
 
@@ -41,5 +30,5 @@ const faq = [
     </div>
   </section>
 
-  <Faq items={faq} title="Pytania o kalkulator" />
+  <Faq items={faq} title={t.faqTitle} />
 </BaseLayout>
