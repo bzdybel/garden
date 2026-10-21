@@ -1,0 +1,70 @@
+# DANE FIRMY – trafiają do stopki, strony Kontakt, polityki prywatności i danych dla Google.
+# Wszystkie dane muszą być identyczne jak w Profilu Firmy w Google i w katalogach firm.
+# Puste pole ('') = informacja ukryta na stronie.
+
+name: Studio Pergoli
+# TODO: potwierdzić formę prawną
+legalName: Studio Pergoli Sp. z o.o.
+tagline: Pergole aluminiowe i zadaszenia tarasów premium
+# Krótki opis firmy (1–2 zdania) – dla Google i mediów społecznościowych
+description: Aluminiowe zadaszenia tarasów, pergole lamelowe i zabudowy szklane klasy premium. Profile produkowane w Polsce, montaż w całej Polsce, 5 lat gwarancji.
+
+# TODO: rok założenia (np. 2015) – pusty = ukryty
+foundingYear:
+
+# TODO: prawdziwe dane kontaktowe
+phone: +48 600 100 200
+email: kontakt@studiopergoli.pl
+address:
+  street: ul. Ogrodowa 12
+  postalCode: 26-600
+  city: Radom
+  # Dopełniacz: „od Radomia”
+  cityGenitive: Radomia
+  region: mazowieckie
+  # Miejscownik regionu: „na Mazowszu”
+  regionLocative: na Mazowszu
+  # Kod województwa (ISO 3166-2), mazowieckie = PL-14
+  regionCode: PL-14
+  country: PL
+# Współrzędne siedziby (z Map Google: prawy przycisk na pinezce → kliknij liczby, by skopiować)
+geo:
+  lat: 51.4027
+  lng: 21.1471
+# TODO: NIP bez kresek, np. 7962345678 – pusty = ukryty
+nip: ''
+
+# days: Monday Tuesday Wednesday Thursday Friday Saturday Sunday; label = tekst widoczny na stronie
+openingHours:
+  - days: [Monday, Tuesday, Wednesday, Thursday, Friday]
+    opens: '08:00'
+    closes: '17:00'
+    label: pon.–pt. 8:00–17:00
+  - days: [Saturday]
+    opens: '09:00'
+    closes: '13:00'
+    label: sob. 9:00–13:00
+
+# Ocena z Google – TYLKO prawdziwe dane (publikowanie zmyślonych opinii jest niezgodne z prawem).
+# published: true włącza sekcję opinii na stronie i gwiazdki w danych dla Google.
+rating:
+  value: 4.9
+  count: 87
+  published: false
+
+# TODO: pełne adresy profili firmy (nie strony główne serwisów!) – puste = ukryte
+social:
+  facebook: ''
+  instagram: ''
+  google: ''
+
+# Liczby na stronie głównej i w O nas – tylko fakty, które można udowodnić
+stats:
+  - value: 5 lat
+    label: gwarancji na konstrukcję
+  - value: '16'
+    label: województw – montujemy w całej Polsce
+  - value: 8 × 4,5 m
+    label: maksymalny moduł zadaszenia SMART
+  - value: RAL
+    label: dowolny kolor konstrukcji

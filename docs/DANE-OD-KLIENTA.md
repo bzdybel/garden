@@ -7,15 +7,15 @@ Kolejność = priorytet. Gdzie dane trafiają w kodzie – kolumna „Plik”.
 
 | # | Informacja | Uwagi | Plik |
 |---|---|---|---|
-| 1.1 | Pełna nazwa prawna i forma prawna (sp. z o.o., JDG…) | Musi zgadzać się z KRS/CEIDG | `src/config/site.ts` → `legalName` |
-| 1.2 | NIP (oraz REGON / KRS, jeśli są) | Dziś `0000000000` – ukryty na stronie do czasu podania | `site.ts` → `nip` |
-| 1.3 | Adres siedziby (ulica, kod, miasto) | Identyczny jak w Profilu Firmy w Google | `site.ts` → `address` |
-| 1.4 | Czy pod adresem przyjmowani są klienci (showroom)? | Decyduje, czy w Google pokazujemy adres, czy tylko obszar działania | `site.ts` |
-| 1.5 | Główny numer telefonu | Dziś zastępczy `+48 600 100 200` | `site.ts` → `phone` |
-| 1.6 | Adres e-mail do zapytań | Dziś `kontakt@studiopergoli.pl` | `site.ts` → `email` |
-| 1.7 | Godziny otwarcia / kontaktu | Dziś pn–pt 8–17, sob 9–13 | `site.ts` → `openingHours` |
-| 1.8 | Rok założenia firmy | Ukryty w danych strukturalnych do czasu potwierdzenia | `site.ts` → `foundingYear` |
-| 1.9 | Domena: czy studiopergoli.pl jest zarejestrowana i kto ma dostęp do DNS | Potrzebne do podpięcia w Cloudflare | `astro.config.mjs`, `site.ts` |
+| 1.1 | Pełna nazwa prawna i forma prawna (sp. z o.o., JDG…) | Musi zgadzać się z KRS/CEIDG | `tresci/firma.yaml` → `legalName` |
+| 1.2 | NIP (oraz REGON / KRS, jeśli są) | Dziś `0000000000` – ukryty na stronie do czasu podania | `firma.yaml` → `nip` |
+| 1.3 | Adres siedziby (ulica, kod, miasto) | Identyczny jak w Profilu Firmy w Google | `firma.yaml` → `address` |
+| 1.4 | Czy pod adresem przyjmowani są klienci (showroom)? | Decyduje, czy w Google pokazujemy adres, czy tylko obszar działania | `firma.yaml` |
+| 1.5 | Główny numer telefonu | Dziś zastępczy `+48 600 100 200` | `firma.yaml` → `phone` |
+| 1.6 | Adres e-mail do zapytań | Dziś `kontakt@studiopergoli.pl` | `firma.yaml` → `email` |
+| 1.7 | Godziny otwarcia / kontaktu | Dziś pn–pt 8–17, sob 9–13 | `firma.yaml` → `openingHours` |
+| 1.8 | Rok założenia firmy | Ukryty w danych strukturalnych do czasu potwierdzenia | `firma.yaml` → `foundingYear` |
+| 1.9 | Domena: czy studiopergoli.pl jest zarejestrowana i kto ma dostęp do DNS | Potrzebne do podpięcia w Cloudflare | `astro.config.mjs`, `firma.yaml` |
 
 ## 2. Profile i konta (blokuje local SEO)
 
@@ -56,11 +56,11 @@ Priorytetowo: realizacje z miast, które mają podstrony (Warszawa, Kraków, Ł�
 
 | # | Informacja | Plik |
 |---|---|---|
-| 5.1 | Prawdziwy cennik zadaszenia SMART (tabela szerokość × głębokość × wypełnienie) – dziś wartości poglądowe | `src/data/kalkulator.ts` |
-| 5.2 | Ceny „od” dla: zadaszeń, pergoli, zabudów, systemów zacieniających | `src/content/uslugi/*.md` → `priceFrom` |
-| 5.3 | Ceny dodatków (LED, markiza, ściany szklane, promiennik, transport) | `src/pages/cennik.astro` |
+| 5.1 | Prawdziwy cennik zadaszenia SMART (tabela szerokość × głębokość × wypełnienie) – dziś wartości poglądowe | `tresci/cennik-kalkulatora.yaml` |
+| 5.2 | Ceny „od” dla: zadaszeń, pergoli, zabudów, systemów zacieniających | `tresci/uslugi/*.md` → `priceFrom` |
+| 5.3 | Ceny dodatków (LED, markiza, ściany szklane, promiennik, transport) | `tresci/strony/cennik.md` |
 | 5.4 | Producent / dostawca profili i systemów (nazwy SMART, T-LINE, SKYLINE – czyje to systemy?) | treści usług |
-| 5.5 | Gwarancja: na co i na ile (konstrukcja, lakier, automatyka, montaż) | `site.ts` → `stats` |
+| 5.5 | Gwarancja: na co i na ile (konstrukcja, lakier, automatyka, montaż) | `firma.yaml` → `stats` |
 | 5.6 | Obciążenie śniegiem / wiatrem, certyfikaty, deklaracje właściwości użytkowych | wiarygodność + nowy poradnik |
 | 5.7 | Realny czas od zamówienia do montażu, warunki płatności (zaliczka?) | FAQ, cennik |
 | 5.8 | Czy firma robi coś z drewna lub łączy aluminium z drewnem / okładzinami drewnopodobnymi? | frazy „drewniane” (ok. 19K/mies.) |
@@ -78,7 +78,7 @@ Priorytetowo: realizacje z miast, które mają podstrony (Warszawa, Kraków, Ł�
 
 - [ ] Artykuł „Czy zadaszenie tarasu wymaga pozwolenia” – weryfikacja przez architekta lub prawnika (progi m², podstawa prawna, nowelizacja od 7.01.2026)
 - [ ] Polityka prywatności – weryfikacja przez prawnika (administrator, podstawy, odbiorcy, cookies)
-- [ ] Opisy miast (`src/data/cities.ts`) – czy dzielnice i okoliczne miejscowości się zgadzają, czy firma faktycznie tam montowała
+- [ ] Opisy miast (`tresci/miasta/*.md`) – czy dzielnice i okoliczne miejscowości się zgadzają, czy firma faktycznie tam montowała
 - [ ] Lista miast: czy dodać / usunąć któreś
 
 ## 8. Media

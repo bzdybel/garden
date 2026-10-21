@@ -1,23 +1,24 @@
 ---
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
 import { formatDate } from '../../lib/labels';
 
 const articles = (await getCollection('poradnik')).sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+const { data: t } = (await getEntry('poradnikLista', 'poradnik'))!;
 const crumbs = [{ name: 'Poradnik', href: '/poradnik/' }];
 ---
 
 <BaseLayout
-  title="Poradnik – zadaszenia tarasów i pergole od A do Z"
-  description="Przepisy, ceny, wypełnienia i inspiracje. Praktyczne porady o aluminiowych zadaszeniach tarasów, pergolach lamelowych i zabudowach szklanych."
+  title={t.seoTitle}
+  description={t.description}
   crumbs={crumbs}
 >
   <PageHeader
-    title="Poradnik – zadaszenia tarasów i pergole"
-    lead="Zanim wybierzesz zadaszenie: przepisy, koszty, systemy i wypełnienia dachu. Piszemy o tym, o co najczęściej pytają nas klienci."
+    title={t.title}
+    lead={t.lead}
     crumbs={crumbs}
   />
   <section class="section">

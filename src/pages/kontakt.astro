@@ -1,25 +1,28 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Icon from '../components/Icon.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { mailHref, phoneHref, site } from '../config/site';
 import { absoluteUrl, businessId } from '../lib/schema';
+import { fill } from '../lib/tresci';
 
 const crumbs = [{ name: 'Kontakt', href: '/kontakt/' }];
+const { data: t } = (await getEntry('kontakt', 'kontakt'))!;
 const mapQuery = encodeURIComponent(`${site.address.street}, ${site.address.postalCode} ${site.address.city}`);
 const contactPage = { '@type': 'ContactPage', url: absoluteUrl('/kontakt/'), about: { '@id': businessId } };
 ---
 
 <BaseLayout
-  title={`Kontakt – bezpłatna wycena zadaszenia tarasu`}
-  description={`Zadzwoń ${site.phone} lub wypełnij formularz – bezpłatna wycena aluminiowego zadaszenia tarasu lub pergoli w 24 h. Siedziba w Radomiu, montaż w całej Polsce.`}
+  title={fill(t.seoTitle)}
+  description={fill(t.description)}
   crumbs={crumbs}
   schema={[contactPage]}
 >
   <PageHeader
-    title="Kontakt i bezpłatna wycena"
-    lead="Opisz swój taras – odezwiemy się w ciągu 24 godzin roboczych, przygotujemy wstępną wycenę i umówimy pomiar."
+    title={fill(t.title)}
+    lead={fill(t.lead)}
     crumbs={crumbs}
   />
   <section class="section">

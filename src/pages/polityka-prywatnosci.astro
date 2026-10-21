@@ -1,35 +1,17 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import { mailHref, site } from '../config/site';
+import { fill } from '../lib/tresci';
 
 const crumbs = [{ name: 'Polityka prywatności', href: '/polityka-prywatnosci/' }];
+const page = (await getEntry('politykaPrywatnosci', 'polityka-prywatnosci'))!;
+const t = page.data;
 ---
 
-<BaseLayout title="Polityka prywatności" description={`Polityka prywatności serwisu ${site.name}: kto przetwarza dane z formularza wyceny, w jakim celu, jak długo, Twoje prawa i pliki cookies.`} crumbs={crumbs}>
-  <PageHeader title="Polityka prywatności" crumbs={crumbs} />
-  <!-- TODO: treść do weryfikacji przez prawnika przed publikacją -->
+<BaseLayout title={t.seoTitle} description={t.description} crumbs={crumbs}>
+  <PageHeader title={t.title} crumbs={crumbs} />
   <section class="section">
-    <div class="container-x prose-garden max-w-3xl">
-      <h2>1. Administrator danych</h2>
-      <p>
-        Administratorem danych osobowych jest {site.legalName}, {site.address.street}, {site.address.postalCode}
-        {site.address.city}{site.nip && `, NIP ${site.nip}`}. Kontakt w sprawie danych: <a href={mailHref}>{site.email}</a>.
-      </p>
-      <h2>2. Cel i podstawa przetwarzania</h2>
-      <p>
-        Dane przesłane przez formularz kontaktowy (imię, telefon, e-mail, miejscowość, treść wiadomości) przetwarzamy w celu
-        przygotowania wyceny i kontaktu w sprawie zapytania – na podstawie art. 6 ust. 1 lit. b RODO (działania przed
-        zawarciem umowy) oraz art. 6 ust. 1 lit. f RODO (prawnie uzasadniony interes administratora).
-      </p>
-      <h2>3. Okres przechowywania</h2>
-      <p>Dane przechowujemy przez czas niezbędny do obsługi zapytania, nie dłużej niż 12 miesięcy od ostatniego kontaktu, chyba że dojdzie do zawarcia umowy.</p>
-      <h2>4. Odbiorcy danych</h2>
-      <p>Dane mogą być przekazywane podmiotom świadczącym usługi hostingowe, pocztowe i obsługi formularzy, wyłącznie w zakresie niezbędnym do realizacji celu.</p>
-      <h2>5. Twoje prawa</h2>
-      <p>Masz prawo dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, przenoszenia, wniesienia sprzeciwu oraz skargi do Prezesa UODO.</p>
-      <h2>6. Pliki cookies</h2>
-      <p>Serwis nie używa cookies marketingowych bez Twojej zgody. Mapa Google na stronie kontaktowej ładuje się dopiero po kliknięciu.</p>
-    </div>
+    <div class="container-x prose-garden max-w-3xl" set:html={fill(page.rendered?.html ?? '')} />
   </section>
 </BaseLayout>

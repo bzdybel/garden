@@ -1,4 +1,5 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import Icon from '../../components/Icon.astro';
@@ -6,17 +7,19 @@ import CtaBanner from '../../components/CtaBanner.astro';
 import { cities } from '../../data/cities';
 
 const crumbs = [{ name: 'Obszar działania', href: '/obszar-dzialania/' }];
+const page = (await getEntry('obszarDzialania', 'obszar-dzialania'))!;
+const t = page.data;
 ---
 
 <BaseLayout
-  title="Obszar działania – zadaszenia tarasów w całej Polsce"
-  description="Aluminiowe zadaszenia tarasów i pergole montujemy w całej Polsce – m.in. w Warszawie, Krakowie, Łodzi, Wrocławiu, Poznaniu i Gdańsku. Siedziba w Radomiu."
+  title={t.seoTitle}
+  description={t.description}
   crumbs={crumbs}
 >
   <PageHeader
-    eyebrow="Cała Polska"
-    title="Siedziba w Radomiu, montaż w całej Polsce"
-    lead="Nasze ekipy montażowe pracują w każdym województwie. Wstępną wycenę przygotujemy zdalnie, a pomiar i montaż umówimy w dogodnym terminie."
+    eyebrow={t.eyebrow}
+    title={t.title}
+    lead={t.lead}
     crumbs={crumbs}
   />
   <section class="section">
@@ -38,9 +41,7 @@ const crumbs = [{ name: 'Obszar działania', href: '/obszar-dzialania/' }];
           ))
         }
       </ul>
-      <p class="mt-10 max-w-2xl text-muted">
-        Nie ma Twojego miasta na liście? Montujemy w całej Polsce – <a href="/kontakt/#wycena" class="text-ink underline decoration-gold underline-offset-4">napisz do nas</a>, a przygotujemy wycenę.
-      </p>
+      <div class="mt-10 max-w-2xl text-muted [&_a]:text-ink [&_a]:underline [&_a]:decoration-gold [&_a]:underline-offset-4" set:html={page.rendered?.html ?? ''} />
     </div>
   </section>
   <CtaBanner />

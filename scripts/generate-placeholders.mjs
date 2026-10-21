@@ -3,7 +3,7 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
 
-const OUT = new URL('../src/assets/images/', import.meta.url);
+const OUT = new URL('../tresci/zdjecia/', import.meta.url);
 const PUBLIC = new URL('../public/', import.meta.url);
 const W = 1600;
 const H = 1067;
@@ -90,8 +90,8 @@ const svg = (shape, p, label) => `<svg xmlns="http://www.w3.org/2000/svg" width=
 </svg>`;
 
 const images = [
-  ['hero', 'smart', 0],
-  ['o-nas', 'tline', 3],
+  ['strony/hero', 'smart', 0],
+  ['strony/o-nas', 'tline', 3],
   ['uslugi/zadaszenia-tarasow', 'smart', 1],
   ['uslugi/pergole', 'pergola', 0],
   ['uslugi/zabudowy-tarasu', 'zabudowa', 3],
@@ -114,6 +114,12 @@ projects.forEach(([slug, shape], i) => {
   images.push([`realizacje/${slug}-2`, shape, (i + 1) % 4]);
   images.push([`realizacje/${slug}-3`, shape, (i + 2) % 4]);
 });
+
+// tresci/zdjecia to katalog z prawdziwymi zdjęciami klienta – kasowanie tylko świadomie
+if (!process.argv.includes('--force')) {
+  console.error('Ten skrypt USUWA zdjęcia w tresci/zdjecia/ (uslugi, realizacje, poradnik) i wstawia ilustracje zastępcze.\nJeśli na pewno tego chcesz: node scripts/generate-placeholders.mjs --force');
+  process.exit(1);
+}
 
 await rm(new URL('uslugi/', OUT), { recursive: true, force: true });
 await rm(new URL('realizacje/', OUT), { recursive: true, force: true });
@@ -149,7 +155,7 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
   <text x="80" y="460" font-family="Georgia, serif" font-size="84" fill="#f6f4ef">Studio Pergoli</text>
   <text x="82" y="530" font-family="sans-serif" font-size="30" letter-spacing="6" fill="#c3a46b">PERGOLE ALUMINIOWE · ZADASZENIA TARASÓW</text>
 </svg>`;
-await sharp(Buffer.from(og)).jpeg({ quality: 88 }).toFile(new URL('og-default.jpg', OUT).pathname);
+await sharp(Buffer.from(og)).jpeg({ quality: 88 }).toFile(new URL('strony/og-default.jpg', OUT).pathname);
 await sharp(Buffer.from(og)).jpeg({ quality: 88 }).toFile(new URL('og-default.jpg', PUBLIC).pathname);
 
-console.log(`Wygenerowano ${images.length} obrazów w src/assets/images/ oraz ikony marki w public/`);
+console.log(`Wygenerowano ${images.length} obrazów w tresci/zdjecia/ oraz ikony marki w public/`);

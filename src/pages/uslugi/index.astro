@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
@@ -8,6 +8,7 @@ import CtaBanner from '../../components/CtaBanner.astro';
 import { absoluteUrl } from '../../lib/schema';
 
 const services = (await getCollection('uslugi')).sort((a, b) => a.data.order - b.data.order);
+const { data: t } = (await getEntry('oferta', 'oferta'))!;
 const crumbs = [{ name: 'Usługi', href: '/uslugi/' }];
 const itemList = {
   '@type': 'ItemList',
@@ -16,14 +17,14 @@ const itemList = {
 ---
 
 <BaseLayout
-  title="Oferta – zadaszenia tarasowe, pergole i zabudowy szklane"
-  description="Aluminiowe zadaszenia tarasów, pergole ogrodowe i lamelowe, szklane ściany przesuwne, shuttersy i markizy dachowe. Projekt i montaż w całej Polsce."
+  title={t.seoTitle}
+  description={t.description}
   crumbs={crumbs}
   schema={[itemList]}
 >
   <PageHeader
-    title="Zadaszenia tarasowe, pergole i zabudowy z aluminium"
-    lead="Zadaszenia, pergole, zabudowy i osłony – zaprojektowane jako jeden spójny system. Wybierz, od czego chcesz zacząć, a resztą zajmiemy się my."
+    title={t.title}
+    lead={t.lead}
     crumbs={crumbs}
   />
   <section class="section">

@@ -1,6 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
@@ -12,6 +12,7 @@ import ContactForm from '../../components/ContactForm.astro';
 import { cities, type City } from '../../data/cities';
 import { businessId, faqSchema } from '../../lib/schema';
 import { phoneHref, site } from '../../config/site';
+import { cityVars, fill } from '../../lib/tresci';
 
 export const getStaticPaths = (() => cities.map((city) => ({ params: { city: city.slug }, props: { city } }))) satisfies GetStaticPaths;
 
@@ -32,21 +33,14 @@ const crumbs = [
   { name: 'Obszar działania', href: '/obszar-dzialania/' },
   { name: city.name, href: path },
 ];
+const page = (await getEntry('miastaWspolne', 'miasta-wspolne'))!;
+const t = page.data;
+const vars = cityVars(city);
+const f = (text: string) => fill(text, vars);
+// Najpierw pytania lokalne z pliku miasta, potem wspólne
 const faq = [
-  {
-    q: `Jak wygląda wycena zadaszenia ${city.locative}?`,
-    a: city.headquarters
-      ? `${city.name} to nasza siedziba – możesz obejrzeć próbki profili, kolorów i wypełnień w biurze, a pomiar umówimy w krótkim terminie.`
-      : `Wstępną wycenę przygotujemy zdalnie na podstawie zdjęć i wymiarów tarasu. Następnie umawiamy pomiar ${city.locative} i przesyłamy ofertę ostateczną.`,
-  },
-  {
-    q: `Ile trwa montaż zadaszenia ${city.locative}?`,
-    a: 'Sam montaż typowego zadaszenia tarasu trwa zwykle 1–2 dni, a większych konstrukcji z zabudową – do kilku dni. Termin ustalamy po podpisaniu umowy, w zależności od produkcji wybranego systemu.',
-  },
-  {
-    q: `Gdzie zgłosić zadaszenie tarasu ${city.locative}?`,
-    a: `Jeśli zadaszenie wymaga zgłoszenia, składa się je w organie administracji architektoniczno-budowlanej. W granicach miasta jest to ${city.authority}, a w gminach ościennych – starostwo powiatowe. Przygotujemy rysunki i opis techniczny.`,
-  },
+  ...city.faq.map((q) => ({ q: f(q.q), a: f(q.a) })),
+  ...t.faq.map((q) => ({ q: f(q.q), a: f(city.headquarters && q.aHeadquarters ? q.aHeadquarters : q.a) })),
 ];
 const schema = [
   {
@@ -61,12 +55,12 @@ const schema = [
 ---
 
 <BaseLayout
-  title={`Zadaszenia tarasów i pergole ${city.locative}`}
-  description={`Nowoczesne zadaszenia tarasów z aluminium, pergole ogrodowe i zabudowy szklane ${city.locative} i okolicach. Szkło lub poliwęglan, 5 lat gwarancji. Bezpłatna wycena.`}
+  title={f(t.seoTitle)}
+  description={f(t.description)}
   crumbs={crumbs}
   schema={schema}
 >
-  <PageHeader eyebrow={city.region} title={`Zadaszenia tarasów i pergole ${city.locative}`} lead={city.intro} crumbs={crumbs}>
+  <PageHeader eyebrow={city.region} title={f(t.title)} lead={city.intro} crumbs={crumbs}>
     <div class="mt-10 flex flex-col gap-3 sm:flex-row">
       <a href="#wycena" class="btn-gold py-4">Bezpłatna wycena <Icon name="arrow-up-right" class="size-4" /></a>
       <a href={phoneHref} class="btn-secondary py-4"><Icon name="phone" class="size-4" />{site.phone}</a>
@@ -76,16 +70,12 @@ const schema = [
   <section class="section">
     <div class="container-x grid gap-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-24">
       <div class="prose-garden" data-reveal>
-        <h2>Montujemy {city.locative} i okolicy</h2>
+        <h2>{f(t.localTitle)}</h2>
         <p>{city.local}</p>
-        <p>
-          Wszystkie konstrukcje wykonujemy z aluminiowych profili produkowanych w Polsce i lakierujemy w wybranym kolorze RAL. Dach
-          wypełniamy szkłem bezpiecznym 4.4.2 lub poliwęglanem, a na życzenie dodajemy oświetlenie LED, zabudowy boczne i automatykę.
-          Cenę orientacyjną sprawdzisz w <a href="/kalkulator/">kalkulatorze zadaszeń</a>.
-        </p>
+        <Fragment set:html={f(page.rendered?.html ?? '')} />
       </div>
       <div class="self-start border-t border-ink pt-8" data-reveal style="--reveal-delay:1">
-        <h2 class="text-3xl">Dzielnice i okoliczne miejscowości</h2>
+        <h2 class="text-3xl">{f(t.areasTitle)}</h2>
         <ul class="mt-6 flex flex-wrap gap-2">
           {city.areas.map((a) => <li class="border border-line px-3 py-1.5 text-sm">{a}</li>)}
         </ul>
@@ -98,7 +88,7 @@ const schema = [
 
   <section class="section bg-mist" aria-labelledby="oferta">
     <div class="container-x">
-      <SectionHeading label="Oferta" title={['Co montujemy', city.locative]} id="oferta" />
+      <SectionHeading label={t.offer.label} title={t.offer.title.map(f)} id="oferta" />
       <div class="mt-16 grid auto-rows-[minmax(22rem,auto)] gap-4 md:grid-cols-2">
         {services.map((s, i) => <ServiceCard service={s} delay={i % 2} />)}
       </div>
@@ -119,13 +109,13 @@ const schema = [
     </div>
   </section>
 
-  <Faq items={faq} title={`Zadaszenia ${city.locative} – pytania`} />
+  <Faq items={faq} title={f(t.faqTitle)} />
 
   <section class="section bg-mist">
     <div class="container-x grid items-start gap-12 lg:grid-cols-2 lg:gap-24">
       <div>
-        <SectionHeading label="Wycena" title={['Wycena zadaszenia', city.locative]} />
-        <p class="mt-8 leading-relaxed text-muted">Zostaw kontakt – oddzwonimy, przygotujemy wstępną wycenę i umówimy pomiar.</p>
+        <SectionHeading label={t.quote.label} title={t.quote.title.map(f)} />
+        <p class="mt-8 leading-relaxed text-muted">{f(t.quote.text)}</p>
         <p class="mt-12 eyebrow">Montujemy także</p>
         <ul class="mt-4 flex flex-wrap gap-2">
           {
