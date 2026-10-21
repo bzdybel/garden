@@ -156,11 +156,14 @@ const [defW, defD] = [widths[0], depths[0]];
     </dl>
 
     <div class="mt-6">
-      <p class="text-sm text-white/70">Cena z montażem</p>
+      <p class="text-sm text-white/70">Cena orientacyjna z montażem</p>
       <p class="mt-1 flex items-center gap-3 font-display text-5xl text-white tabular-nums">
-        <span data-out-price>{materials[0].prices[defD][defW].toLocaleString('pl-PL')} zł</span>
+        <span data-out-price>ok. {materials[0].prices[defD][defW].toLocaleString('pl-PL')} zł</span>
       </p>
       <p class="mt-1 text-xs text-white/60">brutto, z transportem i montażem</p>
+      <p class="mt-4 text-sm leading-relaxed text-white/80">
+        Dokładną cenę podamy po bezpłatnym pomiarze – zależy od wysokości montażu, kształtu tarasu, koloru i dodatków.
+      </p>
     </div>
 
     <button type="button" class="btn-gold mt-6 w-full py-4" data-unlock>
@@ -230,8 +233,8 @@ const [defW, defD] = [widths[0], depths[0]];
       $('[data-out-material]').textContent = prices[material]?.label ?? '';
       $('[data-out-dims]').textContent = `${meters(width)} × ${meters(depth)} m`;
       $('[data-out-area]').textContent = `${nf.format(area)} m²`;
-      $('[data-out-price]').textContent = `${nf.format(price)} zł`;
-      $<HTMLInputElement>('[data-price-field]').value = `${nf.format(price)} zł brutto`;
+      $('[data-out-price]').textContent = `ok. ${nf.format(price)} zł`;
+      $<HTMLInputElement>('[data-price-field]').value = `ok. ${nf.format(price)} zł brutto (orientacyjnie)`;
 
       // Rzut z góry: stała skala, ściana domu u góry
       const s = 0.035;
