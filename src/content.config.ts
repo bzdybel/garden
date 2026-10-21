@@ -45,6 +45,7 @@ const realizacje = defineCollection({
       duration: z.string(),
       featured: z.boolean().default(false),
       cover: image(),
+      coverAlt: z.string(),
       gallery: z.array(z.object({ src: image(), alt: z.string() })).default([]),
       testimonial: z.object({ text: z.string(), author: z.string() }).optional(),
     }),

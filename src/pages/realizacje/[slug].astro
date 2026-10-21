@@ -51,7 +51,7 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={data.title} description={data.description} image={data.cover} crumbs={crumbs} schema={schema}>
+<BaseLayout title={data.title} description={data.description} image={data.cover} imageAlt={data.coverAlt} crumbs={crumbs} schema={schema}>
   <PageHeader title={data.title} lead={data.description} eyebrow={`${serviceLabels[data.service]} · ${data.city}`} crumbs={crumbs} />
 
   <section class="section">
@@ -59,7 +59,7 @@ const schema = [
       <div class="space-y-6">
         <Image
           src={data.cover}
-          alt={data.title}
+          alt={data.coverAlt}
           widths={[640, 1024, 1400]}
           sizes="(min-width: 1024px) 66vw, 100vw"
           loading="eager"

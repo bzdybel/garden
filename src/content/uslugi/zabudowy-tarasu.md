@@ -8,7 +8,7 @@ order: 3
 priceFrom: 6900
 priceUnit: brutto za bok
 cover: ../../assets/images/uslugi/zabudowy-tarasu.jpg
-coverAlt: Zadaszenie tarasu ze szklanymi ścianami przesuwnymi i shuttersami w kolorze drewna
+coverAlt: Zabudowa tarasu szklanymi ścianami przesuwnymi i aluminiowymi shuttersami w kolorze drewna pod aluminiowym zadaszeniem tarasowym
 keywords: [zabudowa tarasu, szklane ściany przesuwne na taras, zabudowa boczna pergoli, shuttersy, ściany szklane taras]
 features:
   - title: Osłona przed wiatrem i deszczem

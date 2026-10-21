@@ -7,7 +7,7 @@ lead: Szklany dach w lipcowe południe potrafi mocno nagrzać taras. Markiza dac
 order: 4
 priceFrom: 3900
 cover: ../../assets/images/uslugi/systemy-zacieniajace.jpg
-coverAlt: Zadaszenie tarasu z opuszczonymi roletami z tkaniny technicznej
+coverAlt: Rolety tarasowe z tkaniny technicznej opuszczone na bokach aluminiowego zadaszenia tarasu – osłona przed słońcem
 keywords: [markiza dachowa, roleta na zadaszenie tarasu, rolety tarasowe, screeny tarasowe, osłony przeciwsłoneczne na taras]
 features:
   - title: Mniej nagrzewania

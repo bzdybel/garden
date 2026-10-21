@@ -4,7 +4,7 @@ seoTitle: Poliwęglan czy szkło na zadaszenie tarasu? Porównanie
 description: Szkło bezpieczne 4.4.2, poliwęglan lity 8 mm czy komorowy 16 mm? Porównujemy wygląd, trwałość, izolację i cenę wypełnień dachu zadaszenia tarasu.
 published: 2026-08-28
 cover: ../../assets/images/poradnik/poliweglan-czy-szklo.jpg
-coverAlt: Zadaszenie tarasu z dachem ze szkła bezpiecznego i przeszkleniami bocznymi
+coverAlt: Zadaszenie tarasu z dachem ze szkła bezpiecznego i przeszkleniami bocznymi zamiast poliwęglanu
 relatedService: zadaszenia-tarasow
 faq:
   - q: Czy poliwęglan żółknie?

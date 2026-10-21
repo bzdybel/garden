@@ -39,10 +39,17 @@ for await (const file of htmlFiles(DIST)) {
   if (!canonical && !noindex) issues.push('brak canonical');
   if (h1 !== 1) issues.push(`liczba H1: ${h1}`);
 
+  const alts = new Map();
   for (const img of html.match(/<img\b[^>]*>/g) ?? []) {
     // Puste alt dozwolone tylko dla obrazów czysto dekoracyjnych (aria-hidden)
     const decorative = /\salt(="")?[\s>]/.test(img) && /\saria-hidden="true"/.test(img);
-    if (!decorative && !/\salt="[^"]+"/.test(img)) issues.push(`obraz bez alt: ${img.slice(0, 80)}`);
+    const alt = pick(img, /\salt="([^"]+)"/);
+    if (!decorative && !alt) issues.push(`obraz bez alt: ${img.slice(0, 80)}`);
+    // Ten sam obraz może wystąpić kilka razy (np. karta + nagłówek), ale różne obrazy nie powinny dzielić altu
+    const src = pick(img, /\ssrc="([^"]+)"/);
+    if (alt && alts.has(alt) && alts.get(alt) !== src) issues.push(`zduplikowany alt: ${alt}`);
+    if (alt) alts.set(alt, src);
+    if (alt && alt.length > 140) issues.push(`alt za długi (${alt.length}): ${alt}`);
     if (!/\swidth=/.test(img) || !/\sheight=/.test(img)) issues.push(`obraz bez wymiarów (CLS): ${img.slice(0, 80)}`);
   }
 
